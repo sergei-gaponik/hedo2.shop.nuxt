@@ -1,0 +1,17 @@
+export default {
+  allProducts: "Alle Produkte",
+  days: "Tage",
+  deliveryTime: "Lieferzeit",
+  excludingShipping: "zzgl. Versand",
+  filter: "Filter",
+  freeShipping: "inkl. Versand",
+  productNotFound: "Produkt nicht gefunden",
+  lookingFor: "Ich suche nach...",
+  moreResults: "Mehr anzeigen",
+  noResults: "Keine Ergebnisse",
+  resetFilters: "Filter zurücksetzen",
+  results: "Ergebnisse",
+  sale: "Angebot",
+  search: "Suche",
+  similarProducts: "Ähnliche Produkte",
+}

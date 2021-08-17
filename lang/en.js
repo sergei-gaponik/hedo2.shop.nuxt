@@ -1,0 +1,17 @@
+export default {
+  allProducts: "All products",
+  days: "days",
+  deliveryTime: "Delivery time",
+  excludingShipping: "Plus shipping",
+  filter: "Filter",
+  freeShipping: "Free delivery",
+  productNotFound: "Product not found",
+  lookingFor: "Looking for...",
+  moreResults: "Show more",
+  noResults: "No Results",
+  resetFilters: "Reset filters",
+  results: "results",
+  sale: "Sale",
+  search: "Search",
+  similarProducts: "Similar products",
+}
