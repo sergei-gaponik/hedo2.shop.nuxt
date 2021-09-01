@@ -1,5 +1,5 @@
 <template>
-  <div @click="action">
+  <div @click="action" class="a-button">
       <menu-icon :color="color" :height="height" :style="{ padding: `${py}px ${px}px` }" />
   </div>
 </template>
@@ -12,3 +12,9 @@ export default {
   props: ["height", "color", "px", "py", "action"]
 }
 </script>
+
+<style scoped>
+.a-button{
+  cursor: pointer;
+}
+</style>

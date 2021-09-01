@@ -11,7 +11,6 @@
         <footer-tag class="a-flex-item" href="/" name="Hautpflege" />
         <footer-tag class="a-flex-item" href="/" name="Hautpflege" />
       </div>
-
     </div>
   </div>
   <div style="margin-bottom:46px"></div>
@@ -35,7 +34,6 @@ export default {
 <style scoped>
 .a-footer{
   position: fixed;
-  cursor: pointer;
   bottom: 0;
   left: 0;
   width: 100vw;
@@ -44,13 +42,12 @@ export default {
   z-index: 100;
 }
 .a-footer-inner{
-  background-color: var(--c-green-2);
-  opacity: 50%;
+  background-color: var(--c-green-3);
   width: 100%;
   overflow-x: scroll;
   height: 100%;
   display: flex;
-  padding: 2px var(--padding-x-m);
+  padding: 0 var(--padding-x-m);
   align-items: center;
 }
 .a-flex-item{

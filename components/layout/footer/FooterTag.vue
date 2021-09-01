@@ -12,7 +12,7 @@ export default {
 
 <style scoped>
 .a-tag {
-  color: var(--c-gray-1);
+  color: var(--c-gray-2);
   background-color: white;
 padding: 10px 14px;
 height: 100%;

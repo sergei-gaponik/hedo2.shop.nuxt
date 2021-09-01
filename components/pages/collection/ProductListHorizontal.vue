@@ -1,6 +1,6 @@
 <template>
   <lazy-wrapper :loadingState="loadingState">
-    <div class="a-horizontal-list">
+    <div class="a-horizontal-list hide-scrollbar">
       <product-card v-for="product in products" :key="product._id" :product="product" class="a-product"/>
     </div>
   </lazy-wrapper>
@@ -20,7 +20,7 @@
 </style>
 
 <script>
-import ProductCard from '~/components/collection/ProductCard.vue'
+import ProductCard from '~/components/pages/collection/ProductCard.vue'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 
 export default {

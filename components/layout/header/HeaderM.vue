@@ -38,6 +38,7 @@ export default {
   }),
   methods: {
     showSearchBar() {
+      this.$store.commit('nav/closeAllDrawers')
       this.$store.commit('search/showSearchBar')
       this.$refs.searchbar.focusInput()
     },

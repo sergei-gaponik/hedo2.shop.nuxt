@@ -1,6 +1,6 @@
 {
   "name": "nuxt",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -9,18 +9,23 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/runtime": "^7.15.3",
     "core-js": "^3.15.1",
     "node-sass": "^6.0.1",
-    "nuxt": "^2.15.7",
+    "nuxt": "^2.13.3",
     "nuxt-i18n": "^6.27.3",
-    "nuxt-lazy-load": "^1.2.6",
+    "nuxt-lazy-load": "^1.2.7",
     "nuxt-property-decorator": "^2.9.1",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "^10.1.1",
+    "vue-lazyload": "^1.3.3"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/device": "^2.1.0",
-    "@nuxtjs/google-fonts": "^1.3.0"
+    "@nuxtjs/google-fonts": "^1.3.0",
+    "babel-plugin-transform-runtime": "^6.23.0"
   }
 }

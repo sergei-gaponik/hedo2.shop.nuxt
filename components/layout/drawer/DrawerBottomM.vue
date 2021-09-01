@@ -5,14 +5,12 @@
     </transition>
     <transition name="a-drawer">
       <div class="a-drawer" v-if="show">
-        <div class="container-m">
-          content
-        </div>
+        <slot />
       </div>
     </transition>
     <transition name="a-close">
       <div class="a-close" @click="close">
-        <cross-icon color="#ffffff" height=30 v-if="show" />
+        <cross-icon color="#ffffff" height="30" v-if="show" />
       </div>
     </transition>
   </div>
@@ -26,7 +24,7 @@ export default {
   props: ["show"],
   methods: {
     close(){
-      this.$store.commit("nav/closeMenuDrawer")
+      this.$store.commit("nav/closeAllDrawers")
     }
   }
 }
@@ -39,42 +37,43 @@ export default {
   left: 0;
   right: 0;
   top: var(--header-y-m);
-  bottom: var(--footer-y-m);
+  bottom: 0;
   background-color: var(--c-green-1);
   opacity: 0.25;
 }
 .a-bg-enter-active, .a-bg-leave-active {
-  transition: all 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+  transition: var(--drawer-transition);
   opacity: 0.25;
 }
 .a-bg-enter, .a-bg-leave-to{
   opacity: 0;
 }
 .a-drawer{
-  z-index: 100;
+  z-index: 1000;
   position: fixed;
   left: 0;
-  right: var(--drawer-margin-x-m);
-  top: var(--header-y-m);
-  bottom: var(--footer-y-m);
+  right: 0;
+  top: calc(var(--header-y-m) + var(--drawer-margin-x-m));
+  bottom: 0;
   background-color: white;
   transform: none;
 }
 .a-drawer-enter-active, .a-drawer-leave-active {
-  transition: all 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+  transition: var(--drawer-transition);
   transform: none;
 }
 .a-drawer-enter, .a-drawer-leave-to{
-  transform: translateX(-100%);
+  transform: translateY(100%);
 }
 .a-close{
   position: fixed;
-  right: var(--padding-x-m);
-  top: 50vh;
+  left: 50vw;
+  top: calc(var(--header-y-m) + var(--padding-x-m));
+  transform: translateX(-50%);
   z-index: 100;
 }
 .a-close-enter-active, .a-close-leave-active {
-  transition: all 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+  transition: var(--drawer-transition);
   opacity: 1;
 }
 .a-close-enter, .a-close-leave-to{

@@ -26,8 +26,10 @@ export default async function searchHandler(body: SearchAPIRequest): Promise<Sea
 
     const data = await res.json()
 
-    if(data.errors && data.errors.length)
-      throw new Error(data.errors.join(", "))
+    if(data.errors && data.errors.length){
+      console.log(data)
+      throw new Error()
+    }
 
     return { 
       ...data, 

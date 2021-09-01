@@ -1,7 +1,9 @@
 <template>
-  <div class="a-tag" @click="clickable ? _click : undefined" :style="{ cursor: clickable ? 'pointer' : 'default' }">
+  <div class="a-tag" @click="_click" :style="{ cursor: clickable ? 'pointer' : 'default' }">
     <span class="a-caption">{{ caption }}</span>
-    <cross-icon class="a-remove" v-if="removeable" @click="_remove" height=10 color="var(--c-gray-1)" />
+    <span v-if="removeable" @click="_remove" class="a-remove">
+      <cross-icon height=12 color="var(--c-gray-1)" />
+    </span>
   </div>
 </template>
 
@@ -20,7 +22,8 @@ export default {
       this.$emit("remove")
     },
     _click(){
-      this.$emit("click")
+      if(this.clickable)
+        this.$emit("click")
     }
   }
 }
@@ -33,7 +36,8 @@ export default {
   align-items: center;
   width: min-content;
   padding: 3px 5px;
-  gap: 5px
+  gap: 5px;
+  height: min-content;
 }
 .a-caption{
   color: var(--c-gray-1);
@@ -42,5 +46,6 @@ export default {
 }
 .a-remove{
   cursor: pointer;
+  display: flex;
 }
 </style>

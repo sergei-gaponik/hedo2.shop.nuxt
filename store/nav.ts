@@ -1,38 +1,38 @@
 export const state = () => ({
   menuDrawerOpen: false,
-  filterDrawerOpen: false
+  filterDrawerOpen: false,
+  cartDrawerOpen: false,
 })
 
 export const mutations = {
 
+  closeAllDrawers(_state: any){
+    _state.filterDrawerOpen = false
+    _state.menuDrawerOpen = false
+    _state.cartDrawerOpen = false
+  },
+
   toggleMenuDrawer(_state: any) {
     _state.filterDrawerOpen = false
+    _state.cartDrawerOpen = false
     _state.menuDrawerOpen = !_state.menuDrawerOpen
   },
 
   openMenuDrawer(_state: any) {
-    _state.filterDrawerOpen = false
     _state.menuDrawerOpen = true
-  },
-
-  closeMenuDrawer(_state: any) {
+    _state.cartDrawerOpen = false
     _state.filterDrawerOpen = false
-    _state.menuDrawerOpen = false
-  },
-
-  toggleFilterDrawer(_state: any){
-    _state.menuDrawerOpen = false
-    _state.filterDrawerOpen = !_state.filterDrawerOpen
   },
 
   openFilterDrawer(_state: any) {
     _state.menuDrawerOpen = false
+    _state.cartDrawerOpen = false
     _state.filterDrawerOpen = true
   },
 
-  closeFilterDrawer(_state: any) {
+  openCartDrawer(_state: any){
     _state.menuDrawerOpen = false
+    _state.cartDrawerOpen = true
     _state.filterDrawerOpen = false
-  },
-
+  }
 }

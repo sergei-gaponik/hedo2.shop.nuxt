@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import ProductCard from '~/components/collection/ProductCard.vue'
-import ProductListHorizontal from '~/components/collection/ProductListHorizontal.vue'
+import ProductCard from '~/components/pages/collection/ProductCard.vue'
+import ProductListHorizontal from '~/components/pages/collection/ProductListHorizontal.vue'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
@@ -27,7 +27,7 @@ export default {
 
     this.loadingState = LoadingState.loading
 
-    const ids = this.$store.state.search.productResults.map(a => a._id)
+    const ids = this.$store.state.search.productResults
 
     if(!ids.length) {
       this.loadingState = LoadingState.ready
@@ -48,10 +48,10 @@ export default {
     loadingState: LoadingState.ready
   }),
   watch: {
-  '$store.state.search.productResults': function() {
-    this.$fetch()
+    '$store.state.search.productResults': function(){
+      this.$fetch()
+    }
   }
-}
 }
 </script>
 

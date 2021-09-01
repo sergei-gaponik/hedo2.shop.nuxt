@@ -12,7 +12,7 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
@@ -43,25 +43,28 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    ['nuxt-lazy-load', { 
+    ['nuxt-lazy-load', {
       directiveOnly: true
     }],
     ['nuxt-i18n',{
       locales: [
         {
           code: 'en',
+          numberFormat: 'en-US',
           currency: "USD",
           file: 'en.js',
           deliveryTime: [ 2, 5 ]
         },
         {
           code: 'de',
+          numberFormat: 'de-DE',
           currency: "EUR",
           file: 'de.js',
           deliveryTime: [ 1, 3 ]
         },
         {
           code: 'cz',
+          numberFormat: 'cs-CZ',
           currency: "CZK",
           file: 'en.js',
           deliveryTime: [ 2, 5 ]
@@ -73,7 +76,25 @@ export default {
     }]
   ],
 
+  server: {
+    host: "0.0.0.0"
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    analyze: true,
+    babel: {
+      presets(env, [preset, options]) {
+        return [["@babel/preset-env", {}]];
+      },
+      plugins: [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            regenerator: true
+          }
+        ]
+      ]
+    }
   }
 }

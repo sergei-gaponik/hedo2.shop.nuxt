@@ -1,31 +1,29 @@
 <template>
-<div :style='{ fontSize: fontSize + "rem" }'>
-  
-  <div class="a-offer-wrapper">
-    <div class="text a-offer">{{ $t("sale") }}</div> 
+<nuxt-link 
+    :to="localePath('/p/'+cartItem.product.handle)"
+    @click.native="$store.commit('search/reset')"
+>
+  <div>
+    <div class="text a-brand">{{ cartItem.product.brand.name }}</div>
+    <div class="text a-title">
+      <span class="bold">{{ cartItem.product.series ? cartItem.product.series.name : "" }}</span>
+      <span>{{ cartItem.product.name }}</span>
+    </div>
+    <div class="a-variant" v-if="variantTitle">
+      <tag :caption="variantTitle"/>
+    </div>
   </div>
-  <div class="text a-brand">{{ product.brand.name }}</div>
-  <div class="text a-title">
-    <span class="bold">{{ product.series ? product.series.name : "" }}</span>
-    <span>{{ product.name }}</span>
-  </div>
-  <div class="text a-price">
-    <span class="bold">{{ priceCaption }}</span>
-    <span v-if="freeShipping">{{ $t("freeShipping") }}</span>
-    <span v-else>{{ $t("excludingShipping") }}</span>
-  </div>
-</div>
+</nuxt-link>
 </template>
 
 <script>
+import Tag from '~/components/layout/misc/Tag.vue'
 export default {
-  props: ["product", "fontSize"],
-  data() {
-    const variants = this.$props.product.variants
-
-    return {
-      priceCaption: `${variants[0].price.toLocaleString("de-DE")} €`,
-      freeShipping: true
+  components: { Tag },
+  props: ["cartItem"],
+  computed: {
+    variantTitle(){
+      return this.cartItem.variant.title || null
     }
   }
 }
@@ -46,7 +44,7 @@ export default {
   font-size: 0.8em;
   text-transform: uppercase;
   white-space: nowrap;
-  letter-spacing: 0.2em;
+  letter-spacing: var(--letter-spacing);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;

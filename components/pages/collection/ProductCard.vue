@@ -6,14 +6,14 @@
   <div class="a-container">
     <product-image :src="src" />
     <div style="margin-top:20px;"></div>
-    <product-title :product="product" :fontSize=0.9 />
+    <product-title :product="product" :fontSize=0.9 center />
   </div>
 </nuxt-link>
 </template>
 
 <script>
-import ProductImage from '~/components/product/ProductImage.vue'
-import ProductTitle from '~/components/product/ProductTitle.vue'
+import ProductImage from '~/components/pages/product/ProductImage.vue'
+import ProductTitle from '~/components/pages/product/ProductTitle.vue'
 
 export default {
   components: { ProductImage, ProductTitle },

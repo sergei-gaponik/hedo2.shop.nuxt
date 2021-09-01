@@ -1,14 +1,15 @@
 <template>
-  <div v-if="breadCrumbs.length >= 2">
-    <div class="a-items">
-      <div v-for="(breadCrumb, index) in breadCrumbs.slice(0, -1)" :key="index" class="a-item">
-        <nuxt-link :to="breadCrumb.href">
+  <div v-if="breadCrumbs.length">
+    <div class="a-items hide-scrollbar" v-if="breadCrumbs.length > 1">
+      <div v-for="(breadCrumb, index) in breadCrumbsLine" :key="index" class="a-item">
+        <nuxt-link v-if="breadCrumb.href" :to="breadCrumb.href">
           <div class="a-caption">{{ breadCrumb.caption }}</div>
         </nuxt-link>
-        <chevron-right-icon color="var(--c-gray-3)" height=16 />
+        <div v-else class="a-caption">{{ breadCrumb.caption }}</div>
+        <chevron-right-icon v-if="!inline || index < breadCrumbsLine.length - 1" color="var(--c-gray-3)" height=16 />
       </div>
     </div>
-    <div class="h2 a-title">
+    <div v-if="!inline" :class="['h2', 'a-title', breadCrumbs.length > 1 ? 'a-nomt' : '']">
       {{ breadCrumbs[breadCrumbs.length - 1].caption }}
     </div>
   </div>
@@ -19,14 +20,24 @@ import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
 
 export default {
   components: { ChevronRightIcon },
-  props: [ "breadCrumbs" ]
+  props: {
+    breadCrumbs: Array,
+    inline: Boolean
+  },
+  computed: {
+    breadCrumbsLine(){
+      return this.inline ? this.breadCrumbs : this.breadCrumbs.slice(0, -1)
+    }
+  }
 }
 </script>
 
 <style scoped>
+.a-nomt{
+  margin-top: 0;
+}
 .a-title{
   text-align: center;
-  margin: 0 0 var(--default-margin) 0;
 }
 .a-caption{
   color: var(--c-gray-1);

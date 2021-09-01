@@ -27,7 +27,7 @@ export default {
 .a-caption{
   padding: 0 var(--padding);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: var(--letter-spacing);
   font-size: 0.8em;
 }
 </style>

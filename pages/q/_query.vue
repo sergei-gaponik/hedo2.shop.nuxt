@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import CollectionPage from '~/components/collection/CollectionPage.vue'
+import CollectionPage from '~/components/pages/collection/CollectionPage.vue'
 import BreadCrumbs from '~/components/navigation/BreadCrumbs.vue'
 
 export default {

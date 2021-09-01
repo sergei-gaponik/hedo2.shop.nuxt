@@ -27,7 +27,7 @@ export const mutations = {
     _state.productResults = _productResults
   },
 
-  setLoadingState(_state: any, _loadingState: any[]){
+  setLoadingState(_state: any, _loadingState: LoadingState){
     _state.loadingState = _loadingState
   },
 
@@ -83,16 +83,18 @@ export const actions = {
 
   async fetchProducts(context: any, query: string) {
 
+    context.commit("setLoadingState", LoadingState.loading)
+
     const { loadingState, data } = await searchHandler({
       path: "getProductSearchResults",
       args: { query, limit: 5, preview: true }
     })
 
-    await context.commit("setLoadingState", loadingState)
+    context.commit("setLoadingState", loadingState)
 
-    if(data?.products && data.products.length) 
-      await context.commit("setProductResults", data.products)
+    if(data?.ids && data.ids.length) 
+      context.commit("setProductResults", data.ids)
     else
-      await context.commit("setProductResults", [])
+      context.commit("setProductResults", [])
   }
 }

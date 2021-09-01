@@ -1,5 +1,6 @@
 :root {
   --default-font: 'Montserrat', sans-serif;
+  --letter-spacing: 0.2em;
 
   --c-gray-1: #434343;
   --c-gray-2: #878787;
@@ -7,7 +8,12 @@
   --c-gray-4: #f6f6f6;
   --c-green-1: #537A58;
   --c-green-2: #9bc7a1;
+  --c-green-3: #c3ddc6;
   --c-blue-1: #61929b;
+  --c-brown-1: #a17c5e;
+  --c-brown-2: #928173;
+  --c-red-1: #B45F5B;
+  --c-red-2: #7A4755;
 
   --padding-x-m: 15px;
   --padding-y-m: 15px;
@@ -23,6 +29,13 @@
 
   --default-margin: 12px;
   --default-border-radius: 5px;
+  --border-width: 3px;
+  --drawer-transition: all 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+  --remove-transition: all 0.3s cubic-bezier(0.7, 0, 0.84, 0);
+
+  --list-item-y: 60px;
+  --button-y: 50px;
+  --form-element-y: 30px;
 
   font-size: 12px;
 }
@@ -38,6 +51,15 @@ body {
   font-size: 1rem;
   color: var(--c-gray-1);
   line-height: 1.5rem;
+}
+
+.h1, h1 {
+  all: unset;
+  font-size: 2rem;
+  line-height: 2rem;
+  color: black;
+  display: block;
+  margin: calc(3 * var(--default-margin)) 0;
 }
 
 .h2, h2 {
@@ -84,6 +106,19 @@ body {
   color: #000000;
 }
 
+.link {
+  color: var(--c-gray-1);
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+}
+
+.link-alt {
+  color: var(--c-gray-2);
+  cursor: pointer;
+  user-select: none;
+}
+
 /* #endregion */
 
 /* #region Elements */
@@ -116,6 +151,60 @@ a { text-decoration: none; }
 
 .mb2 {
   margin-bottom: calc(var(--default-margin) * 2);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* #endregion */
+
+/* #region Animations */
+
+.shake-animation {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  transform: none;
+}
+
+@keyframes shake {
+  
+
+  20% {
+    transform: translateX(-1px);
+  }
+
+  40% {
+    transform: translateX(2px);
+  }
+
+  60% {
+    transform: translateX(-2px);
+  }
+
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.press-animation {
+  animation: press 0.3s cubic-bezier(.36,.07,.19,.97) both;
+  transform: none;
+}
+
+@keyframes press {
+  50% {
+    transform: scale(95%);
+  }
+  
+  100% {
+    transform: none;
+  }
 }
 
 /* #endregion */
