@@ -1,7 +1,7 @@
 <template>
   <div class="a-page" v-if="selectedCategory != null">
     <div class="a-container" :style="{ transform: showFilters ? 'translateX(-100%)' : 'none' }">
-      <div class="a-categories">
+      <div :class="['a-categories', $device.isMobile ? '' : 'a-categories-t']">
         <filter-category-m 
           v-for="(category, index) in $store.state.filters.availableCategories" 
           :key="category._id"
@@ -10,7 +10,7 @@
           @click="() => selectCategory(index)"
         />
       </div>
-      <div class="a-filters">
+      <div :class="['a-filters', $device.isMobile ? '' : 'a-filters-t']">
         <div 
           type="button"
           class="a-filters-header"
@@ -30,7 +30,7 @@
         />
       </div>
     </div>
-    <button :class="['a-button', filtersChanged ? 'a-button-apply' : 'a-button-close']" @click="apply">
+    <button :class="['a-button', filtersChanged ? 'a-button-apply' : 'a-button-close', $device.isMobile ? '' : 'a-button-t']" @click="apply">
       {{ filtersChanged ? $t("apply") : $t('buttonClose') }}
     </button>
   </div>
@@ -58,6 +58,7 @@ export default {
     apply(){
       if(!this.filtersChanged)
         this.$store.commit("nav/closeAllDrawers")
+        this.$store.commit("search/reset")
 
       const categories = this.$store.state.filters.availableCategories
       const query = selectedFiltersToQueryParams(categories, this.selectedFilters)
@@ -118,12 +119,20 @@ export default {
   overflow: scroll;
 }
 
+.a-categories-t{
+  width: var(--drawer-x-t);
+}
+
 .a-filters{
   position: absolute;
   width: 100vw;
   height: 100%;
   transform: translateX(100%);
   overflow: scroll;
+}
+
+.a-filters-t{
+  width: var(--drawer-x-t);
 }
 
 .a-filters-header{
@@ -150,8 +159,13 @@ export default {
   letter-spacing: var(--letter-spacing);
 }
 
+.a-button-t{
+  width: var(--drawer-x-t);
+}
+
 .a-button-apply{
   background-color: #000;
+  box-shadow: 0px -4px 7px var(--c-gray-3);
 }
 .a-button-close{
   background-color: var(--c-gray-1);

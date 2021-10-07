@@ -1,7 +1,7 @@
 <template>
   <div>
     <nuxt-link to="/">
-      <logo :height="height" color="#434343" />
+      <logo :height="height" color="var(--c-gray-1)" />
     </nuxt-link>
   </div>
 </template>

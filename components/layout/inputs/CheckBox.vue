@@ -1,17 +1,24 @@
 <template>
-<div :class="['a-container', small ? 'a-small' : '']">
-  <input 
-    type="checkbox"
-    class="a-checkbox"
-    :checked="checked" 
-    @change="handler($event.target.checked)"
-    :required="!!required"
-  />
-  <span class="a-checkmark" />
+<div class="a-flex">
+  <div :class="['a-container', small ? 'a-small' : '']">
+    <input 
+      type="checkbox"
+      class="a-checkbox"
+      :checked="checked" 
+      @change="clickHandler(() => $emit('input', $event.target.checked))"
+      :required="!!required"
+    />
+    <span class="a-checkmark" />
+  </div>
+  <div>
+    <slot />
+  </div>
 </div>
 </template>
 
 <script lang="ts">
+import clickHandler from '~/util/clickHandler'
+
 export default {
   model: {
     prop: 'checked',
@@ -20,7 +27,8 @@ export default {
   props: {
     required: Boolean,
     checked: Boolean,
-    small: Boolean
+    small: Boolean,
+    caption: String
   },
   data(){
     return {
@@ -28,21 +36,20 @@ export default {
     }
   },
   methods: {
-    handler(v){
-      if(this.lock) return;
-
-      this.lock = true;
-
-      this.$emit("input", v)
-
-      setTimeout(() => this.lock = false, 100)
-    }
+    clickHandler
   }
 }
 </script>
 
 <style scoped>
+.a-flex{
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: nowrap;
+  margin-bottom: var(--default-margin);
+}
 .a-container {
+  flex-shrink: 0;
   position: relative;
   appearance: none;
   background-color: white;
@@ -84,5 +91,8 @@ export default {
   background-color: var(--c-gray-1);
 }
 
+.a-checkbox:invalid .a-container{
+  border-color: var(--c-red-1);
+}
 
 </style>

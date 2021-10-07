@@ -1,20 +1,20 @@
 <template>
 <div>
-  <div class="a-header">
+  <div class="a-header" v-click-outside="hideSearchBar">
     <div class="a-container">
       <div v-show="$store.state.search.searchBarVisible" class="a-flex">
-        <search-bar ref="searchbar" />
-        <search-close-button height=26 :action="hideSearchBar" class="a-search-close" />
+        <search-bar-m-t ref="searchbar" />
+        <search-close-button height=26 :action="() => clickHandler(hideSearchBar)" class="a-search-close" />
       </div>
       <div v-show="!$store.state.search.searchBarVisible" class="a-flex">
         <home-button height=30 class="a-flex-left" />
         <regional-button height=26 region="DE" />
         <cart-button height=26 />
         <profile-button height=26 />
-        <search-button height=26 :action="showSearchBar" />
+        <search-button height=26 :action="() => clickHandler(showSearchBar)" />
       </div>
     </div>
-    <div class="a-divider"></div>
+    <divider />
   </div>
   <div style="margin-top:var(--header-y-m)"></div>
 </div>
@@ -28,22 +28,25 @@ import ProfileButton from '../buttons/ProfileButton.vue'
 import SearchButton from '../buttons/SearchButton.vue'
 import SearchCloseButton from '../buttons/SearchCloseButton.vue'
 import RegionalButton from '../buttons/RegionalButton.vue'
-import SearchBar from './SearchBar.vue'
+import SearchBarMT from './SearchBarMT.vue'
+import clickHandler from '~/util/clickHandler'
+import Divider from './Divider.vue'
 
 export default {
-  components: { HomeButton, CartButton, ProfileButton, SearchButton, RegionalButton, SearchCloseButton, SearchBar },
-  data: () => ({
-    searchBarVisible: false,
-    query: ""
-  }),
+  components: { HomeButton, CartButton, ProfileButton, SearchButton, RegionalButton, SearchCloseButton, SearchBarMT, Divider },
   methods: {
-    showSearchBar() {
-      this.$store.commit('nav/closeAllDrawers')
-      this.$store.commit('search/showSearchBar')
-      this.$refs.searchbar.focusInput()
+    clickHandler,
+    showSearchBar(){
+      if(!this.$store.state.search.searchBarVisible){
+
+        this.$store.commit('nav/closeAllDrawers')
+        this.$store.commit('search/showSearchBar')
+        this.$refs.searchbar.focusInput()
+      }
     },
     hideSearchBar(){
-      this.$store.commit('search/reset')
+      if(this.$store.state.search.searchBarVisible)
+        this.$store.commit('search/reset')
     }
   }
 }
@@ -52,7 +55,7 @@ export default {
 
 <style scoped>
 .a-header{
-  z-index: 100;
+  z-index: 200;
   background-color: white;
   position: fixed;
   top: 0;
@@ -74,13 +77,5 @@ export default {
 }
 .a-flex-left {
   margin-right: auto;
-}
-
-.a-divider {
-  position: relative;
-  width: 100vw;
-  height: 4px;
-  background: linear-gradient(90.09deg, rgba(83, 122, 88, 0.5) 2.14%, rgba(155, 199, 161, 0.5) 95.28%);
-
 }
 </style>

@@ -4,7 +4,6 @@ export const state = () => ({
   availableCategories: [],
   appliedFilters: [],
   appliedFilterTags: [],
-  loadingState: LoadingState.ready
 })
 
 export const mutations = {
@@ -22,8 +21,4 @@ export const mutations = {
     _state.availableCategories = _availableCategories
     _state.filters = _availableCategories.flatMap(a => [ a.filters ])
   },
-
-  setLoadingState(_state: any, _loadingState: LoadingState){
-    _state.loadingState = _loadingState
-  }
 }

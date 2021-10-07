@@ -63,9 +63,7 @@ export default {
         this.setQuantity({ quantity: 0, variant: this.cartItem.variant._id })
     },
     async setQuantity({ quantity, variant }){
-
-      const a = await this.$store.dispatch("cart/updateLineItem", { quantity, variant })
-      console.log(a)
+      await this.$store.dispatch("cart/updateLineItem", { quantity, variant })
     }
   }
 }

@@ -1,7 +1,7 @@
 export const state = () => ({
   menuDrawerOpen: false,
   filterDrawerOpen: false,
-  cartDrawerOpen: false,
+  cartDrawerOpen: false
 })
 
 export const mutations = {
@@ -34,5 +34,16 @@ export const mutations = {
     _state.menuDrawerOpen = false
     _state.cartDrawerOpen = true
     _state.filterDrawerOpen = false
+  },
+
+  showLoginForm(_state){
+    _state.loginFormOpen = true
+    _state.filterDrawerOpen = false
+    _state.menuDrawerOpen = false
+    _state.cartDrawerOpen = false
+  },
+
+  hideLoginForm(_state){
+    _state.loginFormOpen = false
   }
 }

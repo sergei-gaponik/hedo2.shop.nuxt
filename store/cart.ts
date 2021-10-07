@@ -1,12 +1,13 @@
 import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
 import Vue from 'vue'
-import { CartError } from '~/types'
+import { CartError, LineItem } from '~/types'
 
-const save = lineItems => localStorage.setItem('lineItems', JSON.stringify(lineItems))
-
+const save = lineItems => {
+  localStorage.setItem('lineItems', JSON.stringify(lineItems))
+}
 export const state = () => ({
-  lineItems: []
+  lineItems: [] as LineItem[]
 })
 
 export const mutations = {
@@ -17,7 +18,7 @@ export const mutations = {
     save(_state.lineItems)
   },
 
-  updateLineItem(_state, _lineItem){
+  updateLineItem(_state, _lineItem: LineItem){
 
     const i = _state.lineItems.findIndex(a => a.variant == _lineItem.variant)
 
@@ -43,13 +44,12 @@ export const mutations = {
   },
 
   addLineItem(_state, _lineItem){
-    console.log(_lineItem)
     _state.lineItems.push(_lineItem)
     save(_state.lineItems)
   },
 
-  removeLineItem(_state, variant){
-    _state.lineItems = _state.lineItems.filter(a => a.variant != variant)
+  removeLineItem(_state, variantId){
+    _state.lineItems = _state.lineItems.filter(a => a.variant != variantId)
     save(_state.lineItems)
   }
 }
@@ -82,7 +82,7 @@ export const actions = {
     }
 
     const r = await instanceHandler({
-      path: 'signLineItem',
+      path: 'signLineItems',
       args: { lineItems: [{ variant, price  }] }
     })
 

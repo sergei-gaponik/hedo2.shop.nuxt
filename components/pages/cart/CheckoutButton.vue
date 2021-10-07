@@ -1,6 +1,6 @@
 <template>
 <client-only>
-  <main-button ref="checkout" :disabled="disabled" @click="clickHandler(action)">
+  <main-button ref="checkout" :disabled="disabled" @click="handler()">
     <div class="a-checkout">
       <div>
         {{ $t("checkout") }}
@@ -12,30 +12,22 @@
 
 <script>
 import MainButton from '~/components/layout/buttons/MainButton.vue'
+import clickHandler from '~/util/clickHandler'
 
 export default {
   components: { MainButton },
   props: ["disabled", "action"],
-  data(){
-    return { 
-      lock: false,
-    }
-  },
   methods: {
-    clickHandler(action){
+    handler(){
 
-      if(this.lock) return;
-      
-      if(this.disabled)
-        this.$refs.checkout.shake()
-      else
-        this.$refs.checkout.press()
+      clickHandler(() => {
+        if(this.disabled)
+          this.$refs.checkout.shake()
+        else
+          this.$refs.checkout.press()
 
-      this.lock = true
-
-      action()
-
-      setTimeout(() => this.lock = false, 100)
+        this.action()
+      })
     }
   }
 }

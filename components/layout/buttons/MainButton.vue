@@ -1,5 +1,9 @@
 <template>
-  <div :class="['a-button', disabled ? 'a-disabled' : '']" ref="mainbutton" @click="$emit('click')">
+  <div :class="['a-button', 
+    disabled ? 'a-disabled' : '', 
+    shakeAnimation ? 'shake-animation' : '',
+    pressAnimation ? 'press-animation' : ''
+  ]" @click="$emit('click')">
     <slot />
   </div>
 </template>
@@ -8,18 +12,28 @@
 
 export default {
   props: [ "disabled" ],
+  data(){
+    return {
+      shakeAnimation: false,
+      pressAnimation: false
+    }
+  },
   methods: {
     shake(){
 
-      this.$refs.mainbutton.classList.add('shake-animation')
+      if(this.shakeAnimation == true) return;
 
-      setTimeout(() => this.$refs.mainbutton.classList.remove('shake-animation'), 1000)
+      this.shakeAnimation = true
+
+      setTimeout(() => this.shakeAnimation = false, 1000)
     },
     press(){
 
-      this.$refs.mainbutton.classList.add('press-animation')
+      if(this.pressAnimation == true) return;
 
-      setTimeout(() => this.$refs.mainbutton.classList.remove('press-animation'), 500)
+      this.pressAnimation = true
+
+      setTimeout(() => this.pressAnimation = false, 500)
     }
   }
 }
@@ -36,9 +50,12 @@ export default {
   align-items: center;
   padding: var(--padding-s);
   box-sizing: border-box;
+  user-select: none;
+  box-shadow: 0px 4px 7px rgb(155, 199, 161, 0.5);
 }
 
 .a-disabled{
   background-color: var(--c-green-3);
+  box-shadow: none;
 }
 </style>

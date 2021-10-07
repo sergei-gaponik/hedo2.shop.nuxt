@@ -1,5 +1,5 @@
 
-const DURATION = 3000
+const DURATION = 3500
 
 export const state = () => ({
   caption: "",
@@ -18,7 +18,14 @@ export const mutations = {
 }
 
 export const actions = {
-  error(context, caption){
+  async error(context, caption){
+    
+    if(context.state.visible){
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      context.commit('setVisible', false)
+      await new Promise(resolve => setTimeout(resolve, 200))
+    }
+
     context.commit('setCaption', caption)
     context.commit('setVisible', true)
 

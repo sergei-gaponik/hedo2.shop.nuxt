@@ -1,5 +1,5 @@
 <template>
-  <div class="container-m">
+  <div :class="$device.isMobile ? 'container-m' : 'container'">
     <bread-crumbs 
       :breadCrumbs="breadCrumbs"
     />
@@ -19,21 +19,21 @@ export default {
   components: { CollectionPage, BreadCrumbs },
   data(){
     return { 
-      loadingState: LoadingState.ready,
       breadCrumbs: []
     }
 
   },
   async fetch(){
     
-    this.loadingState = LoadingState.loading
+    this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
 
-    const { loadingState, data } = await instanceHandler({
+    const { data } = await instanceHandler({
       path: "getBrand",
-      args: { handle: this.$route.params.brandHandle }
+      args: { handle: this.$route.params.brandHandle },
+      cache: true
     })
 
-    this.loadingState = loadingState
+    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
     
     const brandInfo = data?.brand
 
@@ -43,6 +43,10 @@ export default {
         {
           caption: this.$t("allProducts"),
           href: this.localePath("/c/all")
+        },
+        {
+          caption: this.$t("brands"),
+          href: this.localePath("/b")
         },
         {
           caption: brandInfo.name

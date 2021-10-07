@@ -1,6 +1,6 @@
 {
   "name": "nuxt",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -9,8 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@aws-amplify/ui-components": "^1.7.9",
+    "@aws-amplify/ui-vue": "^1.1.10",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/runtime": "^7.15.3",
+    "aws-amplify": "^4.2.10",
     "core-js": "^3.15.1",
     "node-sass": "^6.0.1",
     "nuxt": "^2.13.3",

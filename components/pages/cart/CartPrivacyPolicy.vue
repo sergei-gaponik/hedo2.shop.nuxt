@@ -1,23 +1,18 @@
 <template>
-  <div class="a-flex">
-    <div>
-      <check-box 
-        :checked="checked"
-        @input="v => handler(v)"
-        small
-        ref="checkbox"
-        :required="true"
-      />
-    </div>
-    <div>
-      <span>
-        {{ $t("cartPrivacyPolicy") }}
-      </span>
-      <nuxt-link :to="localePath('/privacy')" class="link-alt">
-        {{ $t("moreDetails") }}
-      </nuxt-link>
-    </div>
-  </div>
+  <check-box 
+    :checked="checked"
+    @input="v => handler(v)"
+    
+    ref="checkbox"
+    required
+  >
+    <span>
+      {{ $t("cartPrivacyPolicy") }}
+    </span>
+    <nuxt-link :to="localePath('/privacy')" class="link-alt">
+      {{ $t("moreDetails") }}
+    </nuxt-link>
+  </check-box>
 </template>
 
 <script>
@@ -39,6 +34,8 @@ export default {
     handler(v){
       if(this.lock) return;
 
+      this.$refs.checkbox.$el.querySelector('.a-container').style.borderColor = "var(--c-gray-3)"
+
       this.lock = true;
 
       this.$emit("input", v)
@@ -48,11 +45,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.a-flex{
-  display: flex;
-  flex-wrap: nowrap;
-  gap: var(--gap);
-}
-</style>

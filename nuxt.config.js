@@ -29,6 +29,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/VueClickOutside.ts',
+    { src: '~/plugins/AWSAmplify.ts', mode: 'client' }
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -82,7 +85,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: true,
     babel: {
       presets(env, [preset, options]) {
         return [["@babel/preset-env", {}]];
@@ -96,5 +98,6 @@ export default {
         ]
       ]
     }
-  }
+  },
+
 }

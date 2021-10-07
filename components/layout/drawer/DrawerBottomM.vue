@@ -24,6 +24,7 @@ export default {
   props: ["show"],
   methods: {
     close(){
+      this.$store.commit("search/reset")
       this.$store.commit("nav/closeAllDrawers")
     }
   }
@@ -57,6 +58,7 @@ export default {
   bottom: 0;
   background-color: white;
   transform: none;
+  box-shadow: var(--box-shadow-drawer);
 }
 .a-drawer-enter-active, .a-drawer-leave-active {
   transition: var(--drawer-transition);

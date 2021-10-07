@@ -1,6 +1,6 @@
 <template>
   <div class="a-flex">
-    <button class="a-button" @click="$router.go(-1)" v-if="backButton">
+    <button class="a-button" @click="$emit('back')" v-if="backButton">
       <chevron-left-icon height=36 color="var(--c-gray-3)" />
     </button>
     <h1>{{ title }}</h1>

@@ -1,8 +1,11 @@
 <template>
 <div class="a-container">
-  <drawer-bottom-m :show="$store.state.nav.filterDrawerOpen">
+  <drawer-bottom-m :show="$store.state.nav.filterDrawerOpen" v-if="$device.isMobile">
     <filter-page-m />
   </drawer-bottom-m>
+  <drawer-right-t :show="$store.state.nav.filterDrawerOpen" v-else>
+    <filter-page-m />
+  </drawer-right-t>
 
   <div class="a-section">
     <div class="a-header">
@@ -34,9 +37,10 @@ import FilterButton from '~/components/layout/buttons/FilterButton.vue'
 import { appliedFiltersToQueryParams, removeFromAppliedFilters } from '~/util/filters'
 import FilterPageM from './FilterPageM.vue'
 import DrawerBottomM from '~/components/layout/drawer/DrawerBottomM.vue'
+import DrawerRightT from '~/components/layout/drawer/DrawerRightT.vue'
 
 export default {
-  components: { Tag, FilterButton, FilterPageM, DrawerBottomM },
+  components: { Tag, FilterButton, FilterPageM, DrawerBottomM, DrawerRightT },
   props: [ "productCount" ],
   methods: {
     reset(){
@@ -50,6 +54,7 @@ export default {
       this.$router.push({ path: this.$route.path, query })
     },
     openFilterDrawer(){
+      this.$store.commit('search/reset')
       this.$store.commit("nav/openFilterDrawer")
     }
   },
@@ -74,7 +79,7 @@ export default {
 }
 .a-container{
   height: min-content;
-  padding: calc(2 * var(--default-margin)) 0;
+  padding: 0 0 calc(2 * var(--default-margin)) 0;
 }
 .a-section{
   display: flex;

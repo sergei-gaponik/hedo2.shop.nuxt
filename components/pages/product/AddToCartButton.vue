@@ -1,6 +1,6 @@
 <template>
 <client-only>
-  <main-button ref="addtocart" :disabled="disabled">
+  <main-button :ref="'addtocart' + _uid" :disabled="disabled">
     <div class="a-quantity-selector">
       <div class="a-iconbutton" @click="clickHandler(decQuantity)">
         <minus-icon height=24 :color="disabled ? 'var(--c-green-3)' : 'var(--c-green-2)'" />
@@ -23,6 +23,7 @@
 import AddIcon from '~/components/icons/basic/AddIcon.vue'
 import MinusIcon from '~/components/icons/basic/MinusIcon.vue'
 import MainButton from '~/components/layout/buttons/MainButton.vue'
+import clickHandler from '~/util/clickHandler'
 
 export default {
   props: [ "maxQuantity", "selectedVariant" ],
@@ -58,9 +59,9 @@ export default {
     _action(){
 
       if(this.disabled)
-        this.$refs.addtocart.shake()
+        this.$refs["addtocart" + this._uid].shake()
       else
-        this.$refs.addtocart.press()
+        this.$refs["addtocart" + this._uid].press()
 
       this.$emit('action', this.quantity)
       this.quantity = 1
@@ -73,16 +74,7 @@ export default {
       if(this.quantity > 1)
         this.quantity--
     },
-    clickHandler(action){
-
-      if(this.lock) return;
-
-      action()
-
-      this.lock = true
-
-      setTimeout(() => this.lock = false, 100)
-    }
+    clickHandler
   }
 }
 </script>

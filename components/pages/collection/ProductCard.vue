@@ -30,8 +30,6 @@ export default {
 
 .a-container {
   position: relative;
-  min-width: calc(50vw - (var(--padding-x-m) * 2));
-  max-width: calc(50vw - (var(--padding-x-m) * 2));
   text-align: center;
 }
 

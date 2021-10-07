@@ -38,6 +38,7 @@ export default {
 }
 .a-title{
   text-align: center;
+  margin-bottom: calc(var(--default-margin) * 4)
 }
 .a-caption{
   color: var(--c-gray-1);
@@ -47,6 +48,10 @@ export default {
   align-items: center;
   overflow: scroll;
   height: var(--breadcrumbs-y-m);
+}
+.a-center{
+  display: flex;
+  justify-content: center;
 }
 .a-item{
   display: flex;

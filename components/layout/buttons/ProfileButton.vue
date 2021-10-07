@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link to="/">
+    <nuxt-link :to="localePath('/me')">
       <profile-icon color="#434343" :height="height" />
     </nuxt-link>
   </div>

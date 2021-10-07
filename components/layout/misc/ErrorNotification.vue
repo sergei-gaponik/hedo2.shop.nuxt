@@ -1,6 +1,6 @@
 <template>
-<transition name="a-container">
-  <div v-if="$store.state.notifications.visible" class="a-container">
+<transition :name="$device.isMobile ? 'a-container-m' : 'a-container'">
+  <div v-if="$store.state.notifications.visible" :class="['a-container', $device.isMobile ? 'a-mobile' : '']">
     <div class="a-error">
       <div>
         <error-icon height=24 color="white" />
@@ -22,10 +22,18 @@ export default {
 <style scoped>
 .a-container{
   position: fixed;
-  top: calc(var(--header-y-m) + var(--gap));
-  width: calc(100% - (var(--padding-x-m) * 2));
+  width: var(--mobile-max);
+  top: calc(var(--header-y-t) + var(--gap));
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 99;
+}
+.a-mobile{
+  width: calc(100% - (var(--padding-x-m) * 2));
+  top: calc(var(--header-y-m) + var(--gap));
   margin: 0 var(--padding-x-m);
+  left: 0;
+  transform: none;
 }
 .a-error{
   background-color: var(--c-gray-1);
@@ -39,6 +47,21 @@ export default {
   color: white;
 }
 
+.a-container-m-enter-active, .a-container-m-leave-active {
+  transition: var(--drawer-transition);
+  opacity: 1;
+}
+
+.a-container-m-enter{
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.a-container-m-leave-to{
+  opacity: 0;
+  transform: translateY(-200%);
+}
+
 .a-container-enter-active, .a-container-leave-active {
   transition: var(--drawer-transition);
   opacity: 1;
@@ -46,13 +69,12 @@ export default {
 
 .a-container-enter{
   opacity: 0;
-  transform: translateY(100%);
-
+  transform: translate(-50%, 100%);
 }
 
 .a-container-leave-to{
   opacity: 0;
-  transform: translateY(-200%);
+  transform: translate(-50%, -200%);
 }
 
 </style>

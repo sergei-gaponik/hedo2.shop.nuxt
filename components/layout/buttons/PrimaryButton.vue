@@ -1,5 +1,12 @@
 <template>
-  <button class="a-button" @click="_action" :type="submit ? 'submit' : 'button'"><slot /></button>
+  <button 
+    class="a-button" 
+    :style="{ width: minContent ? 'min-content' : '100%' }"
+    @click="_action" 
+    :type="submit ? 'submit' : 'button'"
+  >
+    <slot />
+  </button>
 </template>
 
 <script>
@@ -7,17 +14,20 @@ export default {
   props: {
     action: Function,
     to: String,
-    submit: Boolean
+    submit: Boolean,
+    minContent: Boolean
   },
   methods: {
     _action(){
 
-      if(this.$props.submit) return;
+      if(this.submit) return;
 
-      if(this.$props.to)
-        this.$router.push(this.$props.to)
-      else if(this.$props.action)
-        this.$props.action()
+      if(this.to){
+        this.$store.commit("nav/closeAllDrawers")
+        this.$router.push(this.to)
+      }
+      else if(this.action)
+        this.action()
     }
   }
 }
@@ -30,6 +40,7 @@ export default {
   user-select: none;
   height: var(--button-y);
   padding: 0 var(--button-padding-x);
+  box-sizing: border-box;
   color: white;
   background-color: var(--c-green-2);
   border-radius: var(--default-border-radius);
@@ -38,5 +49,6 @@ export default {
   text-align: center;
   letter-spacing: var(--letter-spacing);
   font-weight: bold;
+  white-space: nowrap;
 }
 </style>

@@ -4,7 +4,7 @@
       <div class="a-bg" v-if="show" @click="close"/>
     </transition>
     <transition name="a-drawer">
-      <div class="a-drawer" v-if="show">
+      <div class="a-drawer hide-scrollbar" v-if="show">
         <div class="container-m">
           <slot />
         </div>
@@ -26,6 +26,7 @@ export default {
   props: ["show"],
   methods: {
     close(){
+      this.$store.commit("search/reset")
       this.$store.commit("nav/closeAllDrawers")
     }
   }
@@ -59,6 +60,8 @@ export default {
   bottom: var(--footer-y-m);
   background-color: white;
   transform: none;
+  box-shadow: var(--box-shadow-drawer);
+  overflow: scroll;
 }
 .a-drawer-enter-active, .a-drawer-leave-active {
   transition: var(--drawer-transition);

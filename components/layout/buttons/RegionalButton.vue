@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <nuxt-link :to="switchLocalePath(getNextLocaleCode())">
-      <span class="a-text">
-        {{ $i18n.locale }}
-      </span>
-    </nuxt-link>
+  <div @click="clickHandler(action)">
+    <span class="a-text">
+      {{ $i18n.locale }}
+    </span>
   </div>
 </template>
 
@@ -19,10 +17,14 @@
 </style>
 
 <script>
+import clickHandler from '~/util/clickHandler'
 
 export default {
   props: ["region"],
   methods: {
+    action(){
+      this.$router.push(this.switchLocalePath(this.getNextLocaleCode()))
+    },
     getNextLocaleCode(){
 
       let index = this.$i18n.locales
@@ -35,7 +37,8 @@ export default {
 
       return this.$i18n.locales[index].code
 
-    }
+    },
+    clickHandler
   }
 }
 </script>

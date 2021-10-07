@@ -1,15 +1,11 @@
 <template>
-<div class="container-m">
+<div :class="$device.isMobile ? 'container-m' : 'container'">
   <bread-crumbs 
     :breadCrumbs="breadCrumbs"
     inline
   />
-  <lazy-wrapper :loadingState="loadingState">
-    <div v-if="!product">
-      <span>{{ $t("productNotFound") }}</span>
-    </div>
-    <product-page v-else :product="product"/>
-    
+  <lazy-wrapper :loadingState="firstLoading">
+    <product-page :product="product" class="mt2"/>
   </lazy-wrapper>
 </div>
 </template>
@@ -19,30 +15,30 @@ import ProductPage from '~/components/pages/product/ProductPage.vue'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 import instanceHandler from '~/core/instanceHandler'
 import BreadCrumbs from '~/components/navigation/BreadCrumbs.vue'
-import searchHandler from '~/core/searchHandler'
 import { LoadingState } from '~/types'
 
 export default {
   components: { LazyWrapper, ProductPage, BreadCrumbs },
   async fetch(){
-    this.loadingState = LoadingState.loading
-    this.similarProductsLoadingState = LoadingState.loading
+    this.firstLoading = LoadingState.loading
+    this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
 
     const r = await instanceHandler({
       path: "findOneProduct",
       args: {
         query: this.$route.params.productHandle
-      }
+      },
+      cache: true
     })
 
-    this.loadingState = r.loadingState
     this.product = r.data?.product || null
 
     if(this.product.series){
 
       const r2 = await instanceHandler({
         path: "getOneSeries",
-        args: { handle: this.product.series.handle }
+        args: { handle: this.product.series.handle },
+        cache: true
       })
   
       const seriesInfo = r2.data?.series
@@ -67,7 +63,8 @@ export default {
     else{ 
       const r2 = await instanceHandler({
         path: "getBrand",
-        args: { handle: this.product.brand.handle }
+        args: { handle: this.product.brand.handle },
+        cache: true
       })
   
       const brandInfo = r2.data?.brand
@@ -85,15 +82,15 @@ export default {
         }
       ]
     }
-
+    this.firstLoading = this.product ? LoadingState.ready : LoadingState.notFound
 
   },
   data(){
     
     return {
       product: null,
-      loadingState: LoadingState.ready,
-      breadCrumbs: []
+      breadCrumbs: [],
+      firstLoading: LoadingState.ready
     }
   }
 }

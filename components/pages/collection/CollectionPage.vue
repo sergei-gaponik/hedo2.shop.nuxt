@@ -1,15 +1,22 @@
 <template>
   <div>
-    <lazy-wrapper :loadingState="loadingState">
-      <div v-if="loadingState == 'ready' && !products.length">
+      <filter-section 
+        :productCount="ids.length"
+      />
+    <lazy-wrapper>
+      <div v-if="$store.state.loadingState.loadingState == 'ready' && !products.length">
         {{ $t("noResults") }}
       </div>
       <div v-else>
-        <filter-section 
-          :productCount="products.length"
+        <product-grid :products="products" class="mb2" :cols="$device.isMobile ? 2 : 3" />
+        <collection-pagination 
+          :page="page"
+          :totalPages="totalPages"
+          :limit="limit"
+          @nextPage="nextPage"
+          @prevPage="prevPage"
+          @setLimit="setLimit"
         />
-        <product-grid :products="products"/>
-        <collection-pagination />
       </div>
     </lazy-wrapper>
   </div>
@@ -24,26 +31,48 @@ import instanceHandler from '~/core/instanceHandler'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 import FilterSection from '~/components/pages/collection/filters/FilterSection.vue'
 import CollectionPagination from './CollectionPagination.vue'
+import { GLOBAL } from '~/core/const'
 
 const getAppliedFilters = urlParams => Object.values(urlParams).map(a => a.split("_"))
 
 export default {
   components: { ProductGrid, LazyWrapper, FilterSection, CollectionPagination },
-  props: [ "series", "brand", "collection", "query" ],
+  props: [ "series", "brand", "filters", "query" ],
   data(){
     return {
       loadingState: LoadingState.ready,
       products: [],
       page: 1,
-      limit: 24
+      limit: GLOBAL.defaultPaginationLimit,
+      ids: []
+    }
+  },
+  computed: {
+    totalPages(){
+      return Math.ceil(this.ids.length / this.limit)
+    }
+  },
+  methods: {
+    nextPage(){
+      if(this.page < this.totalPages) this.page++;
+    },
+    prevPage(){
+      if(this.page > 1) this.page--;
+    },
+    setLimit(limit){
+      this.limit = limit
     }
   },
   async fetch() {
 
-    this.loadingState = LoadingState.loading
+    if(process.client)  
+      window.scrollTo(0, 0)
+
+    this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
     this.$store.commit('filters/setAppliedFilters', getAppliedFilters(this.$route.query) || [])
 
     const appliedFilters = this.$store.state.filters.appliedFilters
+    const filters = [ ...appliedFilters, ...(this.filters || [])]
 
     const r = await searchHandler({
       path: "getProductSearchResults",
@@ -51,54 +80,63 @@ export default {
         query: this.query,
         series: this.series,
         brand: this.brand,
-        collection: this.collection,
-        filters: appliedFilters
-      }
+        filters
+      },
+      cache: true
     })
 
     if(r.loadingState != LoadingState.ready || !r.data?.ids){
-      this.loadingState = LoadingState.error
+      this.$store.commit('loadingState/setLoadingState', LoadingState.error)
       return;
     }
 
     const ids = r.data.ids
     const properties = r.data.properties
 
+    this.ids = ids
+
     const { page, limit } = this
 
     const r2 = await instanceHandler({
       path: "findProducts",
-      args: { ids, page, limit }
+      args: { ids, page, limit },
+      cache: true
     })
 
     this.loadingState = r2.loadingState
     this.products = r2.data?.products || []
 
-    this.$store.commit("filters/setLoadingState", LoadingState.loading)
-
-    const { data, loadingState } = await instanceHandler({
+    const { data } = await instanceHandler({
       path: "getFilters",
-      args: { properties, appliedFilters }
+      args: { properties, appliedFilters },
+      cache: true
     })
 
     this.$store.commit("filters/setAvailableCategories", data?.filterCategories || [])
     this.$store.commit("filters/setAppliedFilterTags", data?.appliedFilters || [])
-    this.$store.commit("filters/setLoadingState", loadingState)
 
-
+    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
   },
   watch: {
     '$route.query': function(){
+      this.page = 1
+      this.limit = GLOBAL.defaultPaginationLimit
       this.$store.commit('nav/closeAllDrawers')
+      this.$store.commit('search/reset')
       this.$store.commit('filters/setAppliedFilters', getAppliedFilters(this.$route.query) || [])
+
       this.$fetch()
     },
     'limit': function(){
       this.$store.commit('nav/closeAllDrawers')
+      this.$store.commit('search/reset')
+
       this.$fetch()
     },
     'page': function(){
       this.$store.commit('nav/closeAllDrawers')
+      this.$store.commit('search/reset')
+
       this.$fetch()
     }
   }

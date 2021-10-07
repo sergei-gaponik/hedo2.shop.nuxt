@@ -3,7 +3,7 @@ import { LoadingState } from '~/types'
 
 interface GlobalSearchParams {
   query: string,
-  options?: any
+  limit?: number
 }
 
 const REQUEST_DELAY = 200
@@ -11,6 +11,12 @@ const REQUEST_DELAY = 200
 export const state = () => ({
   query: "",
   productResults: [],
+  brandResults: [],
+  categoryResults: [],
+  pageResults: [],
+  seriesResults: [],
+  articleResults: [],
+  maxScores: {},
   loadingState: LoadingState.ready,
   requestIndex: 0,
   searchResultsVisible: false,
@@ -23,8 +29,17 @@ export const mutations = {
     _state.query = input
   },
 
-  setProductResults(_state: any, _productResults: any[]){
-    _state.productResults = _productResults
+  setResults(_state: any, results: any){
+    if(results.products != null) _state.productResults = results.products
+    if(results.brands != null) _state.brandResults = results.brands
+    if(results.categories != null) _state.categoryResults = results.categories
+    if(results.pages != null) _state.pageResults = results.pages
+    if(results.articles != null) _state.articleResults = results.articles
+    if(results.series != null) _state.seriesResults = results.series
+  },
+
+  setMaxScores(_state: any, maxScores: any){
+    _state.maxScores = { ..._state.maxScores, ...maxScores }
   },
 
   setLoadingState(_state: any, _loadingState: LoadingState){
@@ -52,10 +67,10 @@ export const mutations = {
   },
 
   reset(_state: any){
-    _state.query = ""
-    _state.productResults = []
-    _state.loadingState = LoadingState.ready
-    _state.requestIndex = 0
+    if(_state.query) _state.query = ""
+    if(_state.productResults?.length) _state.productResults = []
+    if(_state.loadingState != LoadingState.ready) _state.loadingState = LoadingState.ready
+    if(_state.requestIndex) _state.requestIndex = 0
     _state.searchResultsVisible = false
     _state.searchBarVisible = false
   }
@@ -65,32 +80,93 @@ export const actions = {
 
   async globalSearch(context: any, params: GlobalSearchParams) {
 
-    if(params.query.length < 3) return;
+    if(params.query.length < 2) return;
 
-    context.commit("setLoadingState", LoadingState.loading)
     context.commit("showSearchResults")
     context.commit("setQuery", params.query)
     
     context.commit("incrementRequestIndex")
     const _requestIndex = context.state.requestIndex
 
-    setTimeout(() => {
+    context.commit("loadingState/setLoadingState", LoadingState.loading, { root: true })
+
+    setTimeout(async () => {
       if(context.state.requestIndex == _requestIndex){
-        context.dispatch("fetchProducts", params.query)
+
+        const { limit: productLimit = 5, query } = params
+        
+        const limit = 3
+
+        const { loadingState, bulk } = await searchHandler({
+          bulk: [
+            {
+              path: "getProductSearchResults",
+              args: { query, limit: productLimit, preview: true },
+            },
+            {
+              path: "getBrandSearchResults",
+              args: { query, limit },
+            },
+            {
+              path: "getCategorySearchResults",
+              args: { query, limit },
+            },
+            {
+              path: "getPageSearchResults",
+              args: { query, limit }
+            },
+            {
+              path: "getSeriesSearchResults",
+              args: { query, limit }
+            },
+            {
+              path: "getArticleSearchResults",
+              args: { query, limit }
+            }
+          ],
+          cache: true
+        })
+
+        context.commit("setResults", {
+          products: bulk[0].data.ids,
+          brands: bulk[1].data.brands,
+          categories: bulk[2].data.categories,
+          pages: bulk[3].data.pages,
+          series: bulk[4].data.series,
+          articles: bulk[5].data.articles
+        })
+
+        context.commit("setMaxScores", {
+          products: bulk[0].data.maxScore,
+          brands: bulk[1].data.maxScore * 4,
+          categories: bulk[2].data.maxScore * 2.5,
+          pages: bulk[3].data.maxScore * 2.5,
+          series: bulk[4].data.maxScore * 2,
+          articles: bulk[5].data.maxScore
+        })
+
+        console.log(bulk)
+
+        context.commit("loadingState/setLoadingState", LoadingState.ready, { root: true })
+
       }
     }, REQUEST_DELAY)
   },
 
-  async fetchProducts(context: any, query: string) {
+  async fetchProducts(context: any, params) {
 
-    context.commit("setLoadingState", LoadingState.loading)
+    const { limit = 5, query } = params
+
+    context.commit("loadingState/setLoadingState", LoadingState.loading, { root: true })
 
     const { loadingState, data } = await searchHandler({
       path: "getProductSearchResults",
-      args: { query, limit: 5, preview: true }
+      args: { query, limit, preview: true },
+      cache: true
     })
 
-    context.commit("setLoadingState", loadingState)
+    context.commit("loadingState/setLoadingState", loadingState, { root: true })
+
 
     if(data?.ids && data.ids.length) 
       context.commit("setProductResults", data.ids)

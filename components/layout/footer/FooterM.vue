@@ -5,11 +5,14 @@
       <div class="a-flex-item a-menu-bg">
         <menu-button height="22" color="#ffffff" px="15" py="0" :action="toggleMenuDrawer" />
       </div>
-      <div class="a-tags">
-        <footer-tag class="a-flex-item" href="/" name="Marke" />
-        <footer-tag class="a-flex-item" href="/" name="Annemarie Börlind" />
-        <footer-tag class="a-flex-item" href="/" name="Hautpflege" />
-        <footer-tag class="a-flex-item" href="/" name="Hautpflege" />
+      <div class="a-tags hide-scrollbar">
+        <footer-tag 
+          v-for="(footerTag, i) in footerTags" 
+          :key="i" 
+          :href="footerTag.href"
+          :name="footerTag.name"
+          class="a-flex-item"
+        />
       </div>
     </div>
   </div>
@@ -23,11 +26,34 @@ import FooterTag from './FooterTag.vue'
 
 export default {
   components: { MenuButton, FooterTag },
+  computed: {
+    footerTags(){
+      return [
+        {
+          name: this.$t("home"),
+          href: this.localePath("/")
+        },
+        {
+          name: this.$t("brands"),
+          href: this.localePath("/b")
+        },
+        {
+          name: this.$t("saleCollection"),
+          href: this.localePath("/c/sale")
+        },
+        {
+          name: this.$t("discover"),
+          href: this.localePath("/c")
+        }
+      ]
+    }
+  },
   methods: {
     toggleMenuDrawer(){
+      this.$store.commit('search/reset')
       this.$store.commit('nav/toggleMenuDrawer')
     }
-  }
+  },
 }
 </script>
 

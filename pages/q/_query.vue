@@ -1,5 +1,5 @@
 <template>
-  <div class="container-m">
+  <div :class="$device.isMobile ? 'container-m' : 'container'">
     <bread-crumbs 
       :breadCrumbs="breadCrumbs"
     />

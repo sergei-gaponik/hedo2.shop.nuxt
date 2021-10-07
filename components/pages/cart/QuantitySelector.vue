@@ -15,19 +15,13 @@
 <script>
 import AddIcon from '~/components/icons/basic/AddIcon.vue'
 import MinusIcon from '~/components/icons/basic/MinusIcon.vue'
+import clickHandler from '~/util/clickHandler'
 
 export default {
   props: [ "quantity" ],
   components: { MinusIcon, AddIcon },
   methods: {
-    clickHandler(action){
-
-      if(!this.lock) action()
-
-      this.lock = true
-
-      setTimeout(() => this.lock = false, 100)
-    }
+    clickHandler
   },
   data() { 
     return { 

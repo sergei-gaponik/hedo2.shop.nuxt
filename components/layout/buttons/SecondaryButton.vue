@@ -1,44 +1,31 @@
 <template>
-  <button class="a-button" @click="_action" :type="submit ? 'submit' : 'button'"><slot /></button>
+  <primary-button 
+    class="a-secondary"
+    :action="action"
+    :to="to"
+    :submit="submit"
+  >
+    <slot />
+  </primary-button>
 </template>
 
 <script>
+import PrimaryButton from './PrimaryButton.vue'
 export default {
+  components: { PrimaryButton },
   props: {
     action: Function,
     to: String,
-    submit: Boolean
-  },
-  methods: {
-    _action(){
-
-      if(this.$props.submit) return;
-
-      if(this.$props.to)
-        this.$router.push(this.$props.to)
-      else if(this.$props.action)
-        this.$props.action()
-    }
+    submit: Boolean,
+    minContent: Boolean
   }
 }
 </script>
 
 <style scoped>
-.a-button{
-  all: unset;
-  cursor: pointer;
-  user-select: none;
-  height: var(--button-y);
-  padding: 0 var(--button-padding-x);
-  color: var(--c-green-2);
-  background-color: white;
-  border-radius: var(--default-border-radius);
-  border: var(--border-width) solid var(--c-green-3);
-  width: 100%;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: var(--letter-spacing);
-  box-sizing: border-box;
-  font-weight: bold;
+.a-secondary{
+  color: var(--c-green-2) !important;
+  background-color: white !important;
+  border: var(--border-width) solid var(--c-green-3) !important;
 }
 </style>

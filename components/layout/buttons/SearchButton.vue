@@ -1,6 +1,6 @@
 <template>
   <div @click="action">
-    <search-icon color="#434343" :height="height" />
+    <search-icon color="var(--c-gray-1)" :height="height" />
   </div>
 </template>
 

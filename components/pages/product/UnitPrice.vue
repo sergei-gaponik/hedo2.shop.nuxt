@@ -8,7 +8,7 @@ export default {
   computed: {
     unitPriceCaption(){
    
-      const l = f => f.toLocaleString(this.$i18n.localeProperties.numberFormat)
+      const l = f => f == 1 ? "" : f.toLocaleString(this.$i18n.localeProperties.numberFormat)
       const money = f => f.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })
       
       if(!this.variant.measurementReferenceValue || !this.variant.measurementQuantity || !this.variant.measurementUnit)

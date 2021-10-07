@@ -1,5 +1,5 @@
 <template>
-  <div class="container-m">
+  <div :class="$device.isMobile ? 'container-m' : 'container'">
     <bread-crumbs 
       :breadCrumbs="breadCrumbs"
     />
@@ -26,15 +26,16 @@ export default {
 
   },
   async fetch(){
-    
-    this.loadingState = LoadingState.loading
+
+    this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
 
     const { loadingState, data } = await instanceHandler({
       path: "getOneSeries",
-      args: { handle: this.$route.params.seriesHandle }
+      args: { handle: this.$route.params.seriesHandle },
+      cache: true
     })
 
-    this.loadingState = loadingState
+    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
     
     const seriesInfo = data?.series
 

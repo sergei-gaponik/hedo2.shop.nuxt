@@ -1,7 +1,7 @@
 <template>
 <div :style='{ fontSize: fontSize + "rem", textAlign: center ? "center" : "left" }'>
   
-  <div class="a-info-wrapper">
+  <div class="a-info-wrapper" v-if="!hideInfoTag && !infoTagBottom">
     <div class="text a-info a-outofstock" v-if="outOfStock">{{ $t("outOfStock") }}</div> 
     <div class="text a-info" v-else-if="specialOffer">{{ $t("sale") }}</div> 
   </div>
@@ -10,15 +10,21 @@
     <span class="bold">{{ product.series ? product.series.name : "" }}</span>
     <span>{{ product.name }}</span>
   </div>
-  <div :class="['a-variants', center ? 'a-variants-center' : '']">
+  <div :class="['a-variants', 'mb', center ? 'a-variants-center' : '']">
     <tag v-for="(caption, i) in variantCaptions" :caption="caption" :key="i" />
   </div>
-  <div class="text a-price">
-    <span class="bold">{{ priceCaption }}</span>
-    <span v-if="freeShipping">{{ $t("freeShipping") }}</span>
-    <span v-else>{{ $t("excludingShipping") }}</span>
+  <div class="a-info-wrapper a-info-bottom mb" v-if="!hideInfoTag && infoTagBottom && (outOfStock || specialOffer)">
+    <div class="text a-info a-outofstock" v-if="outOfStock">{{ $t("outOfStock") }}</div> 
+    <div class="text a-info" v-else-if="specialOffer">{{ $t("sale") }}</div> 
   </div>
-  <unit-price :variant="cheapestVariant" />
+  <div v-if="!hidePrice">
+    <div class="text a-price">
+      <span class="bold">{{ priceCaption }}</span>
+      <span v-if="freeShipping">{{ $t("freeShipping") }}</span>
+      <span v-else>{{ $t("excludingShipping") }}</span>
+    </div>
+    <unit-price :variant="cheapestVariant" />
+  </div>
 </div>
 </template>
 
@@ -31,6 +37,11 @@ export default {
   props: { 
     product: Object,
     center: Boolean,
+    hideInfoTag: Boolean,
+    infoTagBottom: Boolean,
+    hidePrice: Boolean,
+    customPrice: Number,
+    customTag: String,
     fontSize: Number,
   },
   computed: {
@@ -38,7 +49,7 @@ export default {
       return this.product.variants.every(a => a.availableQuantity <= 0)
     },
     specialOffer(){
-      return true;
+      return false;
     },
     cheapestVariant(){
 
@@ -57,13 +68,19 @@ export default {
       return this.product.variants[_i]
     },
     priceCaption(){
-      return `${this.cheapestVariant.price.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })}`
+      const price = this.customPrice ? this.customPrice : this.cheapestVariant.price
+      return `${price.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })}`
     },
     freeShipping(){
       return true;
     },
     variantCaptions(){
-      return this.product.variants.filter(a => a.title).map(a => a.title)
+      if(this.customTag)
+        return [ this.customTag ]
+      else if(this.customTag == "")
+        return []
+      else
+        return this.product.variants.filter(a => a.title).map(a => a.title)
     }
   }
 }
@@ -74,6 +91,7 @@ export default {
   height: 30px;
   display: flex;
   align-items: center;
+  gap: var(--gap-s);
 }
 .a-variants-center{
   justify-content: center;
@@ -98,6 +116,11 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.a-info-bottom > .a-info{
+  left: 0;
+  transform: none;
+  margin-bottom: 2.2em;
 }
 .a-outofstock{
   border-color: var(--c-gray-2);

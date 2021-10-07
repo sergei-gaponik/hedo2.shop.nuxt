@@ -1,7 +1,8 @@
 export enum LoadingState {
   "loading" = "loading",
   "ready" = "ready",
-  "error" = "error"
+  "error" = "error",
+  "notFound" = "notFound"
 }
 
 export enum CartError {
@@ -19,4 +20,13 @@ export interface FilterCategory {
   _id: string
   name: string
   filters: Filter[]
+}
+
+export interface LineItem {
+  product: string
+  variant: string
+  maxQuantity: number
+  price: number
+  quantity: number
+  token: string
 }

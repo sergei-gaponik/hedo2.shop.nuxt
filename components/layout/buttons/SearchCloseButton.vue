@@ -1,6 +1,6 @@
 <template>
   <div @click="action">
-    <cross-icon color="#434343" :height="height" />
+    <cross-icon color="var(--c-gray-1)" :height="height" />
   </div>
 </template>
 
