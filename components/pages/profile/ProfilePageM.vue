@@ -7,14 +7,14 @@
       </div>
       <list-item :caption="$t('orders')" @click="setPage('orders')" />
       <list-item :caption="$t('addresses')" @click="setPage('address')" />
-      <list-item :caption="$t('personalDataPageTitle')" @click="setPage('personalData')" />
+      <list-item :caption="$t('personalData')" @click="setPage('personalData')" />
     </div>
     <div class="a-page">
       <div class="container-m">
         <page-title-m :title="$t(pageTitle)" backButton @back="hidePage()"/>
         <orders-page v-if="page == 'orders'"/>
         <address-page v-if="page == 'address'"/>
-        <personal-data-page v-if="page == 'address'"/>
+        <personal-data-page v-if="page == 'personalData'"/>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
         case 'address':
           return 'addressPageTitle'
         case 'personalData':
-          return 'personalDataPageTitle'
+          return 'personalData'
       }
     }
   }, 
@@ -63,12 +63,14 @@ export default {
 </script>
 
 <style scoped>
+.a-padding{
+  padding: 0 var(--padding-x-m);
+}
 .a-outer{
   position: relative;
   overflow: hidden;
-  left: calc(0px - var(--padding-x-m));
   width: 100vw;
-  height: calc(100vh - var(--header-y-m) - var(--footer-y-m) - var(--padding-y-m) * 2)
+  height: calc(100vh - var(--header-y-m) - var(--footer-y-m));
 }
 .a-container{
   position: relative;
@@ -77,12 +79,14 @@ export default {
 .a-menu{
   position: absolute;
   width: 100vw;
-  height: min-content;
+  height: calc(100vh - var(--header-y-m) - var(--footer-y-m));
+  overflow-y: auto;
 }
 .a-page{
   position: absolute;
   width: 100vw;
-  height: min-content;
+  height: calc(100vh - var(--header-y-m) - var(--footer-y-m));
+  overflow-y: auto;
   transform: translateX(100%);
 }
 </style>

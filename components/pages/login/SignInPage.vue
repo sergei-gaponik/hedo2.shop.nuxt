@@ -6,14 +6,14 @@
       <text-input 
         type="email"
         :placeholder="$t('email')"
-        :caption="$t('email') + ' *'"
+        :caption="$t('email')"
         v-model="email"
         required
       />
       <text-input 
         type="password"
         :placeholder="$t('password')"
-        :caption="$t('password') + ' *'"
+        :caption="$t('password')"
         v-model="password"
         required
       />
@@ -35,7 +35,7 @@
 <script>
 import TextInput from '~/components/layout/inputs/TextInput.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
-import { Auth } from 'aws-amplify'
+import auth from '~/core/auth'
 import { sanitizeEmailAddress } from '~/util/email'
 
 export default {
@@ -55,13 +55,15 @@ export default {
 
       try{
         this.$store.commit("loadingState/isLoading")
-        await Auth.signIn(email, this.password)
+        await auth().signIn(email, this.password)
         this.$store.commit("loadingState/isReady")
       }
       catch(e){
         console.log(e)
 
-        if(e.name == "NotAuthorizedException")
+        if(e.name == "UserNotConfirmedException")
+          this.$emit('verifyEmail', { email, password: this.password })
+        else if(e.name == "NotAuthorizedException")
           this.$store.dispatch("notifications/error", this.$t('incorrectEmailOrPassword'))
         else if(e.name == 'LimitExceededException')
           this.$store.dispatch("notifications/error", this.$t('limitExceededError'))

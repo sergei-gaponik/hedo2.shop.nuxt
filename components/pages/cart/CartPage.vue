@@ -2,32 +2,24 @@
 <div>
   <client-only>
     <div v-if="cartLoadingState == 'ready'">
-      <div class="a-button-container" v-if="$device.isMobile">
-        <checkout-button 
-          :disabled="cartEmpty || !privacyPolicyAccepted"
-          :action="checkout"
-        />
-      </div>
       <div v-if="cartEmpty" class="a-empty">
         {{ $t("cartEmpty") }}
       </div>
-      <div v-if="!cartEmpty" :class="[$device.isMobile ? '' : 'a-grid-td']">
-        <div class="a-cartitems mb2">
+      <div v-if="!cartEmpty" :class="[$device.isMobile ? '' : 'td-split']">
+        <div :class="['a-cartitems', 'mb2', !$device.isMobile ? 'td-split-sticky' : '']">
           <cart-item 
             v-for="cartItem in cartItems" 
             :key="cartItem.variant._id" 
             :cartItem="cartItem" 
           />
         </div>
-        <div class="a-sticky-td">
+        <div :class="!$device.isMobile ? 'td-split-sticky' : ''">
             <cart-total class="mb2" :cartItems="cartItems" />
-            <cart-privacy-policy v-model="privacyPolicyAccepted" ref="cartprivacypolicy" />
-            <checkout-button 
-              v-if="!$device.isMobile"
-              class="mb4 mt4"
-              :disabled="cartEmpty || !privacyPolicyAccepted"
-              :action="checkout"
-            />
+            <div :class="$device.isMobile ? 'main-button-m' : ''">
+              <main-button :disabled="cartEmpty" @click="checkout()">
+                {{ $t("checkout") }}
+              </main-button>
+            </div>
         </div>
       </div>
       <div class="a-mb"></div>
@@ -39,8 +31,7 @@
 <script lang="ts">
 
 import CartItem from './CartItem.vue'
-import CheckoutButton from './CheckoutButton.vue'
-import CartPrivacyPolicy from './CartPrivacyPolicy.vue'
+import MainButton from '~/components/layout/buttons/MainButton.vue'
 import CartTotal from './CartTotal.vue'
 import { GLOBAL } from '~/core/const'
 import instanceHandler from '~/core/instanceHandler'
@@ -49,7 +40,7 @@ import { decodeToken } from '~/util/jwt'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 
 export default {
-  components: { CartItem, CheckoutButton, CartPrivacyPolicy, CartTotal, LazyWrapper },
+  components: { CartItem, MainButton, CartTotal, LazyWrapper },
   computed: {
     cartItems(){
       return this.$store.state.cart.lineItems.map(lineItem => ({
@@ -67,7 +58,6 @@ export default {
     return {
       variants: [],
       products: [],
-      privacyPolicyAccepted: false,
       cartLoadingState: LoadingState.ready
     }
   },
@@ -95,14 +85,14 @@ export default {
 //#region update variant quantities
 
         const r = await instanceHandler({
-          path: "getVariantQuantities",
+          path: "getVariantQuantitiesAndPrices",
           args: { variants: cartItems.map(a => a.variant._id) }
         })
 
         if(r.loadingState != LoadingState.ready)
           throw new Error()
 
-        for(const { variant, availableQuantity } of r.data.variantQuantities){
+        for(const { variant, availableQuantity } of r.data.variants){
 
           const _variant = this.variants.find(a => a._id == variant)
           
@@ -199,21 +189,11 @@ export default {
     async checkout(){
       
       if(this.cartEmpty) return;
-      
-      if(!this.privacyPolicyAccepted){
-        this.$nextTick(() => {
-          this.$refs.cartprivacypolicy.$el.scrollIntoView({ behaviour: "smooth"})
-          this.$refs.cartprivacypolicy.$refs.checkbox.$el.querySelector('.a-container').style.borderColor = "var(--c-red-1)"
-        });
-        this.$store.dispatch("notifications/error", this.$t("cartPrivacyPolicyNotAccepted"))
-        return;
-      }
 
       const ok = await this.refreshLineItems()
 
       if(ok){
-        setTimeout(() => this.$router.push(this.localePath("/checkout")), 200)
-        // timeout due to animation
+        this.$router.push(this.localePath("/checkout"))
       }
     },
     async _fetch(){
@@ -259,24 +239,7 @@ export default {
 .a-empty {
   text-align: left;
 }
-.a-button-container{
-  position: fixed;
-  bottom: calc(var(--footer-y-m) + var(--gap));
-  z-index: 50;
-  width: calc(100% - (var(--padding-x-m) * 2));
-}
 .a-mb{
   margin-bottom: calc(var(--gap) + var(--button-y));
-}
-.a-grid-td{
-  display: grid;
-  grid-template-columns: repeat(2, calc(50% - var(--padding-x-td)));
-  gap: calc(var(--padding-x-td) * 2);
-  box-sizing: border-box;
-}
-.a-sticky-td{
-  position: sticky;
-  top: calc(var(--header-y-t) + var(--padding-y-td));
-  height: min-content;
 }
 </style>

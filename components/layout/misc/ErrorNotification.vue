@@ -1,6 +1,6 @@
 <template>
 <transition :name="$device.isMobile ? 'a-container-m' : 'a-container'">
-  <div v-if="$store.state.notifications.visible" :class="['a-container', $device.isMobile ? 'a-mobile' : '']">
+  <div v-if="$store.state.notifications.visible && $store.state.notifications.status == 'error'" :class="['a-container', $device.isMobile ? 'a-mobile' : '']">
     <div class="a-error">
       <div>
         <error-icon height=24 color="white" />

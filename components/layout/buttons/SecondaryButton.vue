@@ -1,9 +1,11 @@
 <template>
   <primary-button 
-    class="a-secondary"
+    :class="deleteButton ? 'a-delete' : 'a-secondary'"
     :action="action"
     :to="to"
     :submit="submit"
+    :minContent="minContent"
+    @click="$emit('click')"
   >
     <slot />
   </primary-button>
@@ -17,7 +19,8 @@ export default {
     action: Function,
     to: String,
     submit: Boolean,
-    minContent: Boolean
+    minContent: Boolean,
+    deleteButton: Boolean
   }
 }
 </script>
@@ -27,5 +30,10 @@ export default {
   color: var(--c-green-2) !important;
   background-color: white !important;
   border: var(--border-width) solid var(--c-green-3) !important;
+}
+.a-delete{
+  color: var(--c-red-1) !important;
+  background-color: white !important;
+  border: var(--border-width) solid var(--c-red-2) !important;
 }
 </style>

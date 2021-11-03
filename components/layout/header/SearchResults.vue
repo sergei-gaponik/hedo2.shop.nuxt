@@ -8,7 +8,7 @@
             :to="localePath('/q/'+$store.state.search.query)" 
             @click.native="$store.commit('search/reset')"
           >
-            <span class="link-h4">{{ $t('moreResults') }}</span>
+            <span class="link-h4">{{ $t('showMore') }}</span>
           </nuxt-link>
         </div>
         <div :class="['a-results', $device.isMobile ? '' : 'a-results-td']">

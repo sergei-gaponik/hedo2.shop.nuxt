@@ -28,6 +28,8 @@ export default {
       }
       else if(this.action)
         this.action()
+
+      this.$emit("click")
     }
   }
 }

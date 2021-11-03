@@ -6,7 +6,10 @@
 </template>
 
 <script>
+import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
+
 export default {
+  components: { ChevronRightIcon },
   props: [ "caption" ]
 }
 </script>

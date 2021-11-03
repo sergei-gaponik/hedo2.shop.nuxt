@@ -1,18 +1,23 @@
 <template>
-  <div v-if="brands">
-    <div class="a-featured mb4">
+  <div v-if="brands" :class="$device.isMobile ? 'container-m' : 'container td-split'">
+    <div v-if="$device.isMobile" class="a-featured mb4">
       <featured-brand v-for="brand in featuredBrands" :key="brand._id" :brand="brand" />
     </div>
-    <div>
-      <h4>{{ $t("fromAtoZ") }}</h4>
-      <div class="a-brands">
-        <list-item 
-          v-for="brand in sortedBrands"
-          :key="brand._id"
-          :caption="brand.name"
-          @click="$router.push(localePath('/b/'+brand.handle))"
-        />
+    <div :class="$device.isMobile ? '' : 'td-split-sticky'">
+      <div class="a-right-td">
+        <h4>{{ $t("fromAtoZ") }}</h4>
+        <div class="a-brands">
+          <list-item 
+            v-for="brand in sortedBrands"
+            :key="brand._id"
+            :caption="brand.name"
+            @click="$router.push(localePath('/b/'+brand.handle))"
+          />
+        </div>
       </div>
+    </div>
+    <div v-if="!$device.isMobile" class="a-featured mb4 td-split-sticky">
+      <featured-brand v-for="brand in featuredBrands" :key="brand._id" :brand="brand" />
     </div>
   </div>
 </template>
@@ -42,8 +47,11 @@ export default {
   gap: var(--gap);
 }
 .a-brands {
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
+  left: calc(0px - var(--padding-x));
+  width: calc(100% + var(--padding-x) * 2);
+}
+.a-right-td {
+  position: relative;
 }
 </style>

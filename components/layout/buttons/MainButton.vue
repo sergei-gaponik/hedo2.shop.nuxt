@@ -1,17 +1,37 @@
 <template>
-  <div :class="['a-button', 
-    disabled ? 'a-disabled' : '', 
-    shakeAnimation ? 'shake-animation' : '',
-    pressAnimation ? 'press-animation' : ''
-  ]" @click="$emit('click')">
-    <slot />
+<div>
+  <button v-if="submit" class="hide" type="submit" ref="btnsubmit"></button>
+  <div 
+    :class="['a-button', 
+      disabled ? 'a-disabled' : '', 
+      shakeAnimation ? 'shake-animation' : '',
+      pressAnimation ? 'press-animation' : ''
+    ]" 
+    @click="handler"
+  >
+    <slot v-if="naked" />
+    <div v-else class="a-inner">
+      <div>
+        <slot />
+      </div>
+    </div>
+    
   </div>
+</div>
 </template>
 
 <script>
+import clickHandler from '~/util/clickHandler'
+
+const ACTION_DELAY = 200 // small delay due to animation
 
 export default {
-  props: [ "disabled" ],
+  props: {
+    disabled: Boolean,
+    naked: Boolean,
+    action: Function,
+    submit: Boolean
+  },
   data(){
     return {
       shakeAnimation: false,
@@ -19,6 +39,38 @@ export default {
     }
   },
   methods: {
+    handler(){
+
+      clickHandler(() => {
+
+        if(this.disabled){
+          this.shake()
+
+          setTimeout(() => {
+            if(this.submit && this.$refs.btnsubmit)
+              this.$refs.btnsubmit.click()
+
+          }, ACTION_DELAY)
+        }
+        else{
+          this.press()
+
+          setTimeout(() => {
+            
+
+            if(this.submit && this.$refs.btnsubmit)
+              this.$refs.btnsubmit.click()
+            else if(this.action) 
+              this.action()
+            else
+              this.$emit('click')
+              
+          }, ACTION_DELAY)
+
+          
+        }
+      })
+    },
     shake(){
 
       if(this.shakeAnimation == true) return;
@@ -57,5 +109,16 @@ export default {
 .a-disabled{
   background-color: var(--c-green-3);
   box-shadow: none;
+}
+
+.a-inner{
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

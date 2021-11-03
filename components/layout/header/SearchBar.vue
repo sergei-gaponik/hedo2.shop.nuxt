@@ -1,5 +1,5 @@
 <template>
-  <div class="a-searchbar">
+  <div class="a-searchbar" :style="{ width }">
     <input 
       class="a-input"
       :value="value" 
@@ -19,6 +19,9 @@
 import SearchIcon from '~/components/icons/navigation/SearchIcon.vue'
 
 export default {
+  props: {
+    width: String
+  },
   components: { SearchIcon },
   computed: {
     value() {

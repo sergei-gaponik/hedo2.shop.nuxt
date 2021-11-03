@@ -1,10 +1,5 @@
 <template>
-  <div class="container-m">
-    <bread-crumbs 
-      :breadCrumbs="breadCrumbs"
-    />
-    <brands-page :brands="brands" />
-  </div>
+  <brands-page :brands="brands" />
 </template>
 
 <script>
@@ -17,7 +12,6 @@ export default {
   components: { PageTitleM, BrandsPage },
   data(){
     return { 
-      breadCrumbs: [],
       brands: []
     }
   },
@@ -30,22 +24,10 @@ export default {
       cache: true
     })
 
-    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
-    
     this.brands = data?.brands
 
-    if(this.brands){
-      
-      this.breadCrumbs = [
-        {
-          caption: this.$t("allProducts"),
-          href: this.localePath("/c/all")
-        },
-        {
-          caption: this.$t("brands")
-        }
-      ]
-    }
+    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
+
   }
 }
 </script>

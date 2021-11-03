@@ -2,8 +2,6 @@
   <check-box 
     :checked="checked"
     @input="v => handler(v)"
-    
-    ref="checkbox"
     required
   >
     <span>
@@ -33,8 +31,6 @@ export default {
   methods: {
     handler(v){
       if(this.lock) return;
-
-      this.$refs.checkbox.$el.querySelector('.a-container').style.borderColor = "var(--c-gray-3)"
 
       this.lock = true;
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="$device.isMobile">
-      <div class="a-button-container">
+      <div class="main-button-m">
         <add-to-cart-button 
           @action="addToCart" 
           :maxQuantity="maxQuantity"
@@ -15,14 +15,16 @@
         />
       </drawer-bottom-m>
     </div>
-    <div :class="$device.isMobile ? '' : 'a-grid'">
-      <div v-if="!$device.isMobile">
-        <pop-up :show="$store.state.nav.cartDrawerOpen">
-          <add-to-cart-page 
-            :product="product"
-            :variant="selectedVariant"
-          />
-        </pop-up>
+    <div :class="$device.isMobile ? '' : 'td-split'">
+      <div v-if="!$device.isMobile" class="td-split-sticky">
+        <portal to="body">
+          <pop-up :show="$store.state.nav.cartDrawerOpen" width="480px" height="600px">
+            <add-to-cart-page 
+              :product="product"
+              :variant="selectedVariant"
+            />
+          </pop-up>
+        </portal>
         <product-image-gallery :images="product.images" />
         <lazy-wrapper :loadingState="similarProductsLoadingState">
           <div v-if="similarProducts && similarProducts.length">
@@ -31,7 +33,7 @@
           </div>
         </lazy-wrapper>
       </div>
-      <div>
+      <div :class="$device.isMobile ? '' : 'td-split-sticky'">
         <product-image-gallery v-if="$device.isMobile" :images="product.images" />
         <div class="a-title mb2"> 
           <product-title :product="product" :fontSize=1.1 :infoTagBottom="!$device.isMobile" />
@@ -164,21 +166,9 @@ export default {
 
 
 <style scoped>
-.a-grid{
-  display: grid;
-  grid-template-columns: repeat(2, calc(50% - var(--padding-x-td)));
-  gap: calc(var(--padding-x-td) * 2);
-  box-sizing: border-box;
-}
 .a-title {
   text-align: center;
   margin-top: 10px;
-}
-.a-button-container{
-  position: fixed;
-  bottom: calc(var(--footer-y-m) + var(--gap));
-  z-index: 50;
-  width: calc(100% - (var(--padding-x-m) * 2));
 }
 .a-mb{
   margin-bottom: calc(var(--gap) + var(--button-y));

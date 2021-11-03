@@ -8,7 +8,7 @@
         {{ $t("noResults") }}
       </div>
       <div v-else>
-        <product-grid :products="products" class="mb2" :cols="$device.isMobile ? 2 : 3" />
+        <product-grid :products="products" class="mb2" :cols="cols" />
         <collection-pagination 
           :page="page"
           :totalPages="totalPages"
@@ -50,6 +50,14 @@ export default {
   computed: {
     totalPages(){
       return Math.ceil(this.ids.length / this.limit)
+    },
+    cols(){
+      if(this.$device.isMobile)
+        return 2
+      else if(this.$device.isTablet)
+        return 3
+      else
+        return 4
     }
   },
   methods: {

@@ -21,11 +21,22 @@ import CrossIcon from '~/components/icons/basic/CrossIcon.vue'
 
 export default {
   components: { CrossIcon },
-  props: ["show"],
+  props: {
+    show: Boolean,
+    confirmClose: Boolean
+  },
   methods: {
-    close(){
+    async close(){
+
+      if(this.confirmClose){
+        const confirmation = await this.$store.dispatch("confirmDialog/ask", this.$t("confirmPageClose"))
+        if(!confirmation) return;
+      }
+
+
       this.$store.commit("search/reset")
       this.$store.commit("nav/closeAllDrawers")
+      this.$emit("close")
     }
   }
 }

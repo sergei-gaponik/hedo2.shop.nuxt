@@ -24,7 +24,7 @@ export default {
       return `${Math.round(100 / (this.cols || 2))}%`
     },
     containerWidth(){
-      return `calc(${this.vw || 100}vw - calc(${this.$device.isMobile ? 'var(--padding-x-m)' : 'var(--padding-x-td)'} * 2)`
+      return "100%"//`calc(${this.vw || 100}vw - calc(${this.$device.isMobile ? 'var(--padding-x-m)' : 'var(--padding-x-td)'} * 2)`
     }
   }
 }

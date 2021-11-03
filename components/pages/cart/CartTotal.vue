@@ -1,5 +1,5 @@
 <template>
-  <div class="a-container">
+  <div class="panel a-container">
     <div class="a-line">
       <span>{{ $t("subtotal") }}:</span>
       <span>{{ money(subtotal) }}</span>
@@ -27,16 +27,19 @@
 import { GLOBAL } from '~/core/const'
 
 export default {
-  props: [ "cartItems" ],
+  props: {
+    cartItems: Array,
+    customShippingCost: Number
+  },
   computed: {
     subtotal(){
       return this.cartItems.reduce((acc, cur) => acc + (cur.price * cur.quantity), 0)
     },
     shippingCost(){
-      return this.subtotal >= GLOBAL.freeShippingMin ? 0 : GLOBAL.shippingCost
+      return this.customShippingCost != undefined ? this.customShippingCost : this.subtotal >= GLOBAL.freeShippingMin ? 0 : GLOBAL.shippingCost
     },
     vat(){
-      return this.subtotal - (this.subtotal / (1 + GLOBAL.vat))
+      return this.total - (this.total / (1 + GLOBAL.vat))
     },
     total(){
       return this.subtotal + this.shippingCost - this.discounts
@@ -55,11 +58,9 @@ export default {
 
 <style scoped>
 .a-container {
-  background-color: var(--c-gray-4);
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  padding: var(--padding);
 }
 .a-line {
   display: flex;

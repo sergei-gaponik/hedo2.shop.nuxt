@@ -5,7 +5,7 @@
       <div class="a-flex-item a-menu-bg">
         <menu-button height="22" color="#ffffff" px="15" py="0" :action="toggleMenuDrawer" />
       </div>
-      <div class="a-tags hide-scrollbar">
+      <div class="a-tags hide-scrollbar" v-if="$store.state.nav.footerTagsVisible">
         <footer-tag 
           v-for="(footerTag, i) in footerTags" 
           :key="i" 

@@ -1,6 +1,11 @@
 <template>
   <div v-if="state=='loading'"></div>
-  <div v-else-if="state=='error'" class="a-center"><error-icon /></div>
+  <div v-else-if="state=='error'">
+    <div class="center mb2">
+      <error-icon height=36 color="var(--c-gray-1)"/>
+    </div>
+    <div>{{ $t('error') }}</div>
+  </div>
   <div v-else-if="state=='notFound'">
     <div>
       404
@@ -22,9 +27,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.a-center{
-  text-align: center;
-}
-</style>

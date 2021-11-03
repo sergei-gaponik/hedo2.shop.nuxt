@@ -33,6 +33,11 @@ export default {
 
     this.product = r.data?.product || null
 
+    if(!this.product){
+      this.firstLoading = LoadingState.notFound
+      return;
+    }
+
     if(this.product.series){
 
       const r2 = await instanceHandler({
@@ -82,7 +87,7 @@ export default {
         }
       ]
     }
-    this.firstLoading = this.product ? LoadingState.ready : LoadingState.notFound
+    this.firstLoading = LoadingState.ready
 
   },
   data(){

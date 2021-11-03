@@ -10,6 +10,16 @@ export enum CartError {
   "error" = "error"
 }
 
+export enum PaymentMethod {
+  "creditcard" = "creditcard",
+  "googlepay" = "googlepay",
+  "amazonpay" = "amazonpay",
+  "applepay" = "applepay",
+  "paypal" = "paypal",
+  "paylater" = "paylater",
+  "sofort" = "sofort"
+}
+
 export interface Filter {
   _id: string
   title: string

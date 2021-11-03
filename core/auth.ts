@@ -1,7 +1,6 @@
-import Amplify, { Auth } from 'aws-amplify';
-import "@aws-amplify/ui-vue"
+import { Auth } from 'aws-amplify';
 
-Amplify.configure({
+const awsConfig = {
   Auth: {
     region: process.env.AWS_COGNITO_REGION,
     userPoolId: process.env.AWS_COGNITO_POOL_ID,
@@ -23,4 +22,8 @@ Amplify.configure({
     //     secure: true
     // },
   }
-});
+}
+
+Auth.configure(awsConfig)
+
+export default () => Auth

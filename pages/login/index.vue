@@ -1,10 +1,17 @@
 <template>
   <div :class="[$device.isMobile ? 'container-m' : 'container']">
-    <div v-if="page == 'forgotPassword'" class="a-page">
+    <div v-if="page == 'forgotPassword' || page == 'verifyEmail'" class="a-page">
       <forgot-password-page 
+        v-if="page == 'forgotPassword'"
         noAccountLink 
         @setPage="setPage" 
-        @success="$router.push(localePath('/me'))"
+        @success="success"
+      />
+      <verify-email-page 
+        v-if="page == 'verifyEmail'"
+        :email="email"
+        :password="password"
+        @success="success"
       />
     </div>
     <div v-else>
@@ -12,10 +19,11 @@
       <div :class="['a-container', $device.isMobile ? '' : 'a-td']">
         <sign-in-page 
           @setPage="setPage" 
-          @success="$router.push(localePath('/me'))"
+          @success="success"
+          @verifyEmail="verifyEmail"
         />
         <sign-up-page 
-          @success="$router.push(localePath('/me'))"
+          @success="verifyEmail"
         />
       </div>
     </div>
@@ -25,16 +33,39 @@
 <script lang="ts">
 import SignInPage from '~/components/pages/login/SignInPage.vue'
 import SignUpPage from '~/components/pages/login/SignUpPage.vue'
+import VerifyEmailPage from '~/components/pages/login/VerifyEmailPage.vue'
 import ForgotPasswordPage from '~/components/pages/login/ForgotPasswordPage.vue'
+import auth from '~/core/auth'
 
 export default {
-  components: { SignInPage, SignUpPage, ForgotPasswordPage },
+  components: { SignInPage, SignUpPage, VerifyEmailPage, ForgotPasswordPage },
+  async created(){
+    try{
+      await auth().currentAuthenticatedUser()
+      this.$router.push(this.localePath("/me"))
+    }
+    catch(e){
+
+    }
+  },
   data(){
     return {
-      page: null
+      page: null,
+      email: null,
+      password: null
     }
   },
   methods: {
+    success(){
+      localStorage.removeItem("checkoutInfo")
+      this.$store.commit("checkout/init")
+      this.$router.push(this.localePath('/me'))
+    },
+    verifyEmail({ email, password }){
+      this.setPage('verifyEmail')
+      this.email = email
+      this.password = password
+    },
     setPage(page){
       this.page = page
     }

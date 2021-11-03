@@ -3,18 +3,18 @@
   <h2>{{ $t('newCustomerCaption') }}</h2>
   <form @submit.prevent="submit">
     <div class="mb4">
-      <div class="a-grid">
+      <div class="grid-2-s">
         <text-input 
           type="text"
           :placeholder="$t('firstName')"
-          :caption="$t('firstName') + ' *'"
+          :caption="$t('firstName')"
           v-model="givenName"
           required
         />
         <text-input 
           type="text"
           :placeholder="$t('lastName')"
-          :caption="$t('lastName') + ' *'"
+          :caption="$t('lastName')"
           v-model="familyName"
           required
         />
@@ -22,24 +22,32 @@
       <text-input 
         type="email"
         :placeholder="$t('email')"
-        :caption="$t('email') + ' *'"
+        :caption="$t('email')"
         v-model="email"
         required
       />
       <text-input 
         type="password"
         :placeholder="$t('password')"
-        :caption="$t('password') + ' *'"
+        :caption="$t('password')"
         pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
         v-model="password"
         required
         :info="$t('passwordRequiredPattern')"
       />
+      <text-input
+        type="password"
+        :placeholder="$t('repeatPassword')"
+        :caption="$t('repeatPassword')"
+        v-model="repeatPassword"
+        required
+
+      />
     </div>
     <div class="mb4">
       <check-box v-model="privacyPolicyConsent" required>
         <span>
-          {{ $t("signUpPrivacyPolicy") + ' *' }}
+          {{ $t("signUpPrivacyPolicy") }}<span class="subdued"> *</span>
         </span>
         <nuxt-link :to="localePath('/privacy')" class="link-alt">
           {{ $t("moreDetails") }}
@@ -67,7 +75,7 @@
 import TextInput from '~/components/layout/inputs/TextInput.vue'
 import CheckBox from '~/components/layout/inputs/CheckBox.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
-import { Auth } from 'aws-amplify'
+import auth from '~/core/auth'
 import { sanitizeEmailAddress } from '~/util/email'
 
 export default {
@@ -79,6 +87,7 @@ export default {
     return {
       email: "",
       password: "",
+      repeatPassword: "",
       givenName: "",
       familyName: "",
       newsletterConsent: false,
@@ -87,13 +96,19 @@ export default {
   },
   methods: {
     async submit(){
+      const email = sanitizeEmailAddress(this.email)
       try{
         if(!this.privacyPolicyConsent){
           this.$store.dispatch("notifications/error", this.$t('signUpPrivacyPolicyNotAccepted'))
           return;
         }
-        await Auth.signUp({
-          username: sanitizeEmailAddress(this.email),
+        if(this.repeatPassword != this.password){
+          this.$store.dispatch("notifications/error", this.$t('passwordsDontMatch'))
+          return;
+        }
+
+        await auth().signUp({
+          username: email,
           password: this.password,
           attributes: {
             given_name: this.givenName,
@@ -107,12 +122,14 @@ export default {
         console.log(e)
         if(e.name == 'LimitExceededException')
           this.$store.dispatch("notifications/error", this.$t('limitExceededError'))
+        else if(e.name == 'UsernameExistsException')
+          this.$store.dispatch("notifications/error", this.$t('emailExists'))
         else
           this.$store.dispatch("notifications/error", this.$t('error'))
         return;
       }
       
-      this.$emit("success")
+      this.$emit("success", { email, password: this.password  })
     }
   }
 }
@@ -123,10 +140,5 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.a-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--gap-s);
 }
 </style>

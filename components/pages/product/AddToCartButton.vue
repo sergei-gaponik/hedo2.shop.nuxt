@@ -1,6 +1,6 @@
 <template>
 <client-only>
-  <main-button :ref="'addtocart' + _uid" :disabled="disabled">
+  <main-button :ref="'addtocart' + _uid" :disabled="disabled" naked>
     <div class="a-quantity-selector">
       <div class="a-iconbutton" @click="clickHandler(decQuantity)">
         <minus-icon height=24 :color="disabled ? 'var(--c-green-3)' : 'var(--c-green-2)'" />

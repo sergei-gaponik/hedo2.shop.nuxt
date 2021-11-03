@@ -1,65 +1,59 @@
 <template>
 <client-only>
   <div>
-    <div v-if="loginPage == 'signIn'">
-      <div :class="['mb4', $device.isMobile ? '' : 'a-td']">
-        <sign-in-page noAccountLink v-if="loginPage == 'signIn'" @setPage="setLoginPage"/>
-        <div class="divider" v-if="$device.isMobile"></div>
-        <div :class="[$device.isMobile ? '' : 'a-newcustomer-td']">
-          <h2>{{ $t('newCustomerCaption') }}</h2>
-          <div :class="['a-buttons', 'mt2', $device.isMobile ? 'mb2' : '' ]">
-            <primary-button :action="() => setLoginPage('signUp')">{{ $t('signUp') }}</primary-button>
-            <secondary-button>{{ $t('checkoutAsGuest') }}</secondary-button>
-          </div>
-          <nuxt-link v-if="$device.isMobile" class="link-h4" :to="localePath('/cart')">{{ $t('backToCart') }}</nuxt-link>
-        </div>
-      </div>
-      <nuxt-link v-if="!$device.isMobile" class="link-h4" :to="localePath('/cart')">{{ $t('backToCart') }}</nuxt-link>
-    </div>
-    <forgot-password-page noAccountLink v-if="loginPage == 'forgotPassword'" @setPage="setLoginPage"/>
-    <div v-if="loginPage == 'signUp'">
-      <page-title-m :title="$t('signUp')" backButton @back="setLoginPage('signIn')" />
-      <sign-up-page haveAnAccountLink @setPage="setLoginPage"/>
-    </div>
+    <checkout-progress @setStep="setStep" />
+    <checkout-step-1 v-if="$store.state.checkout.step == 1" @nextStep="setStep(2)"/>
+    <checkout-step-2 v-if="$store.state.checkout.step == 2" @nextStep="setStep(3)" />
+    <checkout-step-3 v-if="$store.state.checkout.step == 3" @nextStep="setStep(4)" />
+    <checkout-step-4 v-if="$store.state.checkout.step == 4" :isAuthenticated="isAuthenticated" />
   </div>
 </client-only>
 </template>
 
-<script>
-import SignInPage from '~/components/pages/login/SignInPage.vue'
-import SignUpPage from '~/components/pages/login/SignUpPage.vue'
-import ForgotPasswordPage from '~/components/pages/login/ForgotPasswordPage.vue'
-import PageTitleM from '~/components/layout/header/PageTitleM.vue'
-import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
-import SecondaryButton from '~/components/layout/buttons/SecondaryButton.vue'
-
+<script lang="ts">
+import CheckoutStep1 from './CheckoutStep1.vue'
+import CheckoutStep2 from './CheckoutStep2.vue'
+import CheckoutStep3 from './CheckoutStep3.vue'
+import CheckoutStep4 from './CheckoutStep4.vue'
+import CheckoutProgress from './CheckoutProgress.vue'
+import auth from '~/core/auth'
 
 export default {
-  components: { SignInPage, SignUpPage, ForgotPasswordPage, PageTitleM, PrimaryButton, SecondaryButton },
+  components: { CheckoutStep1, CheckoutStep2, CheckoutStep3, CheckoutStep4, CheckoutProgress },
   data(){
     return {
-      loginPage: "signIn"
+      isAuthenticated: false,
+      lineItems: [],
+      ready: false
     }
   },
   methods: {
-    setLoginPage(page){
-      this.loginPage = page
+    setStep(step){
+      if(this.isAuthenticated && step < 3) return;
+
+      this.$store.commit('checkout/setStep', step)
     }
   },
-  watch: {
-    loginPage(v){
-      console.log(v)
+  async created(){
+
+    if(!process.client) return;
+
+    this.$store.commit("cart/init")
+    this.$store.commit("checkout/init")
+
+    try{
+      await auth().currentAuthenticatedUser()
+      this.isAuthenticated = true
+      this.$store.commit('checkout/setStep', 2)
     }
+    catch(e){
+    }
+    this.ready = true
   }
 }
 </script>
 
 <style scoped>
-.a-buttons{
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap)
-}
 .a-td{
   display: grid;
   gap: calc(var(--padding-x-td) * 2);

@@ -1,9 +1,16 @@
 <template>
 <div>
   <div class="mb2">
-    <primary-button :to="localePath('/login')">
-      {{ $t('login') }}
-    </primary-button>
+    <div v-if="!isAuthenticated">
+      <primary-button :to="localePath('/login')">
+        {{ $t('signIn') }}
+      </primary-button>
+    </div>
+    <div v-else>
+      <nuxt-link :to="localePath('/me')" @click.native="$store.commit('nav/closeAllDrawers')">
+        <h6 class="a-greeting">{{ $t('welcomeBack') + ' ' + firstName }}</h6>
+      </nuxt-link>
+    </div>
   </div>
 
   <div class="a-items">
@@ -38,15 +45,15 @@
 
 <script>
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
-import ExpandLessIcon from '~/components/icons/arrows/ExpandLessIcon.vue'
 import ExpandMoreIcon from '~/components/icons/arrows/ExpandMoreIcon.vue'
 import { LoadingState } from '~/types'
 import instanceHandler from '~/core/instanceHandler'
 import clickHandler from '~/util/clickHandler'
 import SubItem from './SubItem.vue'
+import auth from '~/core/auth'
 
 export default {
-  components: { PrimaryButton, ExpandLessIcon, ExpandMoreIcon, SubItem },
+  components: { PrimaryButton, ExpandMoreIcon, SubItem },
   methods: {
     clickHandler,
     toggleItem(handle){
@@ -68,10 +75,23 @@ export default {
         this.$router.push(this.localePath('/c/' + menuItem.handle))
     }
   },
+  async created(){
+    try{
+      const { attributes } = await auth().currentAuthenticatedUser()
+
+      this.firstName = attributes.given_name
+      this.isAuthenticated = true
+    }
+    catch(e){
+    }
+
+  },
   data(){
     return {
       menuItems: [],
-      expanded: []
+      expanded: [],
+      isAuthenticated: false,
+      firstName: ""
     }
   },
   async fetch(){
@@ -148,6 +168,10 @@ export default {
 </script>
 
 <style scoped>
+.a-greeting{
+  letter-spacing: 0.1em;
+  color: var(--c-gray-2)
+}
 .a-item{
   border-top: 1px solid var(--c-gray-3);
   padding: 0 calc(var(--padding) * 1.5);

@@ -1,7 +1,8 @@
 export const state = () => ({
   menuDrawerOpen: false,
   filterDrawerOpen: false,
-  cartDrawerOpen: false
+  cartDrawerOpen: false,
+  footerTagsVisible: true
 })
 
 export const mutations = {
@@ -45,5 +46,9 @@ export const mutations = {
 
   hideLoginForm(_state){
     _state.loginFormOpen = false
+  },
+
+  setFooterTagsVisible(_state, footerTagsVisible){
+    _state.footerTagsVisible = footerTagsVisible
   }
 }

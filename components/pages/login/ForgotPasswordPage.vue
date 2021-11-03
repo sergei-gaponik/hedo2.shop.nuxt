@@ -9,7 +9,7 @@
       <text-input 
         type="email"
         :placeholder="$t('email')"
-        :caption="$t('email') + ' *'"
+        :caption="$t('email')"
         v-model="email"
         required
       />
@@ -32,18 +32,25 @@
       <text-input 
         type="text"
         :placeholder="$t('verificationCode')"
-        :caption="$t('verificationCode') + ' *'"
+        :caption="$t('verificationCode')"
         v-model="verificationCode"
         required
       />
       <text-input 
         type="password"
         :placeholder="$t('newPassword')"
-        :caption="$t('newPassword') + ' *'"
+        :caption="$t('newPassword')"
         v-model="newPassword"
         required
         pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
         :info="$t('passwordRequiredPattern')"
+      />
+      <text-input 
+        type="password"
+        :caption="$t('repeatNewPassword')"
+        :placeholder="$t('repeatNewPassword')"
+        required
+        v-model="repeatPassword"
       />
     </div>
     <div class="a-actions">
@@ -57,7 +64,7 @@
 <script>
 import TextInput from '~/components/layout/inputs/TextInput.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
-import { Auth } from 'aws-amplify'
+import auth from '~/core/auth'
 import { sanitizeEmailAddress } from '~/util/email'
 
 export default {
@@ -79,7 +86,7 @@ export default {
 
       try{
         this.$store.commit("loadingState/isLoading")
-        await Auth.forgotPassword(email)
+        await auth().forgotPassword(email)
         this.$store.commit("loadingState/isReady")
       }
       catch(e){
@@ -97,9 +104,14 @@ export default {
       const email = sanitizeEmailAddress(this.email)
 
       try{
+        if(this.repeatPassword != this.newPassword){
+          this.$store.dispatch("notifications/error", this.$t('passwordsDontMatch'))
+          return;
+        }
+
         this.$store.commit("loadingState/isLoading")
-        await Auth.forgotPasswordSubmit(email, this.verificationCode, this.newPassword)
-        await Auth.signIn(email, this.newPassword)
+        await auth().forgotPasswordSubmit(email, this.verificationCode, this.newPassword)
+        await auth().signIn(email, this.newPassword)
         this.$store.commit("loadingState/isReady")
       }
       catch(e){

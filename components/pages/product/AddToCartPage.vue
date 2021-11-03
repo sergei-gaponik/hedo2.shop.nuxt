@@ -4,19 +4,12 @@
       <success-icon height=112 color="var(--c-green-2)" class="a-icon a-icon-animation" />
       <h4 class="a-caption">{{ $t("addedToCart") }}</h4>
     </div>
-    <div class="a-product">
-      <div>
-        <product-image :src="image" />
-      </div>
-      <div @click="continueShopping()">
-        <product-title 
-          :product="product"
-          :hideInfoTag="true"
-          :hidePrice="true"
-          :customTag="customTag"
-        />
-      </div>
-    </div>
+    <product-item 
+      :product="product" 
+      :variant="variant" 
+      hidePrice
+      @click="continueShopping()"
+    />
     <div class="a-buttons">
       <secondary-button :action="continueShopping">{{ $t("continueShopping") }}</secondary-button>
       <primary-button :action="goToCart">{{ $t("goToCart") }}</primary-button>
@@ -28,38 +21,24 @@
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
 import SecondaryButton from '~/components/layout/buttons/SecondaryButton.vue'
 import SuccessIcon from '~/components/icons/status/SuccessIcon.vue'
-import ProductImage from './ProductImage.vue'
+import ProductItem from './ProductItem.vue'
 
 export default {
-  components: { PrimaryButton, SecondaryButton, SuccessIcon, ProductImage },
+  components: { PrimaryButton, SecondaryButton, SuccessIcon, ProductItem },
   props: [ "product", "variant" ],
   methods: {
     continueShopping(){
       this.$store.commit('nav/closeAllDrawers')
-
     },
     goToCart(){
       this.$store.commit('nav/closeAllDrawers')
       this.$router.push(this.localePath('/cart'))
-    }
-  },
-  computed: {
-    image(){
-      return this.variant.images?.length ? this.variant.images[0].src : this.product.images[0].src
-    },
-    customTag(){
-      return this.variant.title || ""
     }
   }
 }
 </script>
 
 <style scoped>
-.a-product{
-  display: grid;
-  grid-template-columns: 100px auto;
-  cursor: pointer;
-}
 .a-page{
   display: flex;
   justify-content: space-around;

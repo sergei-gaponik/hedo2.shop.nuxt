@@ -1,6 +1,8 @@
 <template>
   <div class="a-container">
-    <span v-if="caption" class="a-caption">{{ caption }}</span>
+    <span v-if="caption" class="a-caption">{{ caption  }}
+      <span v-if="!hideRequiredInfo" class="subdued">{{ required ? ' *' : ' (optional)' }}</span>
+    </span>
     <div class="a-input-container">
       <input 
         class="a-input"
@@ -39,6 +41,7 @@ export default {
   },
   props: {
     required: Boolean,
+    hideRequiredInfo: Boolean,
     value: String,
     placeholder: String,
     caption: String,
@@ -95,6 +98,7 @@ export default {
   border: 1px solid var(--c-gray-3);
   height: var(--text-input-y);
   width: 100%;
+  background-color: white;
   border-radius: var(--default-border-radius);
 }
 .a-input:focus{

@@ -1,11 +1,9 @@
 <template>
-  <div :class="$device.isMobile ? 'container-m' : 'container'">
+  <div v-if="ready">
     <client-only>
-      <div v-if="emailVerified">
+      <div>
         <profile-page-m v-if="$device.isMobile" />
-      </div>
-      <div v-else>
-        <verify-email-page />
+        <profile-page v-else />
       </div>
     </client-only>
   </div>
@@ -13,24 +11,32 @@
 
 <script lang="ts">
 import ProfilePageM from '~/components/pages/profile/ProfilePageM.vue'
+import ProfilePage from '~/components/pages/profile/ProfilePage.vue'
 import PageTitleM from '~/components/layout/header/PageTitleM.vue'
-import { Auth } from 'aws-amplify'
-import VerifyEmailPage from '~/components/pages/profile/VerifyEmailPage.vue'
+import auth from '~/core/auth'
 
 export default {
-  components: { ProfilePageM, PageTitleM, VerifyEmailPage },
+  components: { ProfilePageM, ProfilePage, PageTitleM },
   data(){
     return {
-      emailVerified: false
+      emailVerified: false,
+      ready: false
     }
   },
   async created(){
     
     if(!process.client) return;
 
-    const { attributes } = await Auth.currentAuthenticatedUser();
+    try{
+      const { attributes } = await auth().currentAuthenticatedUser();
 
-    this.emailVerified = attributes.email_verified
+      this.emailVerified = attributes.email_verified
+    }
+    catch(e){
+      this.$router.push(this.localePath("/login"))
+    }
+
+    this.ready = true
   }
 }
 </script>

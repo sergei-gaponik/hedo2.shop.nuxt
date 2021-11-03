@@ -30,8 +30,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/VueClickOutside.ts',
-    { src: '~/plugins/AWSAmplify.ts', mode: 'client' }
-
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,6 +44,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    'portal-vue/nuxt',
     ['nuxt-lazy-load', {
       directiveOnly: true
     }],
@@ -65,13 +64,13 @@ export default {
           file: 'de.js',
           deliveryTime: [ 1, 3 ]
         },
-        {
-          code: 'cz',
-          numberFormat: 'cs-CZ',
-          currency: "CZK",
-          file: 'en.js',
-          deliveryTime: [ 2, 5 ]
-        }
+        // {
+        //   code: 'cz',
+        //   numberFormat: 'cs-CZ',
+        //   currency: "CZK",
+        //   file: 'en.js',
+        //   deliveryTime: [ 2, 5 ]
+        // }
       ],
       lazy: true,
       langDir: 'lang/',

@@ -1,5 +1,5 @@
 <template>
-<div class="a-flex">
+<div :class="['a-flex', center ? 'a-flex-center' : '']">
   <div :class="['a-container', small ? 'a-small' : '']">
     <input 
       type="checkbox"
@@ -28,7 +28,7 @@ export default {
     required: Boolean,
     checked: Boolean,
     small: Boolean,
-    caption: String
+    center: Boolean
   },
   data(){
     return {
@@ -47,6 +47,9 @@ export default {
   gap: var(--gap);
   flex-wrap: nowrap;
   margin-bottom: var(--default-margin);
+}
+.a-flex-center{
+  align-items: center;
 }
 .a-container {
   flex-shrink: 0;

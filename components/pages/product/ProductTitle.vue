@@ -6,19 +6,22 @@
     <div class="text a-info" v-else-if="specialOffer">{{ $t("sale") }}</div> 
   </div>
   <div class="text a-brand">{{ product.brand.name }}</div>
-  <div class="text a-title">
+  <div class="text product-title">
     <span class="bold">{{ product.series ? product.series.name : "" }}</span>
     <span>{{ product.name }}</span>
   </div>
   <div :class="['a-variants', 'mb', center ? 'a-variants-center' : '']">
     <tag v-for="(caption, i) in variantCaptions" :caption="caption" :key="i" />
+    <div class="text bold a-pricecaption">
+      {{ altPriceCaption }}
+    </div>
   </div>
   <div class="a-info-wrapper a-info-bottom mb" v-if="!hideInfoTag && infoTagBottom && (outOfStock || specialOffer)">
     <div class="text a-info a-outofstock" v-if="outOfStock">{{ $t("outOfStock") }}</div> 
     <div class="text a-info" v-else-if="specialOffer">{{ $t("sale") }}</div> 
   </div>
   <div v-if="!hidePrice">
-    <div class="text a-price">
+    <div class="text price">
       <span class="bold">{{ priceCaption }}</span>
       <span v-if="freeShipping">{{ $t("freeShipping") }}</span>
       <span v-else>{{ $t("excludingShipping") }}</span>
@@ -43,6 +46,7 @@ export default {
     customPrice: Number,
     customTag: String,
     fontSize: Number,
+    altPriceCaption: String,
   },
   computed: {
     outOfStock(){
@@ -126,13 +130,6 @@ export default {
   border-color: var(--c-gray-2);
   color: var(--c-gray-2);
 }
-.a-title {
-  height: 2.9em;
-  overflow: hidden;
-  color: var(--c-green-1);
-  font-size: 1em;
-  line-height: 1.5em;
-}
 
 .a-brand {
   letter-spacing: 0.1em;
@@ -143,9 +140,10 @@ export default {
   line-height: 1.5em;
 }
 
-.a-price {
+.a-pricecaption{
   letter-spacing: 0.1em;
   font-size: 1em;
   line-height: 1.5em;
+  margin-left: auto;
 }
 </style>
