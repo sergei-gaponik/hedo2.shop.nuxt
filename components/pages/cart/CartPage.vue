@@ -15,11 +15,12 @@
         </div>
         <div :class="!$device.isMobile ? 'td-split-sticky' : ''">
             <cart-total class="mb2" :cartItems="cartItems" />
-            <div :class="$device.isMobile ? 'main-button-m' : ''">
+            <div :class="$device.isMobile ? 'main-button-m' : 'mb4'">
               <main-button :disabled="cartEmpty" @click="checkout()">
                 {{ $t("checkout") }}
               </main-button>
             </div>
+            <payment-methods />
         </div>
       </div>
       <div class="a-mb"></div>
@@ -38,9 +39,10 @@ import instanceHandler from '~/core/instanceHandler'
 import { LoadingState, LineItem } from '~/types'
 import { decodeToken } from '~/util/jwt'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
+import PaymentMethods from '~/components/pages/product/PaymentMethods.vue'
 
 export default {
-  components: { CartItem, MainButton, CartTotal, LazyWrapper },
+  components: { PaymentMethods, CartItem, MainButton, CartTotal, LazyWrapper },
   computed: {
     cartItems(){
       return this.$store.state.cart.lineItems.map(lineItem => ({

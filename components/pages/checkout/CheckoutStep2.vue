@@ -55,11 +55,15 @@ export default {
     try{
 
       const { attributes } = await auth().currentAuthenticatedUser()
-      
+
       this.setContactInfo('email', attributes.email)
+      this.setContactInfo('isAuthenticated', true)
+      this.setContactInfo('username', attributes.sub)
       this.$emit('nextStep')
     }
     catch(e){
+      this.setContactInfo('isAuthenticated', false)
+
     }
     this.ready = true
   }

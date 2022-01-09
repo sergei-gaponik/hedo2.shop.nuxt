@@ -2,13 +2,16 @@ import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
 import Vue from 'vue'
 import { CartError, LineItem } from '~/types'
+import { GLOBAL } from '~/core/const'
+
+export const state = () => ({
+  lineItems: [] as LineItem[]
+})
 
 const save = lineItems => {
   localStorage.setItem('lineItems', JSON.stringify(lineItems))
 }
-export const state = () => ({
-  lineItems: [] as LineItem[]
-})
+
 
 export const mutations = {
 
@@ -51,12 +54,17 @@ export const mutations = {
   removeLineItem(_state, variantId){
     _state.lineItems = _state.lineItems.filter(a => a.variant != variantId)
     save(_state.lineItems)
+  },
+
+  reset(_state){
+    localStorage.removeItem('lineItems')
+    _state.lineItems = []
   }
 }
 
 export const actions = {
 
-  async addToCart(context, { variant, product, quantity, price, maxQuantity }){
+  async addToCart(context, { variant, product, quantity, price, maxQuantity, specialTaxRate }){
 
     context.commit("init")
 
@@ -91,7 +99,7 @@ export const actions = {
 
     const token = r.data.tokens[0]
 
-    context.commit('addLineItem', { variant, quantity, price, maxQuantity, product, token })
+    context.commit('addLineItem', { variant, quantity, price, maxQuantity, product, token, specialTaxRate })
 
     return null;
   },

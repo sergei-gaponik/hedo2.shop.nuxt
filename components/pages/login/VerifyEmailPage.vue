@@ -44,7 +44,7 @@ export default {
     async resend(){
       try {
         await auth().resendSignUp(this.email);
-        this.$store.dispatch("notifications/error", this.$t('resendCodeSuccess'))
+        this.$store.dispatch("notifications/success", this.$t('resendCodeSuccess'))
       } catch (e) {
         console.log(e)
         this.$store.dispatch("notifications/error", this.$t('error'))
@@ -63,6 +63,8 @@ export default {
 
         if(e.name == "CodeMismatchException")
           this.$store.dispatch("notifications/error", this.$t('codeMismatchError'))
+        else if(e.name == "ExpiredCodeException")
+          this.$store.dispatch("notifications/error", this.$t('codeExpiredError'))
         else if(e.name == 'LimitExceededException')
           this.$store.dispatch("notifications/error", this.$t('limitExceededError'))
         else

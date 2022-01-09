@@ -147,9 +147,9 @@ export default {
         zipCode: "",
         city: "",
         country: "DE",
-        defaultShippingAddress: true,
+        defaultShippingAddress: !this.guestCheckout,
         deliveryInstruction: "",
-        defaultBillingAddress: true
+        defaultBillingAddress: !this.guestCheckout
       }
     }
   },

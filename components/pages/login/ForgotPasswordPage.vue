@@ -66,9 +66,10 @@ import TextInput from '~/components/layout/inputs/TextInput.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
 import auth from '~/core/auth'
 import { sanitizeEmailAddress } from '~/util/email'
+import PageTitleM from '~/components/layout/header/PageTitleM.vue'
 
 export default {
-  components: { TextInput, PrimaryButton },
+  components: { TextInput, PrimaryButton, PageTitleM },
   props: {
     noAccountLink: Boolean
   },
@@ -119,6 +120,8 @@ export default {
 
         if(e.name == "CodeMismatchException")
           this.$store.dispatch("notifications/error", this.$t('codeMismatchError'))
+        else if(e.name == "ExpiredCodeException")
+          this.$store.dispatch("notifications/error", this.$t('codeExpiredError'))
         else if(e.name == 'LimitExceededException')
           this.$store.dispatch("notifications/error", this.$t('limitExceededError'))
         else

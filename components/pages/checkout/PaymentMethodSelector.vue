@@ -6,7 +6,7 @@
       :class="['a-item', value == paymentMethod.key ? 'a-item-selected' : '']"
       @click="$emit('input', paymentMethod.key)"
     >
-      <div>
+      <div class="a-caption">
         <radio-button 
           :value="paymentMethod.key"
           :curValue="value"
@@ -16,15 +16,15 @@
           <div>{{ paymentMethod.title }}</div>
         </radio-button>
       </div>
-      <div>
-        <amazon-pay-icon height=24 v-if="paymentMethod.key == 'amazonpay'" />
+      <div class="a-icons">
         <american-express-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
-        <apple-pay-icon height=24 v-if="paymentMethod.key == 'applepay'" />
-        <google-pay-icon height=24 v-if="paymentMethod.key == 'googlepay'" />
         <klarna-icon height=24 v-if="paymentMethod.key == 'sofort' || paymentMethod.key == 'paylater'" />
         <mastercard-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
-        <pay-pal-icon height=24 v-if="paymentMethod.key == 'paypal'" />
         <visa-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
+        <sofort-icon height=24 v-if="paymentMethod.key == 'sofort'" />
+
+        <!-- <apple-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
+        <google-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" /> -->
       </div>
     </div>
   </div>
@@ -40,10 +40,11 @@ import MastercardIcon from '~/components/icons/payment/MastercardIcon.vue'
 import PayPalIcon from '~/components/icons/payment/PayPalIcon.vue'
 import VisaIcon from '~/components/icons/payment/VisaIcon.vue'
 import RadioButton from '~/components/layout/inputs/RadioButton.vue'
+import SofortIcon from '~/components/icons/payment/SofortIcon.vue'
 import { PaymentMethod } from '~/types'
 
 export default {
-  components: { RadioButton, AmazonPayIcon, AmericanExpressIcon, ApplePayIcon, GooglePayIcon, KlarnaIcon, MastercardIcon, PayPalIcon, VisaIcon },
+  components: { SofortIcon, RadioButton, AmazonPayIcon, AmericanExpressIcon, ApplePayIcon, GooglePayIcon, KlarnaIcon, MastercardIcon, PayPalIcon, VisaIcon },
   model: {
     prop: "value",
     event: "input"
@@ -63,24 +64,8 @@ export default {
       },
       {
         key: PaymentMethod.sofort,
-        title: "Sofort"
-      },
-      {
-        key: PaymentMethod.paypal,
-        title: "PayPal"
-      },
-      {
-        key: PaymentMethod.amazonpay,
-        title: "Amazon Pay"
-      },
-      {
-        key: PaymentMethod.applepay,
-        title: "Apple Pay"
-      },
-      {
-        key: PaymentMethod.googlepay,
-        title: "Google Pay"
-      },
+        title: this.$t('directPayment')
+      }
     ]
 
     return {
@@ -92,15 +77,26 @@ export default {
 
 <style scoped>
 .a-item{
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
   user-select: none;
   width: calc(100% - var(--padding) * 2);
-  justify-content: space-between;
   border-radius: var(--default-border-radius);
   padding: var(--padding);
   border: 1px solid white;
 }
 .a-item-selected{
   border-color: var(--c-gray-3);
+}
+.a-icons{
+  display: flex;
+  justify-content: right;
+  flex-wrap: wrap;
+  gap: var(--gap-s);
+}
+.a-caption{
+  display: flex;
+  align-items: center;
+  line-height: 1.5rem;
 }
 </style>

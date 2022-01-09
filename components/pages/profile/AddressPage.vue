@@ -23,7 +23,10 @@
       </div>
     </div>
     <div v-if="addresses.length > 3" class="mb2">
-      <span class="link-h4" @click="clickHandler(toggleShowMoreAddresses)">{{ showMoreAddresses ? $t('showLess') : $t('showAll') }}</span>
+      <show-more 
+        v-model="showMoreAddresses"
+        :showMoreCaption="$t('showAll')"
+      />
     </div>
 
     <icon-button :caption="$t('addAddress')" @click="showUpdateAddressDrawer()">
@@ -45,9 +48,10 @@ import { getIdToken } from '~/util/auth'
 import AddressInfo from './AddressInfo.vue'
 import PopUp from '~/components/layout/misc/PopUp.vue'
 import clickHandler from '~/util/clickHandler'
+import ShowMore from '~/components/layout/common/ShowMore.vue'
 
 export default {
-  components: { IconButton, DrawerBottomM, UpdateAddressPage, LazyWrapper, AddressInfo, AddIcon, PopUp },
+  components: { IconButton, DrawerBottomM, UpdateAddressPage, LazyWrapper, AddressInfo, AddIcon, PopUp, ShowMore },
   fetchOnServer: false,
   async fetch(){
 
@@ -103,9 +107,6 @@ export default {
     editAddress(address){
       this.selectedAddress = address
       this.updateAddressDrawerVisible = true
-    },
-    toggleShowMoreAddresses(){
-      this.showMoreAddresses = !this.showMoreAddresses
     },
     clickHandler
   }

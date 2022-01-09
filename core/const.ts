@@ -4,5 +4,5 @@ export const GLOBAL = {
   shippingCost: 3.95,
   vat: 0.19,
   defaultPaginationLimit: 24,
-  cartItemValidFor: 60
+  cartItemValidFor: 3600
 }

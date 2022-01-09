@@ -44,10 +44,13 @@ export default {
     try{
       await auth().currentAuthenticatedUser()
       this.isAuthenticated = true
-      this.$store.commit('checkout/setStep', 2)
+
+      if(this.$store.state.checkout.step <= 1)
+        this.$store.commit('checkout/setStep', 2)
     }
     catch(e){
     }
+
     this.ready = true
   }
 }

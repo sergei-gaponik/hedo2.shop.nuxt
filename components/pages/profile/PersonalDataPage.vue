@@ -193,6 +193,8 @@ export default {
     },
     async signOut(){
       await auth().signOut()
+      localStorage.removeItem("checkoutInfo")
+      this.$store.commit("checkout/init")
       this.$router.push(this.localePath('/login'))
     }
   }

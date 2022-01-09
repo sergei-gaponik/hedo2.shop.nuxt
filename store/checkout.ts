@@ -9,7 +9,9 @@ const defaultState = {
   },
   contactInfo: {
     privacyPolicyAccepted: false,
-    email: ""
+    email: "",
+    isAuthenticated: false,
+    username: ""
   },
   paymentInfo: {
     paymentMethod: PaymentMethod.creditcard
@@ -24,20 +26,23 @@ const save = _state => {
   localStorage.setItem('checkoutInfo', JSON.stringify(_state))
 }
 
+const _init = _state => {
+  let checkoutInfo = defaultState
+
+  if(localStorage.hasOwnProperty('checkoutInfo'))
+    checkoutInfo = JSON.parse(localStorage.getItem("checkoutInfo"))
+
+  _state.shippingInfo = checkoutInfo.shippingInfo
+  _state.contactInfo = checkoutInfo.contactInfo
+  _state.paymentInfo = checkoutInfo.paymentInfo
+  _state.furthestStep = checkoutInfo.furthestStep
+  _state.step = checkoutInfo.step
+}
+
 export const mutations = {
 
   init(_state){
-
-    let checkoutInfo = defaultState
-
-    if(localStorage.hasOwnProperty('checkoutInfo'))
-      checkoutInfo = JSON.parse(localStorage.getItem("checkoutInfo"))
-
-    _state.shippingInfo = checkoutInfo.shippingInfo
-    _state.contactInfo = checkoutInfo.contactInfo
-    _state.paymentInfo = checkoutInfo.paymentInfo
-    _state.furthestStep = checkoutInfo.furthestStep
-    _state.step = checkoutInfo.step
+    _init(_state)
   },
 
   setContactInfo(_state, [ attribute, value ]){
@@ -61,5 +66,10 @@ export const mutations = {
     _state.furthestStep = Math.max(step, _state.furthestStep)
 
     save(_state)
+  },
+
+  reset(_state){
+    localStorage.removeItem('checkoutInfo')
+    _init(_state)
   }
 }

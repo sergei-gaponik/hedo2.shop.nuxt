@@ -1,9 +1,12 @@
 <template>
-  <pop-up :show="$store.state.confirmDialog.visible" height="min-content" width="90%" maxWidth="420px" zIndex="10000">
+  <pop-up 
+    :show="$store.state.confirmDialog.visible" 
+    @close="_resolve(false)"
+    height="min-content" width="90%" maxWidth="420px" zIndex="10000"
+  >
     <div class="container">
       <div class="mb4">
         <h4>{{ $store.state.confirmDialog.message }}</h4>
-        
       </div>
       <div class="btn-group-h">
         <primary-button @click="_resolve(true)">{{ $t('ok') }}</primary-button>

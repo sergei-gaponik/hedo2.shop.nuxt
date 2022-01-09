@@ -2,11 +2,17 @@
   <lazy-wrapper>
     <div class="a-items mb4">
       <product-item 
-        v-for="cartItem in cartItems"
+        v-for="cartItem in visibleCartItems"
         :key="cartItem.variant._id"
         :product="cartItem.product"
         :variant="cartItem.variant"
         :quantity="cartItem.quantity"
+      />
+      <show-more 
+        v-if="cartItems.length > 3"
+        class="mt2"
+        v-model="showAll"
+        :showMoreCaption="$t('showAllNItems').replace('{n}', cartItems.length)"
       />
     </div>
     <cart-total 
@@ -24,13 +30,20 @@ import { LoadingState } from '~/types'
 import ProductItem from '~/components/pages/product/ProductItem.vue'
 import CartTotal from '~/components/pages/cart/CartTotal.vue'
 import AddressInfo from '~/components/pages/profile/AddressInfo.vue'
+import ShowMore from '~/components/layout/common/ShowMore.vue'
 
 export default {
   props: {
     isAuthenticated: Boolean
   },
-  components: { LazyWrapper, ProductItem, CartTotal, AddressInfo },
+  components: { LazyWrapper, ProductItem, CartTotal, AddressInfo, ShowMore },
   computed: {
+    visibleCartItems(){
+      if(this.showAll)
+        return this.cartItems
+      else
+        return this.cartItems.slice(0, 3)
+    },
     subTotal(){
       return this.lineItems.reduce((acc, cur) => acc + (cur.price * cur.quantity), 0)
     },
@@ -87,10 +100,16 @@ export default {
     this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
 
   },
+  methods: {
+    toggleShowAll(){
+      this.showAll = !this.showAll
+    }
+  },
   data(){
     return {
       variants: [],
-      products: []
+      products: [],
+      showAll: false
     }
   }
 }

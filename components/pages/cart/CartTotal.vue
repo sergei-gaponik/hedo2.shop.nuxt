@@ -39,7 +39,7 @@ export default {
       return this.customShippingCost != undefined ? this.customShippingCost : this.subtotal >= GLOBAL.freeShippingMin ? 0 : GLOBAL.shippingCost
     },
     vat(){
-      return this.total - (this.total / (1 + GLOBAL.vat))
+      return this.cartItems.reduce((acc, cur) => acc + cur.price * (cur.variant.specialTaxRate || GLOBAL.vat) * cur.quantity, 0)
     },
     total(){
       return this.subtotal + this.shippingCost - this.discounts

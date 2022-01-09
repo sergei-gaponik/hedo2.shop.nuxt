@@ -12,9 +12,7 @@ export enum CartError {
 
 export enum PaymentMethod {
   "creditcard" = "creditcard",
-  "googlepay" = "googlepay",
   "amazonpay" = "amazonpay",
-  "applepay" = "applepay",
   "paypal" = "paypal",
   "paylater" = "paylater",
   "sofort" = "sofort"
@@ -39,4 +37,5 @@ export interface LineItem {
   price: number
   quantity: number
   token: string
+  specialTaxRate: number
 }

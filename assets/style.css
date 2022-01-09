@@ -10,6 +10,7 @@
   --c-green-2: #9bc7a1;
   --c-green-3: #c3ddc6;
   --c-blue-1: #61929b;
+  --c-blue-2: #d5e2e4;
   --c-brown-1: #a17c5e;
   --c-brown-2: #928173;
   --c-red-1: #B45F5B;
@@ -252,7 +253,7 @@ a {
   gap: var(--gap)
 }
 
-.btn-group-h{
+.btn-group-h, .flex-h, .flex{
   display: flex;
   flex-direction: row;
   gap: var(--gap)

@@ -6,6 +6,7 @@ interface InstanceHandlerResponse {
   data?: any
   errors?: string[]
   bulk?: InstanceHandlerResponse[]
+  chronological?: boolean
 }
 
 interface InstanceAPIRequest {

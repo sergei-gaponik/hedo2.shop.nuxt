@@ -52,9 +52,9 @@
           @action="addToCart" 
           :maxQuantity="maxQuantity"
           :selectedVariant="selectedVariant"
-          class="mb4 mt4"
+          class="mt4"
         />
-        <payment-methods/>
+        <payment-methods class="mt4 mb4" />
 
         <lazy-wrapper :loadingState="similarProductsLoadingState" v-if="$device.isMobile">
           <div v-if="similarProducts && similarProducts.length">
@@ -62,6 +62,7 @@
             <product-list-horizontal :products="similarProducts" />
           </div>
         </lazy-wrapper>
+        
         <div class="a-mb"></div>
       </div>
     </div>
@@ -95,10 +96,11 @@ export default {
       const product = this.product._id
       const price = this.selectedVariant.price
       const maxQuantity = this.maxQuantity
+      const specialTaxRate = this.selectedVariant.specialTaxRate
 
       this.$store.commit("loadingState/setLoadingState", LoadingState.loading)
 
-      const r = await this.$store.dispatch("cart/addToCart", { variant, product, quantity, price, maxQuantity })
+      const r = await this.$store.dispatch("cart/addToCart", { variant, product, quantity, price, maxQuantity, specialTaxRate })
 
       this.$store.commit("loadingState/setLoadingState", LoadingState.ready)
 

@@ -1,12 +1,14 @@
 const dotenv = require("dotenv").config()
 
+const env = dotenv.parsed
+
 export default {
 
-  env: dotenv.parsed,
+  env: env,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt',
+    title: 'HEDO Beauty - Pflege aus dem Kosmetikinstitut',
     htmlAttrs: {
       lang: 'en'
     },
@@ -19,6 +21,9 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" }
+    ],
+    script: [
+      { src: 'https://js.stripe.com/v3/', async: true },
     ]
   },
 

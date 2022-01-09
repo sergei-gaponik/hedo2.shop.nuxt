@@ -12,7 +12,7 @@
   </div>
   <div :class="['a-variants', 'mb', center ? 'a-variants-center' : '']">
     <tag v-for="(caption, i) in variantCaptions" :caption="caption" :key="i" />
-    <div class="text bold a-pricecaption">
+    <div v-if="altPriceCaption" class="text bold a-pricecaption">
       {{ altPriceCaption }}
     </div>
   </div>

@@ -17,4 +17,7 @@ export const mutations = {
   isReady(_state){
     _state.loadingState = LoadingState.ready
   },
+  isError(_state){
+    _state.loadingState = LoadingState.error
+  }
 }

@@ -145,8 +145,6 @@ export const actions = {
           articles: bulk[5].data.maxScore
         })
 
-        console.log(bulk)
-
         context.commit("loadingState/setLoadingState", LoadingState.ready, { root: true })
 
       }

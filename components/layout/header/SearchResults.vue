@@ -1,7 +1,7 @@
 <template>
   <client-only>
     <lazy-wrapper>
-      <div :class="$device.isMobile ? 'container-m' : 'container'">
+      <div :class="$device.isMobile ? 'a-container container-m' : 'a-container container'">
         <div class="mb2" v-if="products.length">
           <product-list-horizontal :products="products" :cols="$device.isMobile ? 2 : 4" />
           <nuxt-link 
@@ -202,6 +202,9 @@ export default {
 </script>
 
 <style scoped>
+.a-container{
+  overflow-x: hidden;
+}
 .a-results{
   display: grid;
   grid-template-columns: 1fr;

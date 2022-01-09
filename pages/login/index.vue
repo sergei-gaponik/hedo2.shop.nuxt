@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$device.isMobile ? 'container-m' : 'container']">
+  <div :class="$device.isMobile ? 'container-m' : 'container'">
     <div v-if="page == 'forgotPassword' || page == 'verifyEmail'" class="a-page">
       <forgot-password-page 
         v-if="page == 'forgotPassword'"
