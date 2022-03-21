@@ -38,7 +38,7 @@ export default {
       return `${this.variant.price.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency } )}`
     },
     image(){
-      return this.variant.images?.length ? this.variant.images[0].src : this.product.images[0].src
+      return this.variant.images?.length ? this.variant.images[0].asset.src : this.product.images[0].asset.src
     },
     customTag(){
       return this.variant.title || ""

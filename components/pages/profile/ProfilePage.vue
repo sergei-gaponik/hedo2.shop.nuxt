@@ -3,6 +3,8 @@
     <page-title-m :title="$t('profilePageTitle')" />
     <div class="td-split">
       <div class="td-split-sticky">
+        <h2>{{ $t('orders') }}</h2>
+        <orders-page class="mb4" />
         <h2>{{ $t('addressPageTitle') }}</h2>
         <address-page />
       </div>

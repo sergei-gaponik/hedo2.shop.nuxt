@@ -25,7 +25,7 @@
             />
           </pop-up>
         </portal>
-        <product-image-gallery :images="product.images" />
+        <product-image-gallery :images="images" />
         <lazy-wrapper :loadingState="similarProductsLoadingState">
           <div v-if="similarProducts && similarProducts.length">
             <h2 class="h2">{{ $t("similarProducts") }}</h2>
@@ -34,7 +34,7 @@
         </lazy-wrapper>
       </div>
       <div :class="$device.isMobile ? '' : 'td-split-sticky'">
-        <product-image-gallery v-if="$device.isMobile" :images="product.images" />
+        <product-image-gallery v-if="$device.isMobile" :images="images" />
         <div class="a-title mb2"> 
           <product-title :product="product" :fontSize=1.1 :infoTagBottom="!$device.isMobile" />
         </div>
@@ -156,6 +156,9 @@ export default {
     }
   },
   computed: {
+    images(){
+      return this.selectedVariant.images || this.product.images
+    },
     selectedVariant(){
       return this.product.variants[this.variantIndex]
     },

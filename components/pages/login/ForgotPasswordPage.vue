@@ -27,6 +27,9 @@
 </div>
 <div v-else>
   <page-title-m :title="$t('resetPassword')" backButton @back="$emit('setPage', 'signIn')"/>
+  <div class="mb4">
+    <p>{{ $t('resetPasswordSubHeading2') }}</p>
+  </div>
   <form @submit.prevent="submitStep2">
     <div class="mb4">
       <text-input 
@@ -78,6 +81,7 @@ export default {
       email: "",
       verificationCode: "",
       newPassword: "",
+      repeatPassword: "",
       step: 1
     }
   },

@@ -61,7 +61,7 @@ export default {
 
     const r = await instanceHandler({
       path: "getUserAddresses",
-      args: { idToken },
+      args: { idToken }
     })
 
     this.$store.commit("loadingState/isReady")

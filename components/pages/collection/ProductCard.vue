@@ -20,7 +20,7 @@ export default {
   props: ["product"],
   data() {
     return {
-      src: this.$props.product?.images[0]?.src || ""
+      src: this.$props.product?.images[0]?.asset.src || ""
     }
   }
 }

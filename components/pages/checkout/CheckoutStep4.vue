@@ -40,6 +40,19 @@ import { v4 as uuidv4 } from 'uuid'
 import { loadScript } from '@paypal/paypal-js'
 import DividerOr from '~/components/layout/decoration/DividerOr.vue'
 
+const getInitCheckoutSessionArgs = (_this) => {
+
+  let { contactInfo, paymentInfo, shippingInfo } = JSON.parse(JSON.stringify(_this.$store.state.checkout))
+
+  const lineItems = _this.$store.state.cart.lineItems
+
+  if(shippingInfo.billingAddressMatchesShippingAddress){
+    shippingInfo.billingAddress = null
+  }
+
+  return { contactInfo, paymentInfo, shippingInfo, lineItems }
+}
+
 export default {
   props: {
     isAuthenticated: Boolean
@@ -75,15 +88,12 @@ export default {
       paypal.Buttons({
         createOrder: async () => {
   
-          const { contactInfo, shippingInfo } = this.$store.state.checkout
+          let args = getInitCheckoutSessionArgs(this)
+          
+          args.paymentInfo = { paymentMethod: PaymentMethod.paypal }
+          args.uuid = uuid
   
-          const lineItems = this.$store.state.cart.lineItems
-          const paymentInfo = { paymentMethod: PaymentMethod.paypal }
-  
-          const r = await instanceHandler({ 
-            path: "initCheckoutSession", 
-            args: { contactInfo, paymentInfo, shippingInfo, lineItems, uuid }
-          })
+          const r = await instanceHandler({ path: "initCheckoutSession", args })
   
           if(r.loadingState == LoadingState.error || !r.data?.paymentSession){
             this.$store.dispatch("notifications/error", this.$t('error'))
@@ -105,15 +115,11 @@ export default {
     },
     async submit(){
 
-      const { contactInfo, paymentInfo, shippingInfo } = this.$store.state.checkout
+      const args = getInitCheckoutSessionArgs(this)
 
-      const lineItems = this.$store.state.cart.lineItems
+      console.log(args)
 
-      const r = await instanceHandler({ 
-        path: "initCheckoutSession", 
-        args: { contactInfo, paymentInfo, shippingInfo, lineItems }
-      })
-
+      const r = await instanceHandler({ path: "initCheckoutSession", args })
 
       if(r.loadingState == LoadingState.error || !r.data?.paymentSession){
         this.$store.dispatch("notifications/error", this.$t('error'))

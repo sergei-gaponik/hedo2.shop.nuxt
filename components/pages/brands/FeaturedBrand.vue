@@ -2,20 +2,18 @@
   <nuxt-link :to="localePath('/b/'+brand.handle)">
     <div class="a-brand">
       <div class="a-img-container">
-        <img v-if="src" :data-src="src" class="a-img" v-lazy-load />
+        <lazy-image v-if="brand.logo" :src="brand.logo.src" s3 class="a-img" />
       </div>
     </div>
   </nuxt-link>
 </template>
 
 <script>
+import LazyImage from '~/components/util/LazyImage.vue'
+
 export default {
+  components: { LazyImage },
   props: [ "brand"],
-  computed: {
-    src(){
-      return process.env.STORAGE_URL + "/" + this.brand.logo.src
-    }
-  }
 }
 </script>
 

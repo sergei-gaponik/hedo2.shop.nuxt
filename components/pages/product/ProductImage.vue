@@ -1,21 +1,37 @@
 <template>
   <div class="a-img-container">
-    <img v-if="src" :data-src="src" class="a-img" v-lazy-load />
+    <lazy-image v-if="!defaultVisible" class="a-img" :src="src" s3 @error="showDefault" />
+    <image-icon v-if="defaultVisible" class="a-default" height=24 color="var(--c-gray-4)"/>
   </div>
 </template>
 
 <script>
+import ImageIcon from '~/components/icons/basic/ImageIcon.vue'
+import LazyImage from '~/components/util/LazyImage.vue'
+
 export default {
-  props: ["src"]
+  components: { LazyImage, ImageIcon },
+  props: ["src"],
+  data(){
+    return {
+      defaultVisible: !this.src
+    }
+  },
+  methods: {
+    showDefault(){
+      this.defaultVisible = true
+    }
+  }
 }
 </script>
 
 <style scoped>
+
 .a-img-container {
   position: relative;
   width: 100%;
-
 }
+
 .a-img-container:after {
   content: "";
   display: block;
@@ -32,5 +48,14 @@ export default {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.a-default{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 33%;
+  height: 33%;
+  transform: translate(-50%, -50%);
 }
 </style>

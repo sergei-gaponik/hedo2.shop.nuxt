@@ -40,7 +40,7 @@ export default {
   props: [ "cartItem" ],
   computed: {
     image(){
-      return this.cartItem.variant.images?.length ? this.cartItem.variant.images[0].src : this.cartItem.product.images[0].src
+      return this.cartItem.variant.images?.length ? this.cartItem.variant.images[0].asset.src : this.cartItem.product.images[0].asset.src
     },
     priceCaption(){
       return `${this.totalPrice.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency } )}`

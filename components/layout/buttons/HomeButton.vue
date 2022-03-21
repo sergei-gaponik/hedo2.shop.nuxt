@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link to="/">
+    <nuxt-link :to="localePath('/')">
       <logo :height="height" color="var(--c-gray-1)" />
     </nuxt-link>
   </div>

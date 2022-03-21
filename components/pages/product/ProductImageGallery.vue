@@ -1,7 +1,7 @@
 <template>
 <div class="a-container">
   <div class="a-slider hide-scrollbar mb2" ref="slider">
-    <product-image :src="images[position].src"/>
+    <product-image :src="imgSrc"/>
     <div v-if="multipleImages" @click="clickHandler(prevImage)" class="a-left">
       <chevron-left-icon height=48 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
     </div>
@@ -34,6 +34,9 @@ export default {
   components: { ProductImage, ChevronLeftIcon, ChevronRightIcon },
   props: ["images"],
   computed: {
+    imgSrc(){
+      return this.images?.[this.position]?.asset.src || ""
+    },
     multipleImages(){
       return this.images.length > 1
     }
@@ -86,6 +89,11 @@ export default {
         this.position = 0
       else
         this.position = position
+    }
+  },
+  watch: {
+    images(){
+      this.position = 0
     }
   }
 }

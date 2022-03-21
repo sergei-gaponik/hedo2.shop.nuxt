@@ -48,47 +48,50 @@ export default {
   
       const seriesInfo = r2.data?.series
   
-      if(!seriesInfo) return;
-  
-      this.breadCrumbs = [
-        {
-          caption: this.$t("allProducts"),
-          href: this.localePath("/c/all")
-        },
-        {
-          caption: seriesInfo.brand.name,
-          href: this.localePath(`/b/${seriesInfo.brand.handle}`)
-        },
-        {
-          caption: seriesInfo.name,
-          href: this.localePath(`/s/${seriesInfo.handle}`)
-        }
-      ]
-    }
-    else{ 
-      const r2 = await instanceHandler({
-        path: "getBrand",
-        args: { handle: this.product.brand.handle },
-        cache: true
-      })
-  
-      const brandInfo = r2.data?.brand
+      if(seriesInfo){
 
-      if(!brandInfo) return;
-  
-      this.breadCrumbs = [
-        {
-          caption: this.$t("allProducts"),
-          href: this.localePath("/c/all")
-        },
-        {
-          caption: brandInfo.name,
-          href: this.localePath(`/b/${brandInfo.handle}`)
-        }
-      ]
+        this.breadCrumbs = [
+          {
+            caption: this.$t("allProducts"),
+            href: this.localePath("/c/all")
+          },
+          {
+            caption: seriesInfo.brand.name,
+            href: this.localePath(`/b/${seriesInfo.brand.handle}`)
+          },
+          {
+            caption: seriesInfo.name,
+            href: this.localePath(`/s/${seriesInfo.handle}`)
+          }
+        ]
+
+        this.firstLoading = LoadingState.ready
+
+        return;
+      }
     }
+    
+    const r2 = await instanceHandler({
+      path: "getBrand",
+      args: { handle: this.product.brand.handle },
+      cache: true
+    })
+
+    const brandInfo = r2.data?.brand
+
+    if(!brandInfo) return;
+
+    this.breadCrumbs = [
+      {
+        caption: this.$t("allProducts"),
+        href: this.localePath("/c/all")
+      },
+      {
+        caption: brandInfo.name,
+        href: this.localePath(`/b/${brandInfo.handle}`)
+      }
+    ]
     this.firstLoading = LoadingState.ready
-
   },
   data(){
     
