@@ -27,6 +27,7 @@
 
 <script>
 import RadioButton from '~/components/layout/inputs/RadioButton.vue'
+import { GLOBAL } from '~/core/const'
 
 export default {
   components: { RadioButton },
@@ -62,9 +63,10 @@ export default {
         return `${this.$t("deliveryTime")}: ${shippingMethod.deliveryTimeFrom} - ${shippingMethod.deliveryTimeTo} ${this.$t("days")}`
       }
       else{
-        const arrivalDate = new Date(Date.now() + 86400000 * shippingMethod.deliveryTimeTo)
+        const addDays = new Date().getHours() < GLOBAL.shippingHour ? 0 : 1
+        const arrivalDate = new Date(Date.now() + 86400000 * (shippingMethod.deliveryTimeTo + addDays))
 
-        if(shippingMethod.deliveryTimeTo == 1){
+        if(shippingMethod.deliveryTimeTo == 1 && !addDays){
 
           const options = { weekday: 'long', month: 'numeric', day: 'numeric' }
   

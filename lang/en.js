@@ -11,6 +11,7 @@ export default {
   apply: "Apply",
   arrival: "Arrival",
   backToCart: "Back to cart",
+  beautyMagazine: "Beauty Magazine",
   billingAddress: "Billing address",
   blogArticles: "Articles",
   brands: "Brands",
@@ -157,6 +158,7 @@ export default {
   signUpPrivacyPolicyNotAccepted: "Please agree to the privacy policy.",
   signUpNewsletterConsent: "I would like to subscribe to the newsletter to stay informed about news and promotions.",
   similarProducts: "Similar products",
+  stayUpToDate: "Stay up to date",
   submit: "Submit",
   subtotal: "Subtotal",
   topBrands: "Top brands",
@@ -167,5 +169,6 @@ export default {
   verifyEmail: "Please verify your email address.",
   verifyEmailSubHeading: "We have sent you an email with a verification code. If you didn't receive the email, please check your spam folder or press \"resend code\".",
   welcomeBack: "Welcome back",
+  youMightAlsoBeInterestedIn: "You might also be interested in",
   zipCode: "Zip code"
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="mb2 a-group" v-if="items.length" :style="{ order: order }">
-    <h4 class="a-h4">{{ title }}</h4>
+    <h4>{{ title }}</h4>
     <div :class="['a-list', $device.isMobile ? '' : 'a-list-td']">
       <list-item 
         v-for="item in items"

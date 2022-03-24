@@ -36,7 +36,12 @@
       <div :class="$device.isMobile ? '' : 'td-split-sticky'">
         <product-image-gallery v-if="$device.isMobile" :images="images" />
         <div class="a-title mb2"> 
-          <product-title :product="product" :fontSize=1.1 :infoTagBottom="!$device.isMobile" />
+          <product-title 
+            :product="product" 
+            :fontSize=1.1 
+            :infoTagBottom="!$device.isMobile" 
+            :selectedVariant="selectedVariant"
+          />
         </div>
         <p class="text">
           {{ `${$t("deliveryTime")}: ${$i18n.localeProperties.deliveryTime.join(" - ")} ${$t("days")}`}}

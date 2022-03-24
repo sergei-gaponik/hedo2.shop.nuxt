@@ -1,17 +1,13 @@
 <template>
 <client-only>
   <main-button :ref="'addtocart' + _uid" :disabled="disabled" naked>
-    <div class="a-quantity-selector">
-      <div class="a-iconbutton" @click="clickHandler(decQuantity)">
-        <minus-icon height=24 :color="disabled ? 'var(--c-green-3)' : 'var(--c-green-2)'" />
-      </div>
-      <div :class="['a-quantity', disabled ? 'a-quantity-disabled' : '']">
-        {{ quantity }}
-      </div>
-      <div class="a-iconbutton" @click="clickHandler(incQuantity)">
-        <add-icon height=24 :color="disabled ? 'var(--c-green-3)' : 'var(--c-green-2)'" />
-      </div>
-    </div>
+    <quantity-selector 
+      @decQuantity="decQuantity()"
+      @incQuantity="incQuantity()"
+      :quantity="quantity"
+      :maxQuantity="maxQuantity"
+      :disabled="disabled"
+    />
     <div class="a-addtocart" @click="clickHandler(_action)">
       {{ $t("addToCart") }}
     </div>
@@ -24,10 +20,11 @@ import AddIcon from '~/components/icons/basic/AddIcon.vue'
 import MinusIcon from '~/components/icons/basic/MinusIcon.vue'
 import MainButton from '~/components/layout/buttons/MainButton.vue'
 import clickHandler from '~/util/clickHandler'
+import QuantitySelector from '~/components/pages/cart/QuantitySelector.vue'
 
 export default {
   props: [ "maxQuantity", "selectedVariant" ],
-  components: { MinusIcon, AddIcon, MainButton },
+  components: { MinusIcon, AddIcon, MainButton, QuantitySelector },
   computed: {
     maxQuantityToAdd(){
 
@@ -80,27 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.a-quantity-selector {
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  border-radius: 100px;
-  padding: 0 var(--padding-s)
-}
 
-.a-iconbutton{
-  padding: 0 var(--padding-s);
-}
-
-.a-quantity{
-  color: var(--c-green-2);
-  font-weight: 600;
-  font-size: 18px;
-  width: 15px;
-  position: relative;
-  text-align: center;
-}
 
 .a-addtocart{
   color: white;
@@ -112,7 +89,4 @@ export default {
   justify-content: center;
 }
 
-.a-quantity-disabled{
-  color: var(--c-green-3);
-}
 </style>

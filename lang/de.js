@@ -11,6 +11,7 @@ export default {
   apply: "Anwenden",
   arrival: "Ankunft",
   backToCart: "Zurück zum Warenkorb",
+  beautyMagazine: "Beauty Magazine",
   billingAddress: "Rechnungsadresse",
   blogArticles: "Blog-Beiträge",
   brands: "Marken",
@@ -157,6 +158,7 @@ export default {
   signUpPrivacyPolicyNotAccepted: "Bitte stimmen Sie der Datenschutzerklärung zu.",
   signUpNewsletterConsent: "Ich möchte den kostenlosen Newsletter abonnieren, um über Neuigkeiten und Rabatt-Aktionen informiert zu bleiben.",
   similarProducts: "Ähnliche Produkte",
+  stayUpToDate: "Bleib up-to-date",
   submit: "Senden",
   subtotal: "Zwischensumme",
   tomorrow: "Morgen",
@@ -167,5 +169,6 @@ export default {
   verifyEmail: "Bitte verifizieren Sie Ihre E-Mail-Adresse.",
   verifyEmailSubHeading: 'Wir haben Ihnen eine E-Mail mit einem Verifizierungs-Code geschickt. Wenn Sie die E-Mail nicht erhalten haben, prüfen Sie bitte Ihren Spam-Ordner oder drücken Sie auf "Code erneut senden".',
   welcomeBack: "Willkommen zurück,",
+  youMightAlsoBeInterestedIn: "Das könnte Sie auch interessieren",
   zipCode: "Postleitzahl"
 }

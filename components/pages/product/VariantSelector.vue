@@ -6,19 +6,24 @@
         <span class="a-checkmark" />
       </div>
       <div>
-        {{ variant.title }}
+        {{ getVariantTitle(variant) }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getVariantTitle } from '~/util/variants'
+
 export default {
   model: {
     prop: 'variantIndex',
     event: 'input'
   },
-  props: ['variants', 'variantIndex']
+  props: ['variants', 'variantIndex'],
+  methods: {
+    getVariantTitle
+  }
 }
 </script>
 

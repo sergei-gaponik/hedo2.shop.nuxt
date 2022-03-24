@@ -101,12 +101,4 @@ export default {
 .a-search-close {
   margin-left: auto;
 }
-
-.a-divider {
-  position: relative;
-  width: 100vw;
-  height: 4px;
-  background: linear-gradient(90.09deg, rgba(83, 122, 88, 0.5) 2.14%, rgba(155, 199, 161, 0.5) 95.28%);
-
-}
 </style>

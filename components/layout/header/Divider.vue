@@ -1,6 +1,5 @@
 
 <template>
-  
   <div class="a-divider">
     <div :class="[loading ? 'a-loading' : '']"></div>
   </div>
@@ -42,7 +41,7 @@ export default {
 .a-divider {
   position: relative;
   width: 100vw;
-  height: 4px;
+  height: 3px;
   background: linear-gradient(90deg, #a8bcab 2%, #cce2cf 95%);
   z-index: 1;
 }

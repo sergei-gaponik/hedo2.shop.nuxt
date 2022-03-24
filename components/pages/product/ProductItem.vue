@@ -18,6 +18,7 @@
 <script>
 import ProductImage from './ProductImage.vue'
 import ProductTitle from './ProductTitle.vue'
+import { getVariantTag } from '~/util/variants' 
 
 export default {
   components: { ProductImage, ProductTitle },
@@ -41,7 +42,7 @@ export default {
       return this.variant.images?.length ? this.variant.images[0].asset.src : this.product.images[0].asset.src
     },
     customTag(){
-      return this.variant.title || ""
+      return getVariantTag(this.variant)
     }
   }
 }

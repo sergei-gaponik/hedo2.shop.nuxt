@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <lazy-wrapper>
-      <article-page 
-        :article="article"
-      />
+  <div class="container">
+    <lazy-wrapper :loadingState="loadingState">
+      <article-page :article="article" />
     </lazy-wrapper>
   </div>
 </template>
@@ -18,13 +16,14 @@ export default {
   components: { ArticlePage, LazyWrapper },
   data(){
     return {
-      article: null
+      article: null,
+      loadingState: LoadingState.ready
     }
   },
   async fetch(){
-    this.$store.commit("loadingState/setLoadingState", LoadingState.loading)
+    this.loadingState = LoadingState.loading
 
-    const { loadingState, data } = await instanceHandler({
+    const { data, loadingState } = await instanceHandler({
       path: "getArticle",
       args: {
         handle: this.$route.params.articleHandle
@@ -33,14 +32,13 @@ export default {
     })
 
     if(!data?.article){
-      this.$store.commit("loadingState/setLoadingState", LoadingState.notFound)
-      return;
+      this.loadingState = LoadingState.notFound
+      return
     }
 
+
+    this.loadingState = loadingState
     this.article = data.article
-
-    this.$store.commit("loadingState/setLoadingState", LoadingState.ready)
-
   }
 
 }

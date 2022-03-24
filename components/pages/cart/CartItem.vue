@@ -9,8 +9,10 @@
       <div class="a-pricecontainer mt">
         <quantity-selector 
           :quantity="cartItem.quantity"
+          :maxQuantity="cartItem.maxQuantity"
           @incQuantity="incQuantity"
           @decQuantity="decQuantity"
+          border
         />
         <div class="text bold a-price">
           <div>{{ priceCaption }}</div>

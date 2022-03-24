@@ -11,42 +11,46 @@
             <span class="link-h4">{{ $t('showMore') }}</span>
           </nuxt-link>
         </div>
-        <div :class="['a-results', $device.isMobile ? '' : 'a-results-td']">
-          <search-result-group 
-            :items="brands"
-            :title="$t('brands')"
-            :order="orderPosition('brands')"
-            :href="brand => href('brands', brand)"
-            :displayName="brand => brand.name"
-          />
-          <search-result-group 
-            :items="categories"
-            :title="$t('collections')"
-            :order="orderPosition('categories')"
-            :href="category => href('categories', category)"
-            :displayName="category => category.name"
-          />
-          <search-result-group 
-            :items="pages"
-            :title="$t('pages')"
-            :order="orderPosition('pages')"
-            :href="page => href('pages', page)"
-            :displayName="page => page.name"
-          />
-          <search-result-group 
-            :items="series"
-            :title="$t('series')"
-            :order="orderPosition('series')"
-            :href="series => href('series', series)"
-            :displayName="series => series.name"
-          />
-          <search-result-group 
-            :items="articles"
-            :title="$t('blogArticles')"
-            :order="orderPosition('articles')"
-            :href="article => href('articles', article)"
-            :displayName="article => article.name"
-          />
+        <div :class="['a-results', !$device.isMobile && articles.length ? 'a-results-td' : '']">
+          <div 
+            :class="['a-results', !$device.isMobile && !articles.length ? 'a-results-td' : '']"
+            v-if="brands.length || categories.length || pages.length || series.length"
+          >
+            <search-result-group 
+              :items="brands"
+              :title="$t('brands')"
+              :order="orderPosition('brands')"
+              :href="brand => href('brands', brand)"
+              :displayName="brand => brand.name"
+            />
+            <search-result-group 
+              :items="categories"
+              :title="$t('collections')"
+              :order="orderPosition('categories')"
+              :href="category => href('categories', category)"
+              :displayName="category => category.name"
+            />
+            <search-result-group 
+              :items="pages"
+              :title="$t('pages')"
+              :order="orderPosition('pages')"
+              :href="page => href('pages', page)"
+              :displayName="page => page.name"
+            />
+            <search-result-group 
+              :items="series"
+              :title="$t('series')"
+              :order="orderPosition('series')"
+              :href="series => href('series', series)"
+              :displayName="series => series.name"
+            />
+          </div>
+          <div v-if="articles.length" >
+            <h4>{{ $t('beautyMagazine') }}</h4>
+            <article-list
+              :articleSearchResults="articles"
+            />
+          </div>
         </div>
       </div>
     </lazy-wrapper>
@@ -61,9 +65,10 @@ import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
 import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
 import SearchResultGroup from './SearchResultGroup.vue'
+import ArticleList from '~/components/pages/blog/ArticleList.vue'
 
 export default {
-  components: { LazyWrapper, ProductCard, ProductListHorizontal, ChevronRightIcon, SearchResultGroup },
+  components: { LazyWrapper, ProductCard, ProductListHorizontal, ChevronRightIcon, SearchResultGroup, ArticleList },
   methods: {
     orderPosition(key){
       const maxScores = Object.entries(this.$store.state.search.maxScores)
@@ -78,7 +83,7 @@ export default {
         'categories': category => `/c/${category.handle}`,
         'pages': page => page.href,
         'series': series => `/s/${series.handle}`,
-        'articles': article => `/blog/${article.handle}`
+        'articles': article => `/mag/${article.handle}`
       }
       return p[key](item)
     }

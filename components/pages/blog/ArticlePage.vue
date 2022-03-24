@@ -1,62 +1,59 @@
 <template>
-  <div>
-    <div :class="$device.isMobile ? 'container-m' : 'container'">
-      {{ article.name }}
-    </div>
-    <div class="a-img-wrapper">
-      <div class="a-img-container">
-        <img v-if="image" :data-src="image" class="a-img" v-lazy-load />
-      </div>
+  <div class="a-container">
+    <div>
+      <article-header :article="article"/>
+      <article-content :article="article" />
     </div>
     <div>
-      <div class="a-body" v-html="article.body">
-
-      </div>
+      <article-sidebar :similarArticles="similarArticles"/>
     </div>
   </div>
 </template>
 
 <script>
+import searchHandler from '~/core/searchHandler'
+import { LoadingState } from '~/types'
+import ArticleHeader from './ArticleHeader.vue'
+import ArticleSidebar from './ArticleSidebar.vue'
+import ArticleContent from './ArticleContent.vue'
+
 export default {
+  components: { ArticleHeader, ArticleSidebar, ArticleContent },
   props: [ "article" ],
-  computed: {
-    image(){
-      return this.article.image ? process.env.STORAGE_URL + this.article.image.src : null
+  async fetch(){
+
+    this.loadingState = LoadingState.loading
+
+    const { loadingState, data } = await searchHandler({
+      path: "getInterestingArticles",
+      args: {
+        _id: this.article._id,
+        exclude: [ ...new Set(this.$store.state.blog.visitedArticles) ],
+        limit: 3
+      },
+      cache: true
+    })
+
+    this.$store.commit("blog/addVisitedArticle", this.article._id)
+
+    this.loadingState = loadingState
+    this.similarArticles = data?.articles || []
+  },
+  data(){
+    return {
+      loadingState: LoadingState.ready,
+      similarArticles: []
     }
   }
-
 }
 </script>
 
-<style scoped>
-.a-img-wrapper{
-  position: relative;
-  height: 40vw;
-}
-.a-img-container {
-  position: absolute;
-  width: 100vw;
-  left: 0;
-}
-.a-img-margin{
-  position: relatiev;
-  margin-bottom: 40vw;
-}
-.a-img-container:after {
-  content: "";
-  display: block;
-  padding-bottom: 40%;
-}
 
-.a-img {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+<style scoped>
+
+.a-container{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: calc(var(--padding-x-td));
 }
 </style>

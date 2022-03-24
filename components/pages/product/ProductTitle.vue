@@ -34,6 +34,7 @@
 <script>
 import Tag from '~/components/layout/misc/Tag.vue'
 import UnitPrice from './UnitPrice.vue'
+import { getVariantTag, isSpecialOffer, getCheapestVariant } from '~/util/variants'
 
 export default {
   components: { Tag, UnitPrice },
@@ -47,29 +48,22 @@ export default {
     customTag: String,
     fontSize: Number,
     altPriceCaption: String,
+    selectedVariant: Object
   },
   computed: {
     outOfStock(){
       return this.product.variants.every(a => a.availableQuantity <= 0)
     },
     specialOffer(){
-      return false;
+
+      if(this.selectedVariant)
+        return isSpecialOffer(this.selectedVariant)
+
+      return this.product.variants.some(a => isSpecialOffer(a))
     },
     cheapestVariant(){
 
-      if(this.product.variants.length == 1)
-        return this.product.variants[0]
-
-      let min = null
-      let _i;
-      for(let i = 0; i < this.product.variants.length; i++){
-        if(!min || (this.product.variants[i].price && this.product.variants[i].price )){
-          min = this.product.variants[i].price
-          _i = i
-        }
-      }
-
-      return this.product.variants[_i]
+      return getCheapestVariant(this.product.variants)
     },
     priceCaption(){
       const price = this.customPrice ? this.customPrice : this.cheapestVariant.price
@@ -84,7 +78,7 @@ export default {
       else if(this.customTag == "")
         return []
       else
-        return this.product.variants.filter(a => a.title).map(a => a.title)
+        return this.product.variants.map(variant => getVariantTag(variant))
     }
   }
 }
@@ -109,16 +103,13 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   color: var(--c-brown-1);
-  padding: 0 0.6em 0.2em 0.6em;
-  border: 0.1em solid var(--c-brown-1);
-  font-size: 0.8em;
+  padding: 0 0.6rem 0.2rem 0.6rem;
+  border: 0.1em solid var(--c-brown-1-l);
+  border-radius: var(--border-radius-2);
+  font-size: 0.75rem;
   text-transform: uppercase;
   white-space: nowrap;
   letter-spacing: var(--letter-spacing);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 .a-info-bottom > .a-info{
@@ -127,12 +118,12 @@ export default {
   margin-bottom: 2.2em;
 }
 .a-outofstock{
-  border-color: var(--c-gray-2);
+  border-color: var(--c-gray-2-l);
   color: var(--c-gray-2);
 }
 
 .a-brand {
-  letter-spacing: 0.1em;
+  letter-spacing: var(--letter-spacing);
   font-size: 1.1em;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -1,9 +1,10 @@
 :root {
   --default-font: 'Montserrat', sans-serif;
-  --letter-spacing: 0.2em;
+  --magazine-font: 'Bebas Neue', cursive;
 
   --c-gray-1: #434343;
   --c-gray-2: #878787;
+  --c-gray-2-l: #87878750;
   --c-gray-3: #e5e5e5;
   --c-gray-4: #f6f6f6;
   --c-green-1: #537A58;
@@ -12,7 +13,8 @@
   --c-blue-1: #61929b;
   --c-blue-2: #d5e2e4;
   --c-brown-1: #a17c5e;
-  --c-brown-2: #928173;
+  --c-brown-1-l: #a17c5e50;
+  --c-brown-2: #a59485;
   --c-red-1: #B45F5B;
   --c-red-2: #7A4755;
 
@@ -41,7 +43,10 @@
   --max-width-slim: 450px;
 
   --default-margin: 12px;
+  --margin-2: calc(var(--default-margin) * 2);
+  --margin-4: calc(var(--default-margin) * 4);
   --default-border-radius: 5px;
+  --border-radius-2: 3px;
   --page-border-radius: 15px;
   --border-width: 3px;
   --fast-transition: all 0.2s cubic-bezier(0.85, 0, 0.15, 1);
@@ -54,6 +59,8 @@
   --button-y: 50px;
   --form-element-y: 30px;
   --text-input-y: 45px;
+
+  --letter-spacing: 0.1em;
 
   font-size: 12px;
 }
@@ -110,6 +117,10 @@ body {
 
 .subdued {
   color: var(--c-gray-2);
+}
+
+.italic{
+  font-style: italic;
 }
 
 .bold, .b {
@@ -180,6 +191,11 @@ body {
 a { 
   text-decoration: none; 
   color: var(--c-gray-1);
+}
+
+ul{
+  list-style: none;
+  padding: 0;
 }
 
 /* #endregion */
