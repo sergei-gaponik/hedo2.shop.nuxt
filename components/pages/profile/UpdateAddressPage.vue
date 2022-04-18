@@ -1,11 +1,8 @@
 <template>
   <form @submit.prevent="submit()" class="a-overflow">
-    <div class="container-m">
-      <h2>{{ this.title || (editMode ? $t('editAddress') : $t('addAddress')) }}</h2>
-      <div class="mb2" v-if="!editMode">
-        <radio-button value="homeAddress" v-model="addressType" center>{{ $t('homeAddress') }}</radio-button>
-        <radio-button value="packstation" v-model="addressType" center>{{ $t('dhlPackstation') }}</radio-button>
-      </div>
+    <input type="submit" ref="formSubmit" style="display:none">
+    <div :class="noContainer ? '' : 'container-m'">
+      <h2 v-if="!hideTitle">{{ this.title || (editMode ? $t('editAddress') : $t('addAddress')) }}</h2>
       <div class="grid-2-s">
         <text-input 
           :caption="$t('firstName')"
@@ -22,11 +19,12 @@
           autocomplete="family-name"
         />
       </div>
-      <div v-if="addressType == 'homeAddress'">
+      <div>
         <text-input
+          ref="addressLine"
           :caption="$t('addressLine')"
           :placeholder="$t('addressLine')"
-          :required="addressType == 'homeAddress'"
+          :required="true"
           v-model="address.addressLine"
           autocomplete="street-address"
         />
@@ -36,21 +34,7 @@
           v-model="address.addressLine2"
         />
       </div>
-      <div v-else>
-        <text-input
-          :caption="$t('dhlCustomerNumber')"
-          :placeholder="$t('dhlCustomerNumber')"
-          :required="addressType == 'packstation'"
-          v-model="dhlCustomerNumber"
-        />
-        <text-input
-          :caption="$t('dhlPackstationNumber')"
-          :placeholder="$t('dhlPackstationNumber')"
-          :required="addressType == 'packstation'"
-          v-model="dhlPackstationNumber"
-        />
-      </div>
-      <div class="mb4">
+      <div>
         <div class="grid-2-s">
           <text-input
             :caption="$t('zipCode')"
@@ -74,17 +58,22 @@
           v-model="address.country"
         />
       </div>
-      <div class="mb4" v-if="addressType == 'homeAddress'">
+      <div class="mt2" v-if="!billingAddress">
+        <div v-if="!showDeliveryInstructions" class="flex-h-c pointer" @click="() => showDeliveryInstructions = true">
+          <add-icon height=20 color="var(--c-gray-3)" />
+          <span>{{ $t('deliveryInstruction') }}</span>
+        </div>
         <multi-line 
+          v-else
           :caption="$t('deliveryInstruction')" 
           v-model="address.deliveryInstruction"
         />
       </div>
-      <div class="mb4" v-if="!guestCheckout">
+      <div v-if="!guestCheckout" class="mt4">
         <check-box v-model="address.defaultShippingAddress" center>{{ $t('defaultShippingAddress') }}</check-box>
         <check-box v-model="address.defaultBillingAddress" center>{{  $t('defaultBillingAddress') }}</check-box>
       </div>
-      <div class="a-buttons">
+      <div class="a-buttons mt4" v-show="!hideSubmit">
         <primary-button submit>{{ submitCaption }}</primary-button>
         <icon-button v-if="editMode && !guestCheckout" @click="deleteAddress()">
           <delete-icon height=36 color="var(--c-gray-1)"/>
@@ -96,7 +85,6 @@
 
 <script>
 import TextInput from '~/components/layout/inputs/TextInput.vue'
-import RadioButton from '~/components/layout/inputs/RadioButton.vue'
 import SelectBox from '~/components/layout/inputs/SelectBox.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
 import SecondaryButton from '~/components/layout/buttons/SecondaryButton.vue'
@@ -107,13 +95,20 @@ import instanceHandler from '~/core/instanceHandler'
 import DeleteIcon from '~/components/icons/basic/DeleteIcon.vue'
 import IconButton from '~/components/layout/buttons/IconButton.vue'
 import crc from '~/util/crc'
+import AddIcon from '~/components/icons/basic/AddIcon.vue'
 
 export default {
-  components: { TextInput, RadioButton, SelectBox, PrimaryButton, SecondaryButton, CheckBox, MultiLine, IconButton, DeleteIcon },
+  components: { AddIcon, TextInput, SelectBox, PrimaryButton, SecondaryButton, CheckBox, MultiLine, IconButton, DeleteIcon },
   props: {
     initAddress: Object,
+    initFromStore: Boolean,
     guestCheckout: Boolean,
-    title: String
+    billingAddress: Boolean,
+    title: String,
+    hideTitle: Boolean,
+    noContainer: Boolean,
+    hideSubmit: Boolean,
+    autoComplete: Boolean
   },
   computed: {
     editMode(){
@@ -126,19 +121,70 @@ export default {
         return this.$t('add')
     }
   },
+  mounted(){
+
+    if(!this.autoComplete || !process.client)
+      return;
+
+    const textInput = this.$refs.addressLine.$refs.input
+    
+    try{
+
+      const autocomplete = new google.maps.places.Autocomplete(textInput, {
+        types: ["address"],
+        fields: ["address_components"]
+      })
+  
+  
+      autocomplete.setComponentRestrictions({
+        country: this.countryOptions.map(a => a[0].toLowerCase())
+      })
+  
+      google.maps.event.addListener(autocomplete, "place_changed", () => {
+  
+        const addressComponents = autocomplete.getPlace()?.address_components
+  
+        if(!addressComponents) return;
+  
+        const components = Object.fromEntries(addressComponents
+          .flatMap(component => component.types.map(type => [type, component.short_name])
+        ))
+  
+        this.address.addressLine = `${components.route} ${components.street_number || ""}`
+        this.address.zipCode = components.postal_code
+        this.address.city = components.locality
+        this.address.country = components.country
+  
+        google.maps.event.clearInstanceListeners(autocomplete)
+      })
+    }
+    catch(e){
+      console.error(e)
+    }
+
+
+  },
   data(){
+
 
     const countryOptions = [
       ["DE", "Deutschland"],
       ["AT", "Österreich"]
     ]
 
-    return {
-      countryOptions,
-      addressType: "homeAddress",
-      dhlCustomerNumber: "",
-      dhlPackstationNumber: "",
-      address: this.initAddress ? JSON.parse(JSON.stringify(this.initAddress)) : {
+    let address;
+
+    let deref = obj => obj ? JSON.parse(JSON.stringify(obj)) : null
+
+    if(this.initAddress)
+      address = deref(this.initAddress)
+    else if(this.initFromStore && !this.billingAddress)
+      address = deref(this.$store.state.checkout.shippingInfo.shippingAddress)
+    else if(this.initFromStore && this.billingAddress)
+      address = deref(this.$store.state.checkout.shippingInfo.billingAddress)
+    
+    if(!address){
+      address = {
         hash: null,
         firstName: "",
         lastName: "",
@@ -152,14 +198,17 @@ export default {
         defaultBillingAddress: !this.guestCheckout
       }
     }
+
+    return {
+      showDeliveryInstructions: false,
+      countryOptions,
+      dhlCustomerNumber: "",
+      dhlPackstationNumber: "",
+      address
+    }
   },
   methods: {
     async submit(){
-
-      if(this.addressType == 'packstation'){
-        this.address.addressLine = `Packstation ${this.dhlPackstationNumber}`
-        this.address.addressLine2 = this.dhlCustomerNumber
-      }
 
       this.address.hash = this.address.hash || crc(this.address).toString() + Date.now()
 

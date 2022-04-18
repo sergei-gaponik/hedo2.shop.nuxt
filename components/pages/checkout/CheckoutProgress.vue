@@ -1,9 +1,9 @@
 <template>
   <div class="container-slim">
     <ul class="a-progressbar">
-      <li @click="setStep(1)" class="a-active">{{ $t('signIn') }}</li>
-      <li @click="setStep(3)" :class="$store.state.checkout.step > 2 ? 'a-active' : ''">{{ $t('deliveryInstruction') }}</li>
-      <li @click="setStep(4)" :class="$store.state.checkout.step > 3 ? 'a-active' : ''">{{ $t('payment') }}</li>
+      <li @click="setStep(1)" class="a-active">{{ $t('contact') }}</li>
+      <li @click="setStep(2)" :class="$store.state.checkout.step > 1 ? 'a-active' : ''">{{ $t('deliveryInstruction') }}</li>
+      <li @click="setStep(3)" :class="$store.state.checkout.step > 2 ? 'a-active' : ''">{{ $t('payment') }}</li>
     </ul>
   </div>
 </template>

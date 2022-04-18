@@ -5,8 +5,8 @@
       <div v-if="cartEmpty" class="a-empty">
         {{ $t("cartEmpty") }}
       </div>
-      <div v-if="!cartEmpty" :class="[$device.isMobile ? '' : 'td-split']">
-        <div :class="['a-cartitems', 'mb2', !$device.isMobile ? 'td-split-sticky' : '']">
+      <div v-if="!cartEmpty" :class="containerClass">
+        <div :class="['a-cartitems', !$device.isMobile ? 'td-split-sticky' : 'mb4']">
           <cart-item 
             v-for="cartItem in cartItems" 
             :key="cartItem.variant._id" 
@@ -20,10 +20,10 @@
                 {{ $t("checkout") }}
               </main-button>
             </div>
-            <payment-methods />
+            <payment-methods class="mb2"/>
+            <benefits />
         </div>
       </div>
-      <div class="a-mb"></div>
     </div>
   </client-only>
 </div>
@@ -36,14 +36,23 @@ import MainButton from '~/components/layout/buttons/MainButton.vue'
 import CartTotal from './CartTotal.vue'
 import { GLOBAL } from '~/core/const'
 import instanceHandler from '~/core/instanceHandler'
-import { LoadingState, LineItem } from '~/types'
+import { LoadingState } from '~/types'
 import { decodeToken } from '~/util/jwt'
 import LazyWrapper from '~/components/util/LazyWrapper.vue'
 import PaymentMethods from '~/components/pages/product/PaymentMethods.vue'
+import Benefits from '~/components/pages/product/Benefits.vue'
 
 export default {
-  components: { PaymentMethods, CartItem, MainButton, CartTotal, LazyWrapper },
+  components: { PaymentMethods, CartItem, MainButton, CartTotal, LazyWrapper, Benefits },
   computed: {
+    containerClass(){
+      if(this.$device.isMobile)
+        return ""
+      else if(this.$device.isTablet)
+        return "td-split"
+      else
+        return "td-split-3-2"
+    },
     cartItems(){
       return this.$store.state.cart.lineItems.map(lineItem => ({
         ...lineItem,
@@ -201,7 +210,6 @@ export default {
     async _fetch(){
 
       this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
-      this.$store.commit("cart/init")
 
       const lineItems = this.$store.state.cart.lineItems
 
@@ -236,12 +244,8 @@ export default {
   display: flex;
   flex-direction: column;
   gap: calc(var(--default-margin) * 2);
-  overflow: scroll;
 }
 .a-empty {
   text-align: left;
-}
-.a-mb{
-  margin-bottom: calc(var(--gap) + var(--button-y));
 }
 </style>

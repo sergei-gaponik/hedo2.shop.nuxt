@@ -13,6 +13,8 @@
   font-size: 18px;
   text-transform: uppercase;
   text-decoration: none;
+  cursor: pointer;
+  user-select: none;
 }
 </style>
 

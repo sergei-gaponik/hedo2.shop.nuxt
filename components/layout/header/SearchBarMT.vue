@@ -30,10 +30,10 @@ export default {
 </script>
 
 <style scoped>
-  .a-input {
-    width: 100%;
-    font-size: 20px;
-    border: none;
-    outline: none;
-  }
+.a-input {
+  width: 100%;
+  font-size: 20px;
+  border: none;
+  outline: none;
+}
 </style>

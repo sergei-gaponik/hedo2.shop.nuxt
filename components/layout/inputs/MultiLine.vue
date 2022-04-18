@@ -44,7 +44,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  margin-bottom: var(--default-margin);
 }
 .a-info{
   display: flex;

@@ -10,6 +10,7 @@ interface InstanceHandlerResponse {
 }
 
 interface InstanceAPIRequest {
+  sid?: string
   path: string
   args?: any
   cache?: boolean
@@ -19,11 +20,20 @@ interface InstanceAPIRequest {
 let cache = {}
 
 export default async function instanceHandler(body: InstanceAPIRequest): Promise<InstanceHandlerResponse>{
-
+  
   const hash = body.cache ? crc(body) : null
 
   if(hash && cache[hash]) 
     return cache[hash];
+
+  if(process.client){
+
+    const sid = window.localStorage.getItem("sid")
+  
+    if(sid){
+      body = { ...body, sid }
+    }
+  }
 
   try{
     const res = await fetch(`${process.env.INSTANCE_API_ENDPOINT}`, {
@@ -37,6 +47,10 @@ export default async function instanceHandler(body: InstanceAPIRequest): Promise
     if(!res.ok) throw new Error();
 
     const data = await res.json()
+
+    if(process.client && data.sid){
+      window.localStorage.setItem("sid", data.sid)
+    }
 
     if(data.errors && data.errors.length){
       console.log(data)

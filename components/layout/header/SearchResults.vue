@@ -1,59 +1,77 @@
 <template>
   <client-only>
-    <lazy-wrapper>
-      <div :class="$device.isMobile ? 'a-container container-m' : 'a-container container'">
-        <div class="mb2" v-if="products.length">
-          <product-list-horizontal :products="products" :cols="$device.isMobile ? 2 : 4" />
-          <nuxt-link 
-            :to="localePath('/q/'+$store.state.search.query)" 
-            @click.native="$store.commit('search/reset')"
-          >
-            <span class="link-h4">{{ $t('showMore') }}</span>
-          </nuxt-link>
-        </div>
-        <div :class="['a-results', !$device.isMobile && articles.length ? 'a-results-td' : '']">
-          <div 
-            :class="['a-results', !$device.isMobile && !articles.length ? 'a-results-td' : '']"
-            v-if="brands.length || categories.length || pages.length || series.length"
-          >
-            <search-result-group 
-              :items="brands"
-              :title="$t('brands')"
-              :order="orderPosition('brands')"
-              :href="brand => href('brands', brand)"
-              :displayName="brand => brand.name"
-            />
-            <search-result-group 
-              :items="categories"
-              :title="$t('collections')"
-              :order="orderPosition('categories')"
-              :href="category => href('categories', category)"
-              :displayName="category => category.name"
-            />
-            <search-result-group 
-              :items="pages"
-              :title="$t('pages')"
-              :order="orderPosition('pages')"
-              :href="page => href('pages', page)"
-              :displayName="page => page.name"
-            />
-            <search-result-group 
-              :items="series"
-              :title="$t('series')"
-              :order="orderPosition('series')"
-              :href="series => href('series', series)"
-              :displayName="series => series.name"
-            />
-          </div>
-          <div v-if="articles.length" >
-            <h4>{{ $t('beautyMagazine') }}</h4>
-            <article-list
-              :articleSearchResults="articles"
-            />
-          </div>
-        </div>
+    <div :class="[
+      'a-searchresults', 
+      $device.isMobile ? 'a-searchresults-m' : '',
+      $device.isTablet ? 'a-searchresults-t' : ''
+    ]">
+      <div class="mb2 mt"
+        v-if="loadingState == 'loading' || products.length"
+      >
+        <product-list-horizontal 
+          :products="products" 
+          :cols="$device.isMobile ? 2 : 4" 
+        />
+        <nuxt-link 
+          v-if="products.length"
+          :to="localePath('/q/'+$store.state.search.query)" 
+          @click.native="$store.commit('search/reset')"
+          :class="$device.isMobile ? 'container-m' : 'container'"
+        >
+          <span class="link-h4">{{ $t('showMore') }}</span>
+        </nuxt-link>
       </div>
-    </lazy-wrapper>
+      <lazy-wrapper>
+        <div :class="$device.isMobile ? 'container-m' : 'container'">
+          <div v-if="noResults">
+            <span class="subdued">
+              {{ `${$t('noResultsFor')} „${$store.state.search.query}“`  }}
+            </span>
+          </div>
+          <div :class="['a-results', !$device.isMobile && articles.length ? 'a-results-td' : '']">
+            <div 
+              :class="['a-results', !$device.isMobile && !articles.length ? 'a-results-td' : '']"
+              v-if="brands.length || categories.length || pages.length || series.length"
+            >
+              <search-result-group 
+                :items="brands"
+                :title="$t('brands')"
+                :order="orderPosition('brands')"
+                :href="brand => href('brands', brand)"
+                :displayName="brand => brand.name"
+              />
+              <search-result-group 
+                :items="categories"
+                :title="$t('collections')"
+                :order="orderPosition('categories')"
+                :href="category => href('categories', category)"
+                :displayName="category => category.name"
+              />
+              <search-result-group 
+                :items="pages"
+                :title="$t('pages')"
+                :order="orderPosition('pages')"
+                :href="page => href('pages', page)"
+                :displayName="page => page.name"
+              />
+              <search-result-group 
+                :items="series"
+                :title="$t('series')"
+                :order="orderPosition('series')"
+                :href="series => href('series', series)"
+                :displayName="series => series.name"
+              />
+            </div>
+            <div v-if="articles.length" >
+              <h4>{{ $t('beautyMagazine') }}</h4>
+              <article-list
+                :articleSearchResults="articles"
+              />
+            </div>
+          </div>
+        </div>
+      </lazy-wrapper>
+    </div>
   </client-only>
 </template>
 
@@ -69,6 +87,14 @@ import ArticleList from '~/components/pages/blog/ArticleList.vue'
 
 export default {
   components: { LazyWrapper, ProductCard, ProductListHorizontal, ChevronRightIcon, SearchResultGroup, ArticleList },
+  computed: {
+    loadingState(){
+      return this.$store.state.loadingState.loadingState
+    },
+    noResults(){
+      return !this.brands.length && !this.categories.length && !this.pages.length && !this.series.length && !this.articles.length
+    }
+  },
   methods: {
     orderPosition(key){
       const maxScores = Object.entries(this.$store.state.search.maxScores)
@@ -129,14 +155,17 @@ export default {
     this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
 
   },
-  data: () => ({
-    products: [],
-    brands: [],
-    categories: [],
-    pages: [],
-    articles: [],
-    series: []
-  }),
+  data(){
+
+    return{
+      products: [],
+      brands: [],
+      categories: [],
+      pages: [],
+      articles: [],
+      series: []
+    }
+  },
   watch: {
     '$store.state.search.productResults': function(){
       this.$fetch()
@@ -197,8 +226,8 @@ export default {
             href = '/p/' + this.products[0].handle
           }
           
-          this.$router.push(this.localePath(href))
           this.$store.commit("search/reset")
+          this.$router.push(this.localePath(href))
         }
       });
     }
@@ -207,26 +236,39 @@ export default {
 </script>
 
 <style scoped>
-.a-container{
+.a-searchresults{
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
 }
+
+.a-searchresults-m{
+  height: calc(100vh - var(--header-y-m) - var(--footer-y-m))
+}
+
+.a-searchresults-t{
+  height: calc(100vh - var(--header-y-t))
+}
+
 .a-results{
   display: grid;
   grid-template-columns: 1fr;
+  width: 100%;
 }
 .a-results-td{
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, calc(50% - var(--padding-x-td)));
+  gap: calc(var(--padding-x-td) * 2);
 }
 .a-list{
   position: relative;
   left: calc(0px - var(--padding-x-m));
-  width: 100vw;
+  width: 100%;
 }
 .a-list-td{
   left: calc(0px - var(--padding-x-td));
-  width: 50vw;
+  width: 50%;
 }
 .a-group{
-  max-width: calc(100vw - (var(--padding-x-td) * 2));
+  max-width: calc(100% - (var(--padding-x-td) * 2));
 }
 </style>

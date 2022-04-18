@@ -1,10 +1,10 @@
 <template>
-  <div class="a-container">
-    <div>
+  <div :class="containerClass">
+    <div :class="$device.isMobile ? 'mb4' : 'td-split-sticky'">
       <article-header :article="article"/>
       <article-content :article="article" />
     </div>
-    <div>
+    <div :class="$device.isMobile ? '' : 'td-split-sticky'">
       <article-sidebar :similarArticles="similarArticles"/>
     </div>
   </div>
@@ -20,6 +20,16 @@ import ArticleContent from './ArticleContent.vue'
 export default {
   components: { ArticleHeader, ArticleSidebar, ArticleContent },
   props: [ "article" ],
+  computed: {
+    containerClass(){
+      if(this.$device.isMobile)
+        return 'a-container-m'
+      else if(this.$device.isTablet)
+        return 'a-container-t'
+      else
+        return 'a-container-d'
+    }
+  },  
   async fetch(){
 
     this.loadingState = LoadingState.loading
@@ -51,9 +61,16 @@ export default {
 
 <style scoped>
 
-.a-container{
+.a-container-t{
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: calc(var(--padding-x-td));
 }
+
+.a-container-d{
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: calc(var(--padding-x-td));
+}
+
 </style>

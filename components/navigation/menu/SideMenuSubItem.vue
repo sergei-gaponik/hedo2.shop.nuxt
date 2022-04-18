@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="a-itemheader" @click="action()">
-      {{ menuItem.title || menuItem.name }}
+    <div class="a-itemheader" @click="$emit('expand')">
+      {{ menuItem.title || menuItem.name }}
     </div>
     <!-- <div class="a-subitems" v-if="expanded && menuItem.children && menuItem.children.length">
-      <sub-item 
+      <side-menu-sub-item 
         v-for="child in menuItem.children" 
         :key="child._id" 
         :menuItem="child" 
@@ -16,8 +16,10 @@
 </template>
 
 <script>
+
 export default {
-  props: [ "menuItem" ],
+  name: "side-menu-sub-item",
+  props: [ "menuItem", "expanded" ],
   methods: {
     action(){
       this.$store.commit("nav/closeAllDrawers")
@@ -27,6 +29,13 @@ export default {
         this.$router.push(this.menuItem.href)
       else
         this.$router.push(this.localePath('/c/' + this.menuItem.handle))
+    },
+    expand(handle){
+      this.expanded = [ handle ]
+    },
+    collapse(handle){
+      
+      this.expanded = this.expanded.filter(a => a != handle)
     }
   }
 }

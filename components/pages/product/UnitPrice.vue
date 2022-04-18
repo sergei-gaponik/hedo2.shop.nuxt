@@ -7,17 +7,36 @@ export default {
   props: [ "variant", "price" ],
   computed: {
     unitPriceCaption(){
-   
-      const l = f => f == 1 ? "" : f.toLocaleString(this.$i18n.localeProperties.numberFormat)
+
+      const kilo = unit => {
+        switch(unit){
+          case "mL":
+            return "L"
+          case "g":
+            return "kg"
+          case "mg":
+            return "g"
+        }
+      }
+
       const money = f => f.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })
+
+      const measurementQuantity = this.variant.measurementQuantity
+      const measurementUnit = this.variant.measurementUnit
+      const price = this.price || this.variant.price
+   
       
-      if(!this.variant.measurementReferenceValue || !this.variant.measurementQuantity || !this.variant.measurementUnit)
+      if(!measurementQuantity || !measurementUnit)
         return ""
 
-      const price = this.price || this.variant.price
-      const unitPrice = Math.round((price * this.variant.measurementReferenceValue / this.variant.measurementQuantity) * 100)  / 100
+      const measurementReferenceValue = measurementQuantity > 250 ? 1000 : 100
 
-      return `${money(unitPrice)} / ${l(this.variant.measurementReferenceValue) + this.variant.measurementUnit}`
+      const referenceUnit = measurementReferenceValue == 1000 ? kilo(measurementUnit) : measurementUnit
+      const referenceCaption = measurementReferenceValue == 1000 ? 1 : 100 + " " + referenceUnit
+
+      const unitPrice = Math.round((price * measurementReferenceValue / measurementQuantity) * 100)  / 100
+
+      return `${money(unitPrice)} / ${referenceCaption}`
     },
   }
 }
@@ -25,7 +44,7 @@ export default {
 
 <style scoped>
 .a-unitprice{
-  color: var(--c-brown-2);
+  color: var(--c-gray-2);
   letter-spacing: 0.1em;
   font-size: 0.8em;
   line-height: 1.5em;

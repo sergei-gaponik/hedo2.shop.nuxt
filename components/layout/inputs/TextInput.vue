@@ -5,6 +5,7 @@
     </span>
     <div class="a-input-container">
       <input 
+        ref="input"
         class="a-input"
         :type="inputType" 
         :value="value"
@@ -102,7 +103,8 @@ export default {
   border-radius: var(--default-border-radius);
 }
 .a-input:focus{
-  border-color: black;
+  border-color: var(--c-gray-1);
+  box-shadow: inset 0px 0px 5px var(--c-gray-3);
 }
 .a-iconbutton{
   cursor: pointer;

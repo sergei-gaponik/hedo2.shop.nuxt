@@ -23,8 +23,8 @@
         <visa-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
         <sofort-icon height=24 v-if="paymentMethod.key == 'sofort'" />
 
-        <!-- <apple-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
-        <google-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" /> -->
+        <apple-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
+        <google-pay-icon height=24 v-if="paymentMethod.key == 'creditcard'" />
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@ export default {
 <style scoped>
 .a-item{
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 1fr 1fr;
   user-select: none;
   width: calc(100% - var(--padding) * 2);
   border-radius: var(--default-border-radius);

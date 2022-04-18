@@ -1,11 +1,21 @@
 <template>
   <div :class="$device.isMobile ? 'container-m' : 'container'">
-    <bread-crumbs 
-      :breadCrumbs="breadCrumbs"
-    />
-    <collection-page 
-      :brand="$route.params.brandHandle"
-    />
+    <div :class="$device.isDesktop ? 'td-split-1-3' : ''">
+      <div v-if="$device.isDesktop">
+        <filter-page-d 
+          class="td-split-sticky"
+          v-if="$device.isDesktop" 
+        />
+      </div>
+      <div>
+        <bread-crumbs :breadCrumbs="breadCrumbs" />
+        <lazy-wrapper :loadingState="loadingState">
+          <collection-page 
+            :brand="$route.params.brandHandle"
+          />
+        </lazy-wrapper>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,12 +24,16 @@ import CollectionPage from '~/components/pages/collection/CollectionPage.vue'
 import BreadCrumbs from '~/components/navigation/BreadCrumbs.vue'
 import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
+import FilterPageD from '~/components/pages/collection/filters/FilterPageD.vue'
+import LazyWrapper from '~/components/util/LazyWrapper.vue'
+
 
 export default {
-  components: { CollectionPage, BreadCrumbs },
+  components: { CollectionPage, BreadCrumbs, FilterPageD, LazyWrapper },
   data(){
     return { 
-      breadCrumbs: []
+      breadCrumbs: [],
+      loadingState: LoadingState.ready
     }
 
   },
@@ -27,13 +41,16 @@ export default {
     
     this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
 
-    const { data } = await instanceHandler({
+    this.loadingState = LoadingState.loading
+
+    const { data, loadingState } = await instanceHandler({
       path: "getBrand",
       args: { handle: this.$route.params.brandHandle },
       cache: true
     })
 
     this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
+    this.loadingState = loadingState
     
     const brandInfo = data?.brand
 
@@ -41,12 +58,8 @@ export default {
       
       this.breadCrumbs = [
         {
-          caption: this.$t("allProducts"),
-          href: this.localePath("/c/all")
-        },
-        {
-          caption: this.$t("brands"),
-          href: this.localePath("/b")
+          caption: this.$t("home"),
+          href: this.localePath("/")
         },
         {
           caption: brandInfo.name

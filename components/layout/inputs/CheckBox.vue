@@ -1,14 +1,21 @@
 <template>
 <div :class="['a-flex', center ? 'a-flex-center' : '']">
-  <div :class="['a-container', small ? 'a-small' : '']">
+  <div :class="[
+    'a-container', 
+    small ? 'a-small' : ''
+  ]">
     <input 
       type="checkbox"
-      class="a-checkbox"
+      :class="[ fakeCheckbox ? 'hide' : 'a-checkbox' ]"
       :checked="checked" 
-      @change="clickHandler(() => $emit('input', $event.target.checked))"
+      @change="action($event.target.checked)"
       :required="!!required"
     />
-    <span class="a-checkmark" />
+    <span :class="[ 
+      'a-checkmark', 
+      fakeCheckbox && checked ? 'a-checked' : '', 
+      disabled ? 'a-checkmark-disabled' : '' ]" 
+    />
   </div>
   <div>
     <slot />
@@ -24,19 +31,24 @@ export default {
     prop: 'checked',
     event: 'input'
   },
+  methods: {
+    action(checked){
+      if(!this.disabled)
+        clickHandler(() => this.$emit('input', checked))
+    }
+  },
   props: {
     required: Boolean,
     checked: Boolean,
     small: Boolean,
-    center: Boolean
+    center: Boolean,
+    fakeCheckbox: Boolean,
+    disabled: Boolean
   },
   data(){
     return {
       lock: false
     }
-  },
-  methods: {
-    clickHandler
   }
 }
 </script>
@@ -46,7 +58,6 @@ export default {
   display: flex;
   gap: var(--gap);
   flex-wrap: nowrap;
-  margin-bottom: var(--default-margin);
 }
 .a-flex-center{
   align-items: center;
@@ -90,8 +101,12 @@ export default {
   height: 60%;
 }
 
-.a-checkbox:checked ~ .a-checkmark {
+.a-checkbox:checked ~ .a-checkmark, .a-checked {
   background-color: var(--c-gray-1);
+}
+
+.a-checkmark-disabled{
+  background-color: var(--c-gray-4);
 }
 
 .a-checkbox:invalid .a-container{

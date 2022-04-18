@@ -195,7 +195,7 @@ export default {
       await auth().signOut()
       localStorage.removeItem("checkoutInfo")
       this.$store.commit("checkout/init")
-      this.$router.push(this.localePath('/login'))
+      location.href = this.localePath('/login')
     }
   }
 }

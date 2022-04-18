@@ -3,14 +3,14 @@
   <drawer-bottom-m :show="$store.state.nav.filterDrawerOpen" v-if="$device.isMobile">
     <filter-page-m />
   </drawer-bottom-m>
-  <drawer-right-t :show="$store.state.nav.filterDrawerOpen" v-else>
+  <drawer-right-t :show="$store.state.nav.filterDrawerOpen" v-else-if="$device.isTablet">
     <filter-page-m />
   </drawer-right-t>
 
   <div class="a-section">
     <div class="a-header">
       <div class="subdued">{{ productCountCaption }}</div>
-      <div>
+      <div v-if="!$device.isDesktop">
         <filter-button :action="openFilterDrawer" />
       </div>
     </div>

@@ -1,6 +1,5 @@
 <template>
-<nuxt-link :to="localePath('/mag/' + articleSearchResult.handle)">
-  <div class="a-preview">
+  <div class="a-preview" @click="goToArticle()">
     <div class="a-img-container" v-if="articleSearchResult.imageSrc">
       <lazy-image class="a-img" :src="articleSearchResult.imageSrc" s3/>
     </div>
@@ -11,7 +10,6 @@
       </div>
     </div>
   </div>
-</nuxt-link>
 </template>
 
 <script>
@@ -23,7 +21,11 @@ export default {
   components: { LazyImage },
   props: ["articleSearchResult"],
   methods: {
-    toDateString
+    toDateString,
+    goToArticle(){
+      this.$store.commit("search/reset")
+      this.$router.push(this.localePath('/mag/' + this.articleSearchResult.handle))
+    }
   }
 }
 </script>
@@ -42,6 +44,7 @@ export default {
   display: grid;
   grid-template-columns: 65px auto;
   gap: var(--gap);
+  cursor: pointer;
 }
 
 .a-img-container{

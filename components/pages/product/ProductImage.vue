@@ -1,6 +1,10 @@
 <template>
-  <div class="a-img-container">
-    <lazy-image v-if="!defaultVisible" class="a-img" :src="src" s3 @error="showDefault" />
+  <div 
+    class="a-img-container"
+    @mouseover="mouseOver()"
+    @mouseleave="mouseLeave()"
+  >
+    <lazy-image v-if="!defaultVisible" class="a-img" :src="activeImageSrc" s3 @error="showDefault" />
     <image-icon v-if="defaultVisible" class="a-default" height=24 color="var(--c-gray-4)"/>
   </div>
 </template>
@@ -11,15 +15,32 @@ import LazyImage from '~/components/util/LazyImage.vue'
 
 export default {
   components: { LazyImage, ImageIcon },
-  props: ["src"],
+  props: ["src", "altSrc"],
+  watch: {
+    src(){
+      this.activeImageSrc = this.src || this.altSrc
+    },
+    altSrc(){
+      this.activeImageSrc = this.src || this.altSrc
+    }
+  },
   data(){
     return {
-      defaultVisible: !this.src
+      defaultVisible: !this.src && !this.altSrc,
+      activeImageSrc: this.src || this.altSrc
     }
   },
   methods: {
     showDefault(){
       this.defaultVisible = true
+    },
+    mouseOver(){
+      if(this.altSrc && this.$device.isDesktop)
+        this.activeImageSrc = this.altSrc
+    },
+    mouseLeave(){
+      if(this.src && this.$device.isDesktop)
+        this.activeImageSrc = this.src
     }
   }
 }
@@ -40,12 +61,13 @@ export default {
 
 .a-img {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
   height: 100%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  max-height: 400px;
   object-fit: cover;
   object-position: center;
 }

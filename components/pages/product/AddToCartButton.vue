@@ -1,7 +1,8 @@
 <template>
 <client-only>
-  <main-button :ref="'addtocart' + _uid" :disabled="disabled" naked>
+  <main-button :ref="'addtocart' + _uid" :disabled="disabled" naked noPadding>
     <quantity-selector 
+      class="a-qselector"
       @decQuantity="decQuantity()"
       @incQuantity="incQuantity()"
       :quantity="quantity"
@@ -41,9 +42,6 @@ export default {
   },
   created(){
     this._created = true
-
-    if(process.client)
-      this.$store.commit("cart/init")
   },
   data(){
     return { 
@@ -87,6 +85,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.a-qselector{
+  margin: var(--padding-s);
+  position: relative;
+  height: calc(100% - var(--padding-s) * 2);
 }
 
 </style>

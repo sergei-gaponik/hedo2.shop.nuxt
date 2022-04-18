@@ -34,6 +34,15 @@ export default {
       this.$store.commit("nav/closeAllDrawers")
       this.$emit("close")
     }
+  },
+  watch: {
+    show(){
+      if(this.show)
+        document.body.style.overflow = "hidden"
+      else
+        document.body.style.overflow = "initial"
+
+    }
   }
 }
 </script>
@@ -47,11 +56,11 @@ export default {
   top: 0;
   bottom: 0;
   background-color: var(--c-green-1);
-  opacity: 0.1;
+  opacity: 0.06;
 }
 .a-bg-enter-active, .a-bg-leave-active {
   transition: var(--drawer-transition);
-  opacity: 0.1;
+  opacity: 0.06;
 }
 .a-bg-enter, .a-bg-leave-to{
   opacity: 0;

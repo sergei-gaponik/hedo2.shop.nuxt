@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <client-only>
     <nuxt-link :to="localePath('/me')">
       <profile-icon color="#434343" :height="height" />
     </nuxt-link>
-  </div>
+  </client-only>
 </template>
 
 <script>

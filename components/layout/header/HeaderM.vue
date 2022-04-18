@@ -8,7 +8,7 @@
       </div>
       <div v-show="!$store.state.search.searchBarVisible" class="a-flex">
         <home-button height=30 class="a-flex-left" />
-        <regional-button height=26 region="DE" />
+        <!-- <regional-button height=26 region="DE" /> -->
         <cart-button height=26 />
         <profile-button height=26 />
         <search-button height=26 :action="() => clickHandler(showSearchBar)" />
@@ -38,7 +38,6 @@ export default {
     clickHandler,
     showSearchBar(){
       if(!this.$store.state.search.searchBarVisible){
-
         this.$store.commit('nav/closeAllDrawers')
         this.$store.commit('search/showSearchBar')
         this.$refs.searchbar.focusInput()
@@ -63,7 +62,7 @@ export default {
 .a-container {
   padding: 0 var(--padding-x-m);
   position: relative;
-  height: calc(var(--header-y-m) - 4px);
+  height: calc(var(--header-y-m) - var(--divider-y));
 }
 .a-flex {
   display: flex;

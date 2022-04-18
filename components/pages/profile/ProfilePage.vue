@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-slim-d">
     <page-title-m :title="$t('profilePageTitle')" />
     <div class="td-split">
       <div class="td-split-sticky">

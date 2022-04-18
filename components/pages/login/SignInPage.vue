@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h2>{{ $t('alreadyCustomerCaption') }}</h2>
+  <h2 v-if="!hideTitle">{{ $t('alreadyCustomerCaption') }}</h2>
   <form @submit.prevent="submit">
     <div class="mb4">
       <text-input 
@@ -41,7 +41,8 @@ import { sanitizeEmailAddress } from '~/util/email'
 export default {
   components: { TextInput, PrimaryButton },
   props: {
-    noAccountLink: Boolean
+    noAccountLink: Boolean,
+    hideTitle: Boolean
   },
   data(){
     return {
@@ -74,7 +75,6 @@ export default {
       }
 
       this.$emit("success")
-
     }
   }
 }

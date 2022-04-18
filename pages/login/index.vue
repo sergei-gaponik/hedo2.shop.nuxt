@@ -1,5 +1,5 @@
 <template>
-  <div :class="$device.isMobile ? 'container-m' : 'container'">
+  <div :class="$device.isMobile ? 'container-m' : 'container-slim-d'">
     <div v-if="page == 'forgotPassword' || page == 'verifyEmail'" class="a-page">
       <forgot-password-page 
         v-if="page == 'forgotPassword'"
@@ -59,7 +59,7 @@ export default {
     success(){
       localStorage.removeItem("checkoutInfo")
       this.$store.commit("checkout/init")
-      this.$router.push(this.localePath('/me'))
+      location.href = this.localePath('/me')
     },
     verifyEmail({ email, password }){
       this.setPage('verifyEmail')

@@ -34,7 +34,7 @@ export default {
 <style>
 .article-content-body{
   position: relative;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--alt-font);
 }
 
 .article-content-body img {

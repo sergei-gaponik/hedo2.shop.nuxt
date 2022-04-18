@@ -12,7 +12,7 @@
           <home-button height=30  />
         </div>
         <div class="a-buttons">
-          <regional-button height=26 region="DE" />
+          <!-- <regional-button height=26 region="DE" /> -->
           <cart-button height=26 />
           <profile-button height=26 />
         </div>
@@ -77,7 +77,7 @@ export default {
 .a-container {
   padding: 0 var(--padding-x-td);
   position: relative;
-  height: calc(var(--header-y-t) - 4px);
+  height: calc(var(--header-y-t) - var(--divider-y));
 }
 .a-flex {
   display: flex;

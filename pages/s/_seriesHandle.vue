@@ -1,11 +1,21 @@
 <template>
   <div :class="$device.isMobile ? 'container-m' : 'container'">
-    <bread-crumbs 
-      :breadCrumbs="breadCrumbs"
-    />
-    <collection-page 
-      :series="$route.params.seriesHandle"
-    />
+    <div :class="$device.isDesktop ? 'td-split-1-3' : ''">
+      <div v-if="$device.isDesktop">
+        <filter-page-d 
+          class="td-split-sticky"
+          v-if="$device.isDesktop" 
+        />
+      </div>
+      <div>
+        <bread-crumbs :breadCrumbs="breadCrumbs" />
+        <lazy-wrapper :loadingState="loadingState">
+          <collection-page 
+            :series="$route.params.seriesHandle"
+          />
+        </lazy-wrapper>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,9 +24,11 @@ import CollectionPage from '~/components/pages/collection/CollectionPage.vue'
 import BreadCrumbs from '~/components/navigation/BreadCrumbs.vue'
 import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
+import LazyWrapper from '~/components/util/LazyWrapper.vue'
+import FilterPageD from '~/components/pages/collection/filters/FilterPageD.vue'
 
 export default {
-  components: { CollectionPage, BreadCrumbs },
+  components: { CollectionPage, BreadCrumbs, LazyWrapper, FilterPageD },
   data(){
 
     return { 
@@ -28,6 +40,7 @@ export default {
   async fetch(){
 
     this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
+    this.loadingState = LoadingState.loading
 
     const { loadingState, data } = await instanceHandler({
       path: "getOneSeries",
@@ -35,6 +48,7 @@ export default {
       cache: true
     })
 
+    this.loadingState = loadingState
     this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
     
     const seriesInfo = data?.series
@@ -43,8 +57,8 @@ export default {
       
       this.breadCrumbs = [
         {
-          caption: this.$t("allProducts"),
-          href: this.localePath("/c/all")
+          caption: this.$t("home"),
+          href: this.localePath("/")
         },
         {
           caption: seriesInfo.brand.name,

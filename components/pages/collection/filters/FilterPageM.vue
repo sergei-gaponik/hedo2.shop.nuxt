@@ -7,14 +7,13 @@
           :key="category._id"
           :category="category"
           :last="index == $store.state.filters.availableCategories.length - 1"
-          @click="() => selectCategory(index)"
+          @click="selectCategory(index)"
         />
       </div>
       <div :class="['a-filters', $device.isMobile ? '' : 'a-filters-t']">
         <div 
-          type="button"
           class="a-filters-header"
-          @click="closeFilters"
+          @click="closeFilters()"
         >
           <chevron-left-icon height=16 color="var(--c-gray-1)" />
           <div>{{ selectedCategory.name }}</div>

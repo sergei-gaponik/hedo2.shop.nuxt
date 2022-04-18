@@ -4,7 +4,6 @@
       class="a-input"
       :value="value" 
       ref="input"
-      @input="changeValueOnDesktop"
       @click="showSearchbarOnTablet"
     />
     <search-icon 
@@ -29,10 +28,6 @@ export default {
     }
   },
   methods: {
-    changeValueOnDesktop(e) {
-      if(this.$device.isDesktop)
-        this.$store.dispatch("search/globalSearch", { query: e.target.value, limit: 8 })
-    },
     showSearchbarOnTablet(){
       if(this.$device.isTablet){
         this.$emit('showSearchbar')

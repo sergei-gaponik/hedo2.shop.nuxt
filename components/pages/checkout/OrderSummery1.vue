@@ -1,13 +1,13 @@
 <template>
   <div class="mb4">
     <p>{{ $t('contactInformation') }}</p>
-    <div :class="isAuthenticated ? 'panel' : 'panel pointer'" @click="!isAuthenticated ? setStep(2) : null">
+    <div :class="isAuthenticated ? 'panel' : 'panel pointer'" @click="!isAuthenticated ? setStep(1) : null">
       {{ contactInfo.email }}
     </div>
     <p>{{ $t('shippingAddress') }}</p>
-    <address-info :address="shippingInfo.shippingAddress" hideIcon hideDefault @click="setStep(3)" />
+    <address-info :address="shippingInfo.shippingAddress" hideIcon hideDefault @click="setStep(2)" />
     <p>{{ $t('billingAddress') }}</p>
-    <address-info :address="billingAddress" hideIcon hideDefault @click="setStep(3)" />
+    <address-info :address="billingAddress" hideIcon hideDefault @click="setStep(2)" />
   </div>
 </template>
 

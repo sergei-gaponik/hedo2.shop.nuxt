@@ -23,10 +23,11 @@ export default {
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" },
-
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap" },
     ],
     script: [
       { src: 'https://js.stripe.com/v3/', async: true },
+      { src: `https://maps.googleapis.com/maps/api/js?key=${env.GOOGLE_API_KEY}&libraries=places`, async: true }
     ]
   },
 
@@ -62,6 +63,7 @@ export default {
           code: 'en',
           numberFormat: 'en-US',
           currency: "USD",
+          currencySymbol: "$",
           file: 'en.js',
           deliveryTime: [ 2, 5 ]
         },
@@ -69,6 +71,7 @@ export default {
           code: 'de',
           numberFormat: 'de-DE',
           currency: "EUR",
+          currencySymbol: "€",
           file: 'de.js',
           deliveryTime: [ 1, 3 ]
         },

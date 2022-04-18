@@ -69,17 +69,17 @@ export default {
 @keyframes a-appear {
 
   0% {
-    transform: scale(0%);
+    transform: scale(50%);
     opacity: 0;
   }
 
   50% {
-    transform: scale(50%);
+    transform: scale(80%);
     opacity: 0.1;
   }
 
   75% {
-    transform: scale(140%);
+    transform: scale(120%);
     opacity: 0.2;
   }
   

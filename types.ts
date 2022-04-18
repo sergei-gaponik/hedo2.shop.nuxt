@@ -27,6 +27,7 @@ export interface Filter {
 export interface FilterCategory {
   _id: string
   name: string
+  categoryId: string
   filters: Filter[]
 }
 

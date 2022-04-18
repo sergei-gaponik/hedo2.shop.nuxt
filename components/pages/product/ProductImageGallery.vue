@@ -3,10 +3,10 @@
   <div class="a-slider hide-scrollbar mb2" ref="slider">
     <product-image :src="imgSrc"/>
     <div v-if="multipleImages" @click="clickHandler(prevImage)" class="a-left">
-      <chevron-left-icon height=48 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
+      <chevron-left-icon height=36 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
     </div>
     <div v-if="multipleImages" @click="clickHandler(nextImage)" class="a-right">
-      <chevron-right-icon height=48 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
+      <chevron-right-icon height=36 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
     </div>
   </div>
   <div class="a-dots" v-if="multipleImages">

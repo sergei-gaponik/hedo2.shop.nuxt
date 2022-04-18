@@ -21,7 +21,7 @@ export default {
   display: flex;
   align-items: center;
   border: 1px solid var(--c-gray-2);
-  border-radius: 3px;
+  border-radius: var(--border-width) ;
   padding: var(--padding-s) var(--padding-s);
 }
 .a-caption{

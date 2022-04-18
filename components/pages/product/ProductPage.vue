@@ -15,7 +15,7 @@
         />
       </drawer-bottom-m>
     </div>
-    <div :class="$device.isMobile ? '' : 'td-split'">
+    <div :class="containerClass">
       <div v-if="!$device.isMobile" class="td-split-sticky">
         <portal to="body">
           <pop-up :show="$store.state.nav.cartDrawerOpen" width="480px" height="600px">
@@ -29,7 +29,7 @@
         <lazy-wrapper :loadingState="similarProductsLoadingState">
           <div v-if="similarProducts && similarProducts.length">
             <h2 class="h2">{{ $t("similarProducts") }}</h2>
-            <product-list-horizontal :products="similarProducts" vw=50 />
+            <product-list-horizontal :products="similarProducts" :cols="$device.isDesktop ? 3 : 2" />
           </div>
         </lazy-wrapper>
       </div>
@@ -44,7 +44,7 @@
           />
         </div>
         <p class="text">
-          {{ `${$t("deliveryTime")}: ${$i18n.localeProperties.deliveryTime.join(" - ")} ${$t("days")}`}}
+          {{ `${$t("deliveryTime")}: ${$i18n.localeProperties.deliveryTime.join(" - ")} ${$t("days")}`}}<br/>
         </p>
         <variant-selector 
           v-if="product.variants.length > 1" 
@@ -59,7 +59,8 @@
           :selectedVariant="selectedVariant"
           class="mt4"
         />
-        <payment-methods class="mt4 mb4" />
+        <payment-methods class="mt4 mb2" />
+        <benefits />
 
         <lazy-wrapper :loadingState="similarProductsLoadingState" v-if="$device.isMobile">
           <div v-if="similarProducts && similarProducts.length">
@@ -67,8 +68,6 @@
             <product-list-horizontal :products="similarProducts" />
           </div>
         </lazy-wrapper>
-        
-        <div class="a-mb"></div>
       </div>
     </div>
     
@@ -90,10 +89,12 @@ import DrawerBottomM from '~/components/layout/drawer/DrawerBottomM.vue'
 import AddToCartPage from './AddToCartPage.vue'
 import AddToCartButton from '~/components/pages/product/AddToCartButton.vue'
 import PopUp from '~/components/layout/misc/PopUp.vue'
+import ProductGrid from '../collection/ProductGrid.vue'
+import Benefits from './Benefits.vue'
 
 export default {
   props: [ "product" ],
-  components: { PopUp, ProductTitle, LazyWrapper, ProductImageGallery, ProductListHorizontal, VariantSelector, PaymentMethods, DrawerBottomM, AddToCartPage, AddToCartButton },
+  components: { PopUp, ProductTitle, LazyWrapper, ProductImageGallery, ProductListHorizontal, VariantSelector, PaymentMethods, DrawerBottomM, AddToCartPage, AddToCartButton, ProductGrid, Benefits },
   methods: {
     async addToCart(quantity){
 
@@ -127,11 +128,13 @@ export default {
     this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
     this.similarProductsLoadingState = LoadingState.loading
 
+    const limit = this.$device.isDesktop ? 6 : 5
+
     const r = await searchHandler({
       path: "getProductsLikeThis",
       args: {
         _id: this.product._id,
-        limit: 5
+        limit: limit
       },
       cache: true
     })
@@ -168,7 +171,18 @@ export default {
       return this.product.variants[this.variantIndex]
     },
     maxQuantity(){
-      return Math.min(this.selectedVariant.availableQuantity, this.selectedVariant.maxQuantity || 100)
+      return Math.min(this.selectedVariant.availableQuantity, this.selectedVariant.maxQuantity || 99)
+    },
+    eanCaption(){
+      return this.selectedVariant.ean ? `EAN: ${this.selectedVariant.ean}` : ''
+    },
+    containerClass(){
+      if(this.$device.isMobile)
+        return ''
+      else if(this.$device.isTablet)
+        return 'td-split'
+      else
+        return 'td-split-3-2'
     }
   }
 }
@@ -179,8 +193,5 @@ export default {
 .a-title {
   text-align: center;
   margin-top: 10px;
-}
-.a-mb{
-  margin-bottom: calc(var(--gap) + var(--button-y));
 }
 </style>

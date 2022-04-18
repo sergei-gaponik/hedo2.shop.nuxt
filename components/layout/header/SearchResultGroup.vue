@@ -1,8 +1,9 @@
 <template>
   <div class="mb2 a-group" v-if="items.length" :style="{ order: order }">
     <h4>{{ title }}</h4>
-    <div :class="['a-list', $device.isMobile ? '' : 'a-list-td']">
+    <div>
       <list-item 
+        :class="['a-list-item', $device.isMobile ? '' : 'a-list-item-td']"
         v-for="item in items"
         :key="item._id"
         :caption="displayName(item)"
@@ -27,13 +28,16 @@ export default {
 </script>
 
 <style scoped>
-.a-list{
-  position: relative;
-  left: calc(0px - var(--padding-x-m));
-  width: 100vw;
+.a-group{
+  width: 100%;
 }
-.a-list-td{
+.a-list-item{
+  left: calc(0px - var(--padding-x-m));
+  width: calc(100% + var(--padding-x-m) * 2);
+}
+.a-list-item-td{
   left: calc(0px - var(--padding-x-td));
-  width: 50vw;
+  width: calc(100% + var(--padding-x-td) * 2);
+
 }
 </style>

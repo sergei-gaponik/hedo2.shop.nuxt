@@ -23,8 +23,6 @@
   </div>
   <update-address-page
     v-else-if="page == 'create'"
-    :initAddress="selectedAddress"
-    :guestCheckout="!isAuthenticated" 
     :title="title"
     @submit="addressCreated"
   />
@@ -41,7 +39,6 @@ export default {
   props: {
     addresses: Array,
     selectedAddress: Object,
-    isAuthenticated: Boolean,
     title: String
   },
   computed: {
@@ -54,7 +51,7 @@ export default {
   },
   data(){
     return {
-      page: this.isAuthenticated ? 'select' : 'create'
+      page: "select"
     }
   },
   methods: {

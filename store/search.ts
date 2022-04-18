@@ -48,10 +48,12 @@ export const mutations = {
 
   showSearchResults(_state: any){
     _state.searchResultsVisible = true
+    document.body.style.overflow = "hidden"
   },
   
   hideSearchResults(_state: any){
     _state.searchResultsVisible = false
+    document.body.style.overflow = "initial"
   },
 
   showSearchBar(_state: any){
@@ -73,12 +75,19 @@ export const mutations = {
     if(_state.requestIndex) _state.requestIndex = 0
     _state.searchResultsVisible = false
     _state.searchBarVisible = false
+    document.body.style.overflow = "initial"
+    document.getElementById("searchbar-d-input")?.blur()
   }
 }
 
 export const actions = {
 
   async globalSearch(context: any, params: GlobalSearchParams) {
+
+    if(params.query == ""){
+      context.commit("reset")
+      return;
+    }
 
     if(params.query.length < 2) return;
 

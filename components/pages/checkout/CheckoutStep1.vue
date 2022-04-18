@@ -1,29 +1,42 @@
 <template>
-  <div :class="$device.isMobile ? 'container-m' : 'container'">
-    <div v-if="loginPage == 'signIn'">
-      <div :class="['mb4', $device.isMobile ? '' : 'a-td']">
-        <sign-in-page 
-          noAccountLink 
-          v-if="loginPage == 'signIn'" 
-          @setPage="setLoginPage" 
-          @success="proceed()"
-          @verifyEmail="verifyEmail"
-        />
-        <div class="divider" v-if="$device.isMobile"></div>
-        <div :class="[$device.isMobile ? '' : 'a-newcustomer-td']">
-          <h2>{{ $t('newCustomerCaption') }}</h2>
-          <div :class="['btn-group-v', 'mt2', $device.isMobile ? 'mb2' : '' ]">
-            <primary-button :action="() => setLoginPage('signUp')">{{ $t('signUp') }}</primary-button>
-            <secondary-button @click="proceed()">{{ $t('checkoutAsGuest') }}</secondary-button>
-          </div>
-          <nuxt-link v-if="$device.isMobile" class="link-h4" :to="localePath('/cart')">{{ $t('backToCart') }}</nuxt-link>
-        </div>
-      </div>
-      <nuxt-link v-if="!$device.isMobile" class="link-h4" :to="localePath('/cart')">{{ $t('backToCart') }}</nuxt-link>
+  <div>
+    <div v-if="!loginPage" class="container-slim">
+      <h2>{{ $t('contactInformation') }}</h2>
+      <checkout-as-guest 
+        @nextStep="nextStep"
+        @haveAnAccount="setLoginPage('signIn')"
+      />
     </div>
-    <forgot-password-page class="container-slim" noAccountLink v-if="loginPage == 'forgotPassword'" @setPage="setLoginPage"/>
-    <div class="container-slim" v-if="loginPage == 'signUp'">
-      <page-title-m :title="$t('signUp')" backButton @back="setLoginPage('signIn')" />
+    <div v-if="loginPage == 'signIn'" class="container-slim" >
+      <page-title-m 
+        :title="$t('signIn')" 
+        backButton 
+        @back="setLoginPage(null)" 
+      />
+      <sign-in-page 
+        noAccountLink
+        hideTitle
+        v-if="loginPage == 'signIn'" 
+        @setPage="setLoginPage" 
+        @verifyEmail="verifyEmail"
+        @success="location.reload()"
+      />
+    </div>
+    <forgot-password-page 
+      v-if="loginPage == 'forgotPassword'"
+      class="container-slim" 
+      noAccountLink 
+      @setPage="setLoginPage"
+    />
+    <div 
+      v-if="loginPage == 'signUp'"
+      class="container-slim" 
+    >
+      <page-title-m 
+        :title="$t('signUp')" 
+        backButton 
+        @back="setLoginPage('signIn')" 
+      />
       <sign-up-page 
         haveAnAccountLink 
         @setPage="setLoginPage" 
@@ -48,12 +61,13 @@ import PageTitleM from '~/components/layout/header/PageTitleM.vue'
 import PrimaryButton from '~/components/layout/buttons/PrimaryButton.vue'
 import SecondaryButton from '~/components/layout/buttons/SecondaryButton.vue'
 import VerifyEmailPage from '../login/VerifyEmailPage.vue'
+import CheckoutAsGuest from './CheckoutAsGuest.vue'
 
 export default {
-  components: { SignInPage, SignUpPage, ForgotPasswordPage, PageTitleM, PrimaryButton, SecondaryButton, VerifyEmailPage },
+  components: { SignInPage, SignUpPage, ForgotPasswordPage, PageTitleM, PrimaryButton, SecondaryButton, VerifyEmailPage, CheckoutAsGuest },
   data(){
     return {
-      loginPage: "signIn",
+      loginPage: null,
       email: "",
       password: ""
     }
@@ -62,7 +76,7 @@ export default {
     setLoginPage(page){
       this.loginPage = page
     },
-    proceed(){
+    nextStep(){
       this.$emit("nextStep")
     },
     verifyEmail({ email, password }){

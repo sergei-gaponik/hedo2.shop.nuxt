@@ -1,6 +1,6 @@
 <template>
-  <nuxt-link :to="localePath('/b/'+brand.handle)">
-    <div class="a-brand">
+  <nuxt-link :to="localePath('/b/'+brand.handle)" @click.native="$emit('click')">
+    <div :class="noBorder ? 'a-brand a-noborder' : 'a-brand'">
       <div class="a-img-container">
         <lazy-image v-if="brand.logo" :src="brand.logo.src" s3 class="a-img" />
       </div>
@@ -13,7 +13,10 @@ import LazyImage from '~/components/util/LazyImage.vue'
 
 export default {
   components: { LazyImage },
-  props: [ "brand"],
+  props: {
+    brand: Object,
+    noBorder: Boolean
+  },
 }
 </script>
 
@@ -21,6 +24,10 @@ export default {
 .a-brand{
   border: 1px solid var(--c-gray-3);
   padding: var(--padding);
+}
+
+.a-noborder{
+  border: none;
 }
 
 .a-img-container {

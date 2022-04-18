@@ -41,8 +41,9 @@ export default {
 .a-divider {
   position: relative;
   width: 100vw;
-  height: 3px;
-  background: linear-gradient(90deg, #a8bcab 2%, #cce2cf 95%);
+  height: var(--divider-y);
+  background: var(--c-green-3-l);
+  /* background: linear-gradient(90deg, #a8bcab 2%, #cce2cf 95%); */
   z-index: 1;
 }
 .a-loading {
@@ -52,8 +53,10 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(-90deg, #cce2cf 10%, #d9e6db 80%, #dee9df 95%);
-  box-shadow: 0px 3px 7px #9bc7a175;
+  /* background: linear-gradient(-90deg, #cce2cf 10%, #d9e6db 80%, #dee9df 95%); */
+  /* box-shadow: 0px 3px 7px #9bc7a175; */
+  box-shadow: 0px 3px 7px var(--c-green-3-l);
+  background: linear-gradient(-90deg, #c3ddc660 10%, #c3ddc630 80%, #c3ddc620 95%);
   z-index: 2;
   animation: a-animation 2s 1;
   opacity: 0;

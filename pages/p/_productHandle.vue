@@ -52,8 +52,8 @@ export default {
 
         this.breadCrumbs = [
           {
-            caption: this.$t("allProducts"),
-            href: this.localePath("/c/all")
+            caption: this.$t("home"),
+            href: this.localePath("/")
           },
           {
             caption: seriesInfo.brand.name,
@@ -83,8 +83,8 @@ export default {
 
     this.breadCrumbs = [
       {
-        caption: this.$t("allProducts"),
-        href: this.localePath("/c/all")
+        caption: this.$t("home"),
+        href: this.localePath("/")
       },
       {
         caption: brandInfo.name,

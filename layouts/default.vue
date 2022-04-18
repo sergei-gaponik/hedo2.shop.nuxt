@@ -3,27 +3,30 @@
     <portal-target name="body" />
     <notification />
     <confirm-dialog />
-    <div v-if="$device.isMobile">
-      <header-m />
-      <search-results v-show="$store.state.search.searchResultsVisible" />
-      <Nuxt v-show="!$store.state.search.searchResultsVisible" />
-      <drawer-left-m :show="$store.state.nav.menuDrawerOpen">
-        <side-menu-m />
-      </drawer-left-m>
-      <footer-m />
+    <div class="a-container">
+      <div v-if="$device.isMobile">
+        <header-m />
+        <search-results v-show="$store.state.search.searchResultsVisible" />
+        <Nuxt v-show="!$store.state.search.searchResultsVisible" />
+        <drawer-left-m :show="$store.state.nav.menuDrawerOpen">
+          <side-menu-m />
+        </drawer-left-m>
+        <footer-m />
+      </div>
+      <div v-else-if="$device.isTablet">
+        <header-t />
+        <search-results v-show="$store.state.search.searchResultsVisible" />
+        <Nuxt v-show="!$store.state.search.searchResultsVisible" />
+        <drawer-left-t :show="$store.state.nav.menuDrawerOpen">
+          <side-menu-m />
+        </drawer-left-t>
+      </div>
+      <div v-else>
+        <header-d />
+        <Nuxt/>
+      </div>
     </div>
-    <div v-else-if="$device.isTablet">
-      <header-t />
-      <search-results v-show="$store.state.search.searchResultsVisible" />
-      <Nuxt v-show="!$store.state.search.searchResultsVisible" />
-      <drawer-left-t :show="$store.state.nav.menuDrawerOpen">
-        <side-menu-m />
-      </drawer-left-t>
-    </div>
-    <div v-else>
-      <header-d />
-      <Nuxt />
-    </div>
+    <page-footer />
   </div>
 </template>
 
@@ -41,11 +44,15 @@ import Notification from '~/components/layout/misc/Notification.vue'
 import PopUp from '~/components/layout/misc/PopUp.vue'
 import LoginPage from '~/components/pages/login/SignInPage.vue'
 import ConfirmDialog from '~/components/layout/misc/ConfirmDialog.vue'
+import PageFooter from '~/components/layout/footer/PageFooter.vue'
 
 export default {
-  components: { HeaderM, HeaderT, HeaderD, FooterM, DrawerLeftM, DrawerLeftT, SideMenuM, Notification, SearchResults, PopUp, LoginPage, ConfirmDialog },
+  components: { HeaderM, HeaderT, HeaderD, FooterM, DrawerLeftM, DrawerLeftT, SideMenuM, Notification, SearchResults, PopUp, LoginPage, ConfirmDialog, PageFooter },
   created(){
     if(!process.client) return;
+
+    this.$store.commit("cart/init")
+    this.$store.commit("checkout/init")
 
     let root = document.documentElement
 
@@ -69,3 +76,12 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.a-container{
+  position: relative;
+  min-height: calc(100vh - var(--header-y));
+  padding-bottom: var(--margin-4);
+  width: 100vw;
+}
+</style>

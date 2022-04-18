@@ -17,11 +17,15 @@
         <div class="text bold a-price">
           <div>{{ priceCaption }}</div>
           <div>
-            <unit-price :variant="cartItem.variant" :price="totalPrice" />
+            <unit-price :variant="cartItem.variant" />
           </div>
         </div>
       </div>
-      <div class="a-remove mt">
+      <div class="a-bottom mt">
+        <div class="a-gift">
+          <!-- <check-box small />
+          <span>Als Geschenk verpacken</span> -->
+        </div>
         <span class="link" @click="removeItem">
           {{ $t("removeItem") }}
         </span>
@@ -36,9 +40,10 @@ import CartItemTitle from './CartItemTitle.vue'
 import ProductImage from '../product/ProductImage.vue'
 import QuantitySelector from './QuantitySelector.vue'
 import UnitPrice from '../product/UnitPrice.vue'
+import CheckBox from '~/components/layout/inputs/CheckBox.vue'
 
 export default {
-  components: { CartItemTitle, ProductImage, QuantitySelector, UnitPrice },
+  components: { CartItemTitle, ProductImage, QuantitySelector, UnitPrice, CheckBox },
   props: [ "cartItem" ],
   computed: {
     image(){
@@ -100,7 +105,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.a-remove{
-  text-align: right;
+.a-bottom{
+  display: flex;
+  justify-content: space-between;
+}
+.a-gift{
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
 }
 </style>

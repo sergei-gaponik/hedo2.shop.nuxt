@@ -5,7 +5,8 @@
     :class="['a-button', 
       disabled ? 'a-disabled' : '', 
       shakeAnimation ? 'shake-animation' : '',
-      pressAnimation ? 'press-animation' : ''
+      pressAnimation ? 'press-animation' : '',
+      noPadding ? 'a-nopadding' : ''
     ]" 
     @click="handler"
   >
@@ -30,7 +31,8 @@ export default {
     disabled: Boolean,
     naked: Boolean,
     action: Function,
-    submit: Boolean
+    submit: Boolean,
+    noPadding: Boolean
   },
   data(){
     return {
@@ -93,6 +95,7 @@ export default {
 
 <style scoped>
 .a-button {
+  position: relative;
   cursor: pointer;
   width: 100%;
   height: var(--button-y);
@@ -104,6 +107,10 @@ export default {
   box-sizing: border-box;
   user-select: none;
   box-shadow: 0px 4px 7px rgb(155, 199, 161, 0.5);
+}
+
+.a-nopadding{
+  padding: 0;
 }
 
 .a-disabled{
