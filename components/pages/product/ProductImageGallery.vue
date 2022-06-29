@@ -20,15 +20,7 @@ import ProductImage from './ProductImage.vue'
 import ChevronLeftIcon from '~/components/icons/arrows/ChevronLeftIcon.vue'
 import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
 import clickHandler from '~/util/clickHandler'
-
-let initTouchPos = null
-let curTouchPos = null
-
-const TOUCH_THRESH = 50
-
-function getTouchPosX(e) {
-  return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX
-}
+import { createTouchSlider } from '~/util/touch'
 
 export default {
   components: { ProductImage, ChevronLeftIcon, ChevronRightIcon },
@@ -47,27 +39,7 @@ export default {
     }
   },
   mounted(){
-    this.$refs.slider.addEventListener("touchstart", e => {
-      initTouchPos = getTouchPosX(e)
-    })
-
-    this.$refs.slider.addEventListener("touchmove", e => {
-      curTouchPos = getTouchPosX(e)
-    })
-
-    this.$refs.slider.addEventListener("touchend", e => {
-
-      if(initTouchPos != null && curTouchPos != null){
-
-        if(curTouchPos - initTouchPos > TOUCH_THRESH)
-          this.prevImage()
-        else if(initTouchPos - curTouchPos > TOUCH_THRESH)
-          this.nextImage()
-
-        initTouchPos = null
-        curTouchPos = null
-      }
-    })
+    createTouchSlider(this.$refs.slider, this.prevImage, this.nextImage)
   },
   methods: {
     clickHandler,

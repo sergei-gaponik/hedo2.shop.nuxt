@@ -12,7 +12,7 @@
   --c-green-1: #537A58;
   --c-green-2: #9bc7a1;
   --c-green-3: #c3ddc6;
-  --c-green-3-l: #f0f7f1;
+  --c-green-3-l: #ecf4ed;
   --c-blue-1: #61929b;
   --c-blue-2: #d5e2e4;
   --c-blue-2-l: #d5e2e440;
@@ -20,11 +20,10 @@
   --c-brown-1-l: #a17c5e50;
   --c-brown-2: #a59485;
   --c-red-1: #B45F5B;
-  --c-red-2: #7A4755;
-  --c-red-2-l: #7A475550;
+  --c-red-2: #812c42;
+  --c-red-2-l: #812c4250;
   --c-red-3: #C7AFB5;
-  --c-red-3-l: #f5f0f1;
-
+  --c-red-3-l: #fcf4f6;
 
   --padding-x-m: 15px;
   --padding-y-m: 15px;
@@ -39,13 +38,15 @@
   --header-y-t: 82px;
   --header-y-d: 122px;
   --footer-y-m: 46px;
-  --divider-y: 3px;
+  --divider-y: 1.5px;
   --drawer-margin-x-m: 51px;
   --drawer-x-t: 340px;
   --breadcrumbs-y-m: 40px;
   --search-bar-y: 38px;
   --mobile-max: 450px;
-  --popup-max-y: 600px;
+  --popup-max-y: 750px;
+  --popup-max-x: 600px;
+  --popup-slim-x: 450px;
   --button-padding-x: 30px; 
   --width-d: 80%;
   --max-width-d: 1000px;
@@ -284,7 +285,7 @@ ul{
 .grid-2-s{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--gap);
+  gap: var(--gap-s);
 }
 
 .btn-group-v, .flex-v, .flex-v-c{

@@ -1,7 +1,7 @@
 <template>
 <transition :name="$device.isMobile ? 'a-container-m' : 'a-container'">
-  <div v-if="$store.state.notifications.visible" :class="['a-container', $device.isMobile ? 'a-mobile' : '']">
-    <div :class="['a-notification', $store.state.notifications.status == 'success' ? 'a-success' : 'a-error']">
+  <div v-if="$store.state.notifications.visible" :class="['a-notification', $device.isMobile ? 'a-notification-m' : '']">
+    <div :class="['a-flex', $store.state.notifications.status == 'success' ? 'a-success' : 'a-error']">
       <div>
         <success-icon height=24 color="white" v-if="$store.state.notifications.status == 'success'"/>
         <error-icon height=24 color="white" v-if="$store.state.notifications.status == 'error'"/>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-.a-container{
+.a-notification{
   position: fixed;
   width: var(--mobile-max);
   top: calc(var(--header-y) + var(--gap));
@@ -30,13 +30,13 @@ export default {
   transform: translateX(-50%);
   z-index: 99;
 }
-.a-mobile{
+.a-notification-m{
   width: calc(100% - (var(--padding-x-m) * 2));
   margin: 0 var(--padding-x-m);
   left: 0;
   transform: none;
 }
-.a-notification{
+.a-flex{
   display: flex;
   align-items: center;
   gap: var(--padding);

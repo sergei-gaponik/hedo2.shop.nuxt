@@ -35,6 +35,7 @@
 import Tag from '~/components/layout/misc/Tag.vue'
 import UnitPrice from './UnitPrice.vue'
 import { getVariantTag, isSpecialOffer, getCheapestVariant } from '~/util/variants'
+import { toMoney } from '~/util/money'
 
 export default {
   components: { Tag, UnitPrice },
@@ -67,7 +68,7 @@ export default {
     },
     priceCaption(){
       const price = this.customPrice ? this.customPrice : this.cheapestVariant.price
-      return `${price.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })}`
+      return toMoney(price, this)
     },
     freeShipping(){
       return true;

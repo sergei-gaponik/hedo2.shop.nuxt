@@ -28,6 +28,7 @@
 <script>
 import RadioButton from '~/components/layout/inputs/RadioButton.vue'
 import { GLOBAL } from '~/core/const'
+import { toMoney } from '~/util/money'
 
 export default {
   components: { RadioButton },
@@ -49,7 +50,7 @@ export default {
         return this.$t('free')
       }
 
-      return `${price.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })}`
+      return toMoney(price, this)
     },
     getPrice(shippingMethod){
       if(shippingMethod.freeShippingMin != null && shippingMethod.freeShippingMin < this.subTotal)

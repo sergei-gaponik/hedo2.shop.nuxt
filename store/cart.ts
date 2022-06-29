@@ -104,16 +104,16 @@ export const actions = {
     return null;
   },
 
-  updateLineItem(context, { variant, quantity }){
+  updateLineItem(context, update){
 
     context.commit("init")
 
-    const lineItem = context.state.lineItems.find(a => a.variant == variant)
+    const lineItem = context.state.lineItems.find(a => a.variant == update.variant)
 
-    if(quantity > lineItem.maxQuantity)
+    if(update.quantity && update.quantity > lineItem.maxQuantity)
       return CartError.quantityNotAvailable
     
-    context.commit('updateLineItem', { variant, quantity })
+    context.commit('updateLineItem', update)
 
     return null;
   }

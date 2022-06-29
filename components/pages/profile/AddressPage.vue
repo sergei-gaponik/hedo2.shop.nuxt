@@ -1,13 +1,22 @@
 <template>
   <lazy-wrapper>
     <portal to="body">
-      <drawer-bottom-m v-if="$device.isMobile" :show="updateAddressDrawerVisible" @close="hideUpdateAddressDrawer()" confirmClose>
+      <drawer-bottom-m 
+        v-if="$device.isMobile" 
+        :show="updateAddressDrawerVisible" 
+        @close="hideUpdateAddressDrawer()"
+      >
         <update-address-page 
           @close="addressUpdatedHandle()" 
           :initAddress="selectedAddress"
         />
       </drawer-bottom-m>
-      <pop-up v-if="!$device.isMobile" :show="updateAddressDrawerVisible" @close="hideUpdateAddressDrawer()" confirmClose width="480px" height="600px">
+      <pop-up 
+        v-if="!$device.isMobile" 
+        :show="updateAddressDrawerVisible" 
+        @close="hideUpdateAddressDrawer()" 
+        width="var(--popup-max-x)" height="var(--popup-max-y)"
+      >
         <update-address-page 
           @close="addressUpdatedHandle()" 
           :initAddress="selectedAddress"

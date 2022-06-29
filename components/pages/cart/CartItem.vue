@@ -23,8 +23,12 @@
       </div>
       <div class="a-bottom mt">
         <div class="a-gift">
-          <!-- <check-box small />
-          <span>Als Geschenk verpacken</span> -->
+          <check-box 
+            small 
+            :checked="cartItem.isGift" 
+            @input="v => updateVariant({ isGift: v })"
+          />
+          <span>{{ $t('packageAsGift') }}</span>
         </div>
         <span class="link" @click="removeItem">
           {{ $t("removeItem") }}
@@ -41,6 +45,7 @@ import ProductImage from '../product/ProductImage.vue'
 import QuantitySelector from './QuantitySelector.vue'
 import UnitPrice from '../product/UnitPrice.vue'
 import CheckBox from '~/components/layout/inputs/CheckBox.vue'
+import { toMoney } from '~/util/money'
 
 export default {
   components: { CartItemTitle, ProductImage, QuantitySelector, UnitPrice, CheckBox },
@@ -50,7 +55,7 @@ export default {
       return this.cartItem.variant.images?.length ? this.cartItem.variant.images[0].asset.src : this.cartItem.product.images[0].asset.src
     },
     priceCaption(){
-      return `${this.totalPrice.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency } )}`
+      return toMoney(this.totalPrice, this)
     },
     totalPrice(){
       return (this.cartItem.price * this.cartItem.quantity)
@@ -59,19 +64,25 @@ export default {
   methods: {
     incQuantity(){
       if(this.cartItem.quantity < this.cartItem.maxQuantity )
-        this.setQuantity({ quantity: this.cartItem.quantity + 1, variant: this.cartItem.variant._id })
+        this.updateVariant({ quantity: this.cartItem.quantity + 1 })
     },
     decQuantity(){
       if(this.cartItem.quantity > 1)
-        this.setQuantity({ quantity: this.cartItem.quantity - 1, variant: this.cartItem.variant._id })
+        this.updateVariant({ quantity: this.cartItem.quantity - 1 })
     },
     removeItem(){
       if(this.cartItem.quantity != 0)
-        this.setQuantity({ quantity: 0, variant: this.cartItem.variant._id })
+        this.updateVariant({ quantity: 0 })
     },
-    async setQuantity({ quantity, variant }){
-      await this.$store.dispatch("cart/updateLineItem", { quantity, variant })
+    updateVariant(update){
+      this.$store.dispatch("cart/updateLineItem", { 
+        ...update, 
+        variant: this.cartItem.variant._id 
+      })
     }
+  },
+  watch: {
+    
   }
 }
 </script>
@@ -112,6 +123,6 @@ export default {
 .a-gift{
   display: flex;
   align-items: center;
-  gap: var(--gap);
+  gap: var(--gap-s);
 }
 </style>

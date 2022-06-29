@@ -1,6 +1,7 @@
 <template>
   <div>
     <portal-target name="body" />
+    <portal-target name="body2" />
     <notification />
     <confirm-dialog />
     <div class="a-container">
@@ -55,6 +56,7 @@ export default {
     this.$store.commit("checkout/init")
 
     let root = document.documentElement
+
 
     if(this.$device.isMobile){
       root.style.setProperty('--header-y', 'var(--header-y-m)')

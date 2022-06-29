@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="drawer">
     <transition name="a-bg">
       <div class="a-bg" v-if="show" @click="close"/>
     </transition>
@@ -20,6 +20,7 @@
 
 <script>
 import CrossIcon from '~/components/icons/basic/CrossIcon.vue'
+import { createTouchSlider } from '~/util/touch'
 
 export default {
   components: { CrossIcon },
@@ -29,7 +30,10 @@ export default {
       this.$store.commit("search/reset")
       this.$store.commit("nav/closeAllDrawers")
     }
-  }
+  },
+  mounted(){
+    createTouchSlider(this.$refs.drawer, null, this.close)
+  },
 }
 </script>
 

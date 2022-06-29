@@ -128,7 +128,7 @@ export default {
     this.$store.commit('loadingState/setLoadingState', LoadingState.loading)
     this.similarProductsLoadingState = LoadingState.loading
 
-    const limit = this.$device.isDesktop ? 6 : 5
+    const limit = this.$device.isDesktop ? 8 : 5
 
     const r = await searchHandler({
       path: "getProductsLikeThis",

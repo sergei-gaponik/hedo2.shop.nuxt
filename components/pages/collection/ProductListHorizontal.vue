@@ -1,5 +1,5 @@
 <template>
-<div class="a-plist-container">
+<div class="a-plist-container" ref="slider">
   <div 
     v-if="multipleItems" 
     @click="clickHandler(prevItem)"
@@ -39,6 +39,7 @@ import ProductCard from '~/components/pages/collection/ProductCard.vue'
 import ChevronLeftIcon from '~/components/icons/arrows/ChevronLeftIcon.vue'
 import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
 import clickHandler from '~/util/clickHandler'
+import { createTouchSlider } from '~/util/touch'
 
 export default {
   components: { ProductCard, ChevronLeftIcon, ChevronRightIcon },
@@ -79,6 +80,9 @@ export default {
     rightDisabled(){
       return this.pos >= this.maxPos
     }
+  },
+  mounted(){
+    createTouchSlider(this.$refs.slider, this.prevItem, this.nextItem)
   },
   methods: {
     clickHandler,

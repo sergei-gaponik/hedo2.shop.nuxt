@@ -39,4 +39,5 @@ export interface LineItem {
   quantity: number
   token: string
   specialTaxRate: number
+  isGift: boolean
 }

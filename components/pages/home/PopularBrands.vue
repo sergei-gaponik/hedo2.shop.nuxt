@@ -1,5 +1,5 @@
 <template>
-  <div class="a-hlist-container">
+  <div class="a-hlist-container" ref="slider">
     <div 
       v-if="multipleItems" 
       @click="clickHandler(prevItem)"
@@ -10,7 +10,7 @@
         color="var(--c-gray-3)" 
       />
     </div>
-    <div class="a-horizontal-list" >
+    <div class="a-horizontal-list">
       <featured-brand 
         class="a-featured-brand"
         v-for="brand in brands" 
@@ -40,6 +40,7 @@ import FeaturedBrand from '~/components/pages/brands/FeaturedBrand.vue'
 import clickHandler from '~/util/clickHandler'
 import ChevronLeftIcon from '~/components/icons/arrows/ChevronLeftIcon.vue'
 import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
+import { createTouchSlider } from '~/util/touch'
 
 export default {
   components: { FeaturedBrand, ChevronRightIcon, ChevronLeftIcon },
@@ -64,9 +65,9 @@ export default {
     },
     cols(){
       if(this.$device.isMobile)
-        return 3
+        return 2
       else if(this.$device.isTablet)
-        return 4
+        return 5
       else
         return 5
     },
@@ -97,7 +98,9 @@ export default {
 
     this.brands = data?.brands.filter(a => a.featured).slice(0, this.limit)
     this.loadingState = LoadingState.ready
-
+  },
+  mounted(){
+    createTouchSlider(this.$refs.slider, this.prevItem, this.nextItem)
   },
   methods: {
     clickHandler,

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="drawer">
     <transition name="a-bg">
       <div class="a-bg" v-if="show" @click="close"/>
     </transition>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { createTouchSlider } from '~/util/touch'
 
 export default {
   props: ["show"],
@@ -22,6 +23,9 @@ export default {
       this.$store.commit("search/reset")
       this.$store.commit("nav/closeAllDrawers")
     }
+  },
+  mounted(){
+    createTouchSlider(this.$refs.drawer, null, this.close)
   }
 }
 </script>

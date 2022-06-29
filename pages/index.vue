@@ -1,12 +1,14 @@
 <template>
 <div>
+  <banner class="a-banner-t" v-if="!$device.isDesktop" />
   <div :class="$device.isMobile ? 'container-m' : 'container'">
-    <popular-brands />
+    <banner class="mb2" v-if="$device.isDesktop" />
+    <popular-brands class="mb4" />
+    <popular-products class="mb4" />
   </div>
-  <slogan hideLogo/>
-  <div :class="$device.isMobile ? 'container-m' : 'container'">
-    <popular-products />
-  </div>
+  <!-- <div :class="$device.isMobile ? 'container-m' : 'container'">
+  </div> -->
+  <!-- <slogan hideLogo/> -->
   <front-page-section 
     v-for="frontPageSection in frontPageSections" 
     :key="frontPageSection._id"
@@ -22,9 +24,10 @@ import FrontPageSection from '~/components/pages/home/FrontPageSection.vue'
 import instanceHandler from '~/core/instanceHandler'
 import { LoadingState } from '~/types'
 import PopularBrands from '~/components/pages/home/PopularBrands.vue'
+import Banner from '~/components/pages/home/Banner.vue'
 
 export default {
-  components: { PopularProducts, Slogan, FrontPageSection, PopularBrands },
+  components: { Banner, PopularProducts, Slogan, FrontPageSection, PopularBrands },
   data(){
     return {
       frontPageSections: []
@@ -41,3 +44,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.a-banner-t{
+  position: relative;
+}
+</style>

@@ -69,7 +69,7 @@
           v-model="address.deliveryInstruction"
         />
       </div>
-      <div v-if="!guestCheckout" class="mt4">
+      <div v-if="!guestCheckout" class="mt4 flex-v">
         <check-box v-model="address.defaultShippingAddress" center>{{ $t('defaultShippingAddress') }}</check-box>
         <check-box v-model="address.defaultBillingAddress" center>{{  $t('defaultBillingAddress') }}</check-box>
       </div>

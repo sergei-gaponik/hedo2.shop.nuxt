@@ -105,6 +105,8 @@ export default {
   outline: none;
   border: none;
   background-color: var(--c-green-3-l);
+  transition: var(--slow-transition);
+
 }
 /* .a-input::placeholder{
   color: var(--c-gray-2);

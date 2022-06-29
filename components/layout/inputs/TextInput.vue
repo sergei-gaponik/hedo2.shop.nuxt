@@ -1,7 +1,7 @@
 <template>
   <div class="a-container">
     <span v-if="caption" class="a-caption">{{ caption  }}
-      <span v-if="!hideRequiredInfo" class="subdued">{{ required ? ' *' : ' (optional)' }}</span>
+      <span v-if="!hideRequiredInfo" class="a-required-info">{{ required ? ' *' : ' (optional)' }}</span>
     </span>
     <div class="a-input-container">
       <input 
@@ -113,6 +113,10 @@ export default {
   right: var(--padding);
   top: 50%;
   transform: translateY(-50%);
+}
+
+.a-required-info{
+  color: var(--c-green-2);
 }
 
 </style>

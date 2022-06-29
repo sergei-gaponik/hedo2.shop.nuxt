@@ -25,6 +25,7 @@
 
 <script>
 import { GLOBAL } from '~/core/const'
+import { toMoney } from '~/util/money'
 
 export default {
   props: {
@@ -50,7 +51,7 @@ export default {
   },
   methods: {
     money(v){
-      return v.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency } )
+      return toMoney(v, this)
     }
   }
 }

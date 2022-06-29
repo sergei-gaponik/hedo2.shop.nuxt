@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { toMoney } from '~/util/money'
+
 export default {
   props: [ "variant", "price" ],
   computed: {
@@ -19,8 +21,6 @@ export default {
         }
       }
 
-      const money = f => f.toLocaleString(this.$i18n.localeProperties.numberFormat, { style:'currency', currency: this.$i18n.localeProperties.currency })
-
       const measurementQuantity = this.variant.measurementQuantity
       const measurementUnit = this.variant.measurementUnit
       const price = this.price || this.variant.price
@@ -36,7 +36,7 @@ export default {
 
       const unitPrice = Math.round((price * measurementReferenceValue / measurementQuantity) * 100)  / 100
 
-      return `${money(unitPrice)} / ${referenceCaption}`
+      return `${toMoney(unitPrice, this)} / ${referenceCaption}`
     },
   }
 }

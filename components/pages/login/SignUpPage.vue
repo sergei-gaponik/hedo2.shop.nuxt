@@ -44,7 +44,7 @@
 
       />
     </div>
-    <div class="mb4">
+    <div class="mb4 flex-v">
       <check-box v-model="privacyPolicyConsent" required>
         <span>
           {{ $t("signUpPrivacyPolicy") }}<span class="subdued"> *</span>
