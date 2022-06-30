@@ -6,7 +6,10 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "docker:build": "docker build . -t hedo2.shop.nuxt && docker tag hedo2.shop.nuxt:latest 493725010520.dkr.ecr.eu-central-1.amazonaws.com/hedo2.shop.nuxt:latest",
+    "docker:run": "docker run -d -p $p:$p hedo2.shop.nuxt",
+    "docker:push": "docker push 493725010520.dkr.ecr.eu-central-1.amazonaws.com/hedo2.shop.nuxt:latest"
   },
   "dependencies": {
     "@aws-amplify/ui-components": "1.9.1",
