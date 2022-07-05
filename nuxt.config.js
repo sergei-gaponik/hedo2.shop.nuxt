@@ -10,7 +10,7 @@ export default {
   head: {
     title: 'HEDO Beauty - Pflege aus dem Kosmetikinstitut',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'de'
     },
     meta: [
       { charset: 'utf-8' },
@@ -59,14 +59,14 @@ export default {
     }],
     ['nuxt-i18n',{
       locales: [
-        {
-          code: 'en',
-          numberFormat: 'en-US',
-          currency: "USD",
-          currencySymbol: "$",
-          file: 'en.js',
-          deliveryTime: [ 2, 5 ]
-        },
+        // {
+        //   code: 'en',
+        //   numberFormat: 'en-US',
+        //   currency: "USD",
+        //   currencySymbol: "$",
+        //   file: 'en.js',
+        //   deliveryTime: [ 2, 5 ]
+        // },
         {
           code: 'de',
           numberFormat: 'de-DE',

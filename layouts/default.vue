@@ -74,6 +74,11 @@ export default {
       root.style.setProperty('--padding-y', 'var(--padding-y-td)')
     }
 
+    if(!window.localStorage.getItem("disclaimer")){
+      alert("Diese Seite dient nur zu Demonstrationszwecken. Angezeigte Angebote sind fiktiv und nicht rechtlich bindend.")
+      window.localStorage.setItem("disclaimer", true)
+    }
+
   }
 }
 
