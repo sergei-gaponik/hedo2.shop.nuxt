@@ -22,6 +22,7 @@
           v-for="child in brandMenu.children" 
           :key="child.handle" 
           :menuItem="child" 
+          @click="$router.push('/s/' + child.handle)"
         />
       </side-menu-item>
       <list-item 

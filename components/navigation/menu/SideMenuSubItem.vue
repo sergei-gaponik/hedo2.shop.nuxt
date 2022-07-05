@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="a-itemheader" @click="$emit('expand')">
+    <div class="a-itemheader" @click="$emit('click')">
       {{ menuItem.title || menuItem.name }}
     </div>
     <!-- <div class="a-subitems" v-if="expanded && menuItem.children && menuItem.children.length">

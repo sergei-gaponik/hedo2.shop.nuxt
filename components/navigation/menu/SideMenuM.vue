@@ -28,7 +28,7 @@
         :key="child.handle" 
         :expanded="expanded"
         :menuItem="child" 
-        @expand="expandAdd(child.handle)"
+        @click="subItemAction(child)"
       />
     </side-menu-item>
   </div>
@@ -55,8 +55,16 @@ export default {
     collapse(handle){
       
       this.expanded = this.expanded.filter(a => a != handle)
-    }
-    
+    },
+    subItemAction(menuItem){
+      this.$store.commit("nav/closeAllDrawers")
+      this.$store.commit('search/reset')
+
+      if(menuItem.href)
+        this.$router.push(menuItem.href)
+      else
+        this.$router.push(this.localePath('/c/' + menuItem.handle))
+    },
   },
   async created(){
     try{
