@@ -92,7 +92,6 @@ export default {
 }
 
 .a-searchbar{
-  position: relative;
   height: var(--search-bar-y);
   z-index: 1000;
 }
