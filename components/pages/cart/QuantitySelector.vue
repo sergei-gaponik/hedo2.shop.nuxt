@@ -55,7 +55,7 @@ export default {
   background-color: #fff;
   display: flex;
   align-items: center;
-  height: 100%;
+  /* height: 100%; */
   border-radius: 100px;
   padding: 0 var(--padding-s);
   width: max-content;
