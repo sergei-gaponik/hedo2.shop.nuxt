@@ -24,20 +24,28 @@ export default {
   cancellationPolicy: "Widerrufsbelehrung",
   cartEmpty: "Ihr Warenkorb ist leer",
   cartPageTitle: "Warenkorb",
-  cartPrivacyPolicy: "Ich stimme der Weitergabe meiner E-Mail Adresse an den Versanddienstleister zu. Durch eine Nachricht können Sie diese Einwilligung jederzeit wieder rückgängig machen.",
-  cartPrivacyPolicyNotAccepted: "Bitte stimmen Sie der Weitergabe Ihrer E-Mail Adresse zu",
-  cartQuantityChangedNotification: "Einige Produkte sind nicht mehr in der gewünschten Menge verfügbar.",
+  cartPrivacyPolicy:
+    "Ich stimme der Weitergabe meiner E-Mail Adresse an den Versanddienstleister zu. Durch eine Nachricht können Sie diese Einwilligung jederzeit wieder rückgängig machen.",
+  cartPrivacyPolicyNotAccepted:
+    "Bitte stimmen Sie der Weitergabe Ihrer E-Mail Adresse zu",
+  cartQuantityChangedNotification:
+    "Einige Produkte sind nicht mehr in der gewünschten Menge verfügbar.",
   changePassword: "Passwort ändern",
   checkout: "Zur Kasse",
   checkoutAsGuest: "Als Gast fortfahren",
   checkoutPageTitle: "Kasse",
-  checkoutSuccessText: "<p>Wir freuen uns, dass Sie sich für HEDO entschieden haben.</p><p>Damit Sie in Zukunft noch entspannter bestellen können, brauchen Sie nur noch Ihre E-Mail-Adresse zu verifizieren und ein Passwort auszuwählen um ein Kundenkonto anzulegen.</p>",
-  checkoutSuccessAuthenticatedText: "<p>Wir freuen uns, dass Sie sich für HEDO entschieden haben.</p>",
-  checkoutSignUpText: "Wir senden Ihnen einen Verifizierungs-Code an folgende E-Mail-Adresse:",
+  checkoutSuccessText:
+    "<p>Wir freuen uns, dass Sie sich für HEDO entschieden haben.</p><p>Damit Sie in Zukunft noch entspannter bestellen können, brauchen Sie nur noch Ihre E-Mail-Adresse zu verifizieren und ein Passwort auszuwählen um ein Kundenkonto anzulegen.</p>",
+  checkoutSuccessAuthenticatedText:
+    "<p>Wir freuen uns, dass Sie sich für HEDO entschieden haben.</p>",
+  checkoutSignUpText:
+    "Wir senden Ihnen einen Verifizierungs-Code an folgende E-Mail-Adresse:",
   chooseAnotherPaymentMethod: "Andere Zahlungsmethode auswählen",
   city: "Stadt",
-  codeExpiredError: "Der angegebene Verifizierungscode ist abgelaufen, bitte fordern Sie einen neuen Code an.",
-  codeMismatchError: "Der angegebene Verifizierungscode ist ungültig, bitte versuchen Sie es erneut.",
+  codeExpiredError:
+    "Der angegebene Verifizierungscode ist abgelaufen, bitte fordern Sie einen neuen Code an.",
+  codeMismatchError:
+    "Der angegebene Verifizierungscode ist ungültig, bitte versuchen Sie es erneut.",
   collections: "Kategorien",
   companyDetails: "Impressum",
   completeRegistration: "Registrierung abschließen",
@@ -86,7 +94,8 @@ export default {
   item: "Artikel",
   items: "Artikel",
   lastName: "Nachname",
-  limitExceededError: "Maximale Anzahl Versuche wurde überschritten. Bitte versuchen Sie es später erneut.",
+  limitExceededError:
+    "Maximale Anzahl Versuche wurde überschritten. Bitte versuchen Sie es später erneut.",
   lookingFor: "Ich suche nach...",
   manageAccount: "Konto verwalten",
   matchesShippingAddress: "Entspricht Lieferadresse",
@@ -98,12 +107,17 @@ export default {
   newsletterAlreadySubscribed: "Sie haben den Newsletter bereits abboniert.",
   newsletterNotSubscribedYet: "Sie haben den Newsletter noch nicht abboniert.",
   newsletterSubscribe: "Newsletter abbonieren",
-  newsletterSubscribeCaption: "Abbonieren Sie den kostenlosen Newsletter, um über Neuigkeiten und Rabatt-Aktionen informiert zu bleiben.",
-  newsletterSubscribedNotification: "Vielen Dank, dass Sie unseren Newsletter abboniert haben!",
+  newsletterSubscribeCaption:
+    "Abbonieren Sie den kostenlosen Newsletter, um über Neuigkeiten und Rabatt-Aktionen informiert zu bleiben.",
+  newsletterSubscribedNotification:
+    "Vielen Dank, dass Sie unseren Newsletter abboniert haben!",
   newsletterUnsubscribe: "Newsletter abbestellen",
-  newsletterUnsubscribeCaption: "Wenn Sie den Newsletter nicht mehr erhalten möchten, können Sie ihn hier abbestellen.",
-  newsletterUnsubscribeConfirm: "Sind Sie sicher, dass Sie nicht mehr über Neuigkeiten und Rabatt-Aktionen informiert werden wollen?",
-  newsletterUnsubscribedNotification: "Sie haben den Newsletter erfolgreich abbestellt.",
+  newsletterUnsubscribeCaption:
+    "Wenn Sie den Newsletter nicht mehr erhalten möchten, können Sie ihn hier abbestellen.",
+  newsletterUnsubscribeConfirm:
+    "Sind Sie sicher, dass Sie nicht mehr über Neuigkeiten und Rabatt-Aktionen informiert werden wollen?",
+  newsletterUnsubscribedNotification:
+    "Sie haben den Newsletter erfolgreich abbestellt.",
   nextStep: "Weiter",
   noAccount: "Kein Account?",
   noAddresses: "Keine gespeicherten Adressen",
@@ -116,11 +130,12 @@ export default {
   optional: "optional",
   or: "oder",
   orderAgain: "Erneut bestellen",
-  orderHelpText: "Bei Fragen zu Ihrer Bestellungen können Sie uns über <b>kontakt@hedo-beauty.de</b> unter Angabe Ihrer <b>Bestellnummer</b> kontaktieren",
+  orderHelpText:
+    "Bei Fragen zu Ihrer Bestellungen können Sie uns über <b>kontakt@hedo-beauty.de</b> unter Angabe Ihrer <b>Bestellnummer</b> kontaktieren",
   orderNumber: "Bestellnummer",
   orderReceived: "Ihre Bestellung ist eingegangen",
   orders: "Bestellungen",
-  ordersCouldNotBeLoaded: "Bestellungen konnten nicht geladen werden", 
+  ordersCouldNotBeLoaded: "Bestellungen konnten nicht geladen werden",
   orderSummery: "Zusammenfassung",
   outOfStock: "Ausverkauft",
   packageAsGift: "Als Geschenk verpacken",
@@ -129,14 +144,16 @@ export default {
   pageOf: "von",
   password: "Passwort",
   passwordChangedNotification: "Ihr Passwort wurde aktualisiert",
-  passwordRequiredPattern: "Das Passwort muss mindestens 8 Zeichen, eine Zahl und einen Groß- und Kleinbuchstaben enthalten.",
+  passwordRequiredPattern:
+    "Das Passwort muss mindestens 8 Zeichen, eine Zahl und einen Groß- und Kleinbuchstaben enthalten.",
   passwordsDontMatch: "Die Passwörter stimmen nicht überein",
   payConvenientlyWith: "Bequem bezahlen mit",
   payLater: "Rechnungskauf",
   payment: "Bezahlung",
   paymentAndShipping: "Zahlung und Versand",
   paymentCanceled: "Zahlungsvorgang abgebrochen",
-  paymentCanceledSubHeading: "Ihre Zahlung wurde abgelehnt. Bitte wählen Sie eine andere Bezahlmethode.",
+  paymentCanceledSubHeading:
+    "Ihre Zahlung wurde abgelehnt. Bitte wählen Sie eine andere Bezahlmethode.",
   paymentMethod: "Zahlungsmethode",
   personalData: "Persönliche Daten",
   phoneNumber: "Telefonnummer",
@@ -155,8 +172,10 @@ export default {
   resendCodeSuccess: "Verifizierungs-Code wurde erneut versendet.",
   resetFilters: "Filter zurücksetzen",
   resetPassword: "Passwort zurücksetzen",
-  resetPasswordSubHeading: "Bitte tragen Sie die E-Mail-Adresse ein, mit der Sie sich bei HEDO registriert haben. Wir senden Ihnen einen Verifizierungs-Code, mit dem Sie im nächsten Schritt Ihr Passwort zurücksetzen können.",
-  resetPasswordSubHeading2: "Vielen Dank. Wenn ein Account mit der angegebenen Email-Adresse existiert, sollten Sie eine Mail von uns erhalten haben.",
+  resetPasswordSubHeading:
+    "Bitte tragen Sie die E-Mail-Adresse ein, mit der Sie sich bei HEDO registriert haben. Wir senden Ihnen einen Verifizierungs-Code, mit dem Sie im nächsten Schritt Ihr Passwort zurücksetzen können.",
+  resetPasswordSubHeading2:
+    "Vielen Dank. Wenn ein Account mit der angegebenen Email-Adresse existiert, sollten Sie eine Mail von uns erhalten haben.",
   result: "Ergebnis",
   results: "Ergebnisse",
   sale: "Angebot",
@@ -177,8 +196,10 @@ export default {
   signOut: "Abmelden",
   signUp: "Registrieren",
   signUpPrivacyPolicy: "Ich stimme der Datenschutzerklärung zu.",
-  signUpPrivacyPolicyNotAccepted: "Bitte stimmen Sie der Datenschutzerklärung zu.",
-  signUpNewsletterConsent: "Ich möchte den kostenlosen Newsletter abonnieren, um über Neuigkeiten und Rabatt-Aktionen informiert zu bleiben.",
+  signUpPrivacyPolicyNotAccepted:
+    "Bitte stimmen Sie der Datenschutzerklärung zu.",
+  signUpNewsletterConsent:
+    "Ich möchte den kostenlosen Newsletter abonnieren, um über Neuigkeiten und Rabatt-Aktionen informiert zu bleiben.",
   similarProducts: "Ähnliche Produkte",
   stayUpToDate: "Bleib up-to-date",
   submit: "Senden",
@@ -193,8 +214,9 @@ export default {
   vat: "MwSt.",
   verificationCode: "Verifizierungs-Code",
   verifyEmail: "Bitte verifizieren Sie Ihre E-Mail-Adresse.",
-  verifyEmailSubHeading: 'Wir haben Ihnen eine E-Mail mit einem Verifizierungs-Code geschickt. Wenn Sie die E-Mail nicht erhalten haben, prüfen Sie bitte Ihren Spam-Ordner oder drücken Sie auf "Code erneut senden".',
+  verifyEmailSubHeading:
+    'Wir haben Ihnen eine E-Mail mit einem Verifizierungs-Code geschickt. Wenn Sie die E-Mail nicht erhalten haben, prüfen Sie bitte Ihren Spam-Ordner oder drücken Sie auf "Code erneut senden".',
   welcomeBack: "Willkommen zurück,",
   youMightAlsoBeInterestedIn: "Das könnte Sie auch interessieren",
-  zipCode: "Postleitzahl"
-}
+  zipCode: "Postleitzahl",
+};

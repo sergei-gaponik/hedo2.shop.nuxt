@@ -1,55 +1,57 @@
 <template>
-<div :class="['a-flex', center ? 'a-flex-center' : '']">
-  <div :class="['a-container', small ? 'a-small' : '']">
-    <input 
-      type="checkbox"
-      class="a-checkbox"
-      :checked="value == curValue" 
-      @change="clickHandler(() => $emit('input', value))"
-      :required="!!required"
-    />
-    <span :class="['a-checkmark', value == curValue ? 'a-checkmark-checked' : '']" />
+  <div :class="['a-flex', center ? 'a-flex-center' : '']">
+    <div :class="['a-container', small ? 'a-small' : '']">
+      <input
+        type="checkbox"
+        class="a-checkbox"
+        :checked="value == curValue"
+        @change="clickHandler(() => $emit('input', value))"
+        :required="!!required"
+      />
+      <span
+        :class="['a-checkmark', value == curValue ? 'a-checkmark-checked' : '']"
+      />
+    </div>
+    <div>
+      <slot />
+    </div>
   </div>
-  <div>
-    <slot />
-  </div>
-</div>
 </template>
 
 <script lang="ts">
-import clickHandler from '~/util/clickHandler'
+import clickHandler from "~/util/clickHandler";
 
 export default {
   model: {
-    prop: 'curValue',
-    event: 'input'
+    prop: "curValue",
+    event: "input",
   },
   props: {
     required: Boolean,
-    curValue: [ String, Number ],
-    value: [ String, Number ],
+    curValue: [String, Number],
+    value: [String, Number],
     small: Boolean,
     center: Boolean,
-    noClick: Boolean
+    noClick: Boolean,
   },
-  data(){
+  data() {
     return {
-      lock: false
-    }
+      lock: false,
+    };
   },
   methods: {
-    clickHandler
-  }
-}
+    clickHandler,
+  },
+};
 </script>
 
 <style scoped>
-.a-flex{
+.a-flex {
   display: flex;
   gap: var(--gap);
   flex-wrap: nowrap;
 }
-.a-flex-center{
+.a-flex-center {
   align-items: center;
 }
 .a-container {
@@ -91,15 +93,13 @@ export default {
   width: 50%;
   height: 50%;
   border-radius: 50px;
-
 }
 
 .a-checkmark-checked {
   background-color: var(--c-gray-1);
 }
 
-.a-checkbox:invalid .a-container{
+.a-checkbox:invalid .a-container {
   border-color: var(--c-red-1);
 }
-
 </style>

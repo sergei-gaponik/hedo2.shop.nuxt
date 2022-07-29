@@ -1,13 +1,11 @@
+let lock = false;
 
-let lock = false
+export default function clickHandler(action) {
+  if (lock || !action) return;
 
-export default function clickHandler(action){
+  lock = true;
 
-  if(lock || !action) return;
+  action();
 
-  lock = true
-
-  action()
-
-  setTimeout(() => lock = false, 100)
+  setTimeout(() => (lock = false), 100);
 }

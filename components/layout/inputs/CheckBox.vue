@@ -1,41 +1,39 @@
 <template>
-<div :class="['a-flex', center ? 'a-flex-center' : '']">
-  <div :class="[
-    'a-container', 
-    small ? 'a-small' : ''
-  ]">
-    <input 
-      type="checkbox"
-      :class="[ fakeCheckbox ? 'hide' : 'a-checkbox' ]"
-      :checked="checked" 
-      @change="action($event.target.checked)"
-      :required="!!required"
-    />
-    <span :class="[ 
-      'a-checkmark', 
-      fakeCheckbox && checked ? 'a-checked' : '', 
-      disabled ? 'a-checkmark-disabled' : '' ]" 
-    />
+  <div :class="['a-flex', center ? 'a-flex-center' : '']">
+    <div :class="['a-container', small ? 'a-small' : '']">
+      <input
+        type="checkbox"
+        :class="[fakeCheckbox ? 'hide' : 'a-checkbox']"
+        :checked="checked"
+        @change="action($event.target.checked)"
+        :required="!!required"
+      />
+      <span
+        :class="[
+          'a-checkmark',
+          fakeCheckbox && checked ? 'a-checked' : '',
+          disabled ? 'a-checkmark-disabled' : '',
+        ]"
+      />
+    </div>
+    <div>
+      <slot />
+    </div>
   </div>
-  <div>
-    <slot />
-  </div>
-</div>
 </template>
 
 <script lang="ts">
-import clickHandler from '~/util/clickHandler'
+import clickHandler from "~/util/clickHandler";
 
 export default {
   model: {
-    prop: 'checked',
-    event: 'input'
+    prop: "checked",
+    event: "input",
   },
   methods: {
-    action(checked){
-      if(!this.disabled)
-        clickHandler(() => this.$emit('input', checked))
-    }
+    action(checked) {
+      if (!this.disabled) clickHandler(() => this.$emit("input", checked));
+    },
   },
   props: {
     required: Boolean,
@@ -43,23 +41,23 @@ export default {
     small: Boolean,
     center: Boolean,
     fakeCheckbox: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
   },
-  data(){
+  data() {
     return {
-      lock: false
-    }
-  }
-}
+      lock: false,
+    };
+  },
+};
 </script>
 
 <style scoped>
-.a-flex{
+.a-flex {
   display: flex;
   gap: var(--gap);
   flex-wrap: nowrap;
 }
-.a-flex-center{
+.a-flex-center {
   align-items: center;
 }
 .a-container {
@@ -101,16 +99,16 @@ export default {
   height: 60%;
 }
 
-.a-checkbox:checked ~ .a-checkmark, .a-checked {
+.a-checkbox:checked ~ .a-checkmark,
+.a-checked {
   background-color: var(--c-gray-1);
 }
 
-.a-checkmark-disabled{
+.a-checkmark-disabled {
   background-color: var(--c-gray-4);
 }
 
-.a-checkbox:invalid .a-container{
+.a-checkbox:invalid .a-container {
   border-color: var(--c-red-1);
 }
-
 </style>

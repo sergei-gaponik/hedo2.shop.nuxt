@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import ProfileIcon from '~/components/icons/navigation/ProfileIcon.vue'
+import ProfileIcon from "~/components/icons/navigation/ProfileIcon.vue";
 
 export default {
   components: { ProfileIcon },
-  props: ["height"]
-}
+  props: ["height"],
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     type="button"
     :class="['a-category', !last ? 'a-category-divider' : '']"
     @click="$emit('click')"
@@ -7,24 +7,24 @@
     <div class="a-caption">
       {{ category.name }}
     </div>
-    <chevron-right-icon height=16 color="var(--c-gray-1)" />
+    <chevron-right-icon height="16" color="var(--c-gray-1)" />
   </div>
 </template>
 
 <script>
-import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
+import ChevronRightIcon from "~/components/icons/arrows/ChevronRightIcon.vue";
 
 export default {
   components: { ChevronRightIcon },
   props: {
     category: Object,
-    last: Boolean
-  }
-}
+    last: Boolean,
+  },
+};
 </script>
 
 <style scoped>
-.a-category{
+.a-category {
   all: unset;
   display: flex;
   justify-content: space-between;
@@ -33,7 +33,7 @@ export default {
   height: var(--list-item-y);
 }
 
-.a-category-divider{
+.a-category-divider {
   border-bottom: 1px solid var(--c-gray-3);
 }
 

@@ -1,9 +1,5 @@
 <template>
-  <check-box 
-    :checked="checked"
-    @input="v => handler(v)"
-    required
-  >
+  <check-box :checked="checked" @input="(v) => handler(v)" required>
     <span>
       {{ $t("cartPrivacyPolicy") }}
     </span>
@@ -14,30 +10,30 @@
 </template>
 
 <script>
-import CheckBox from '~/components/layout/inputs/CheckBox.vue'
+import CheckBox from "~/components/layout/inputs/CheckBox.vue";
 
 export default {
   components: { CheckBox },
   model: {
-    prop: 'checked',
-    event: 'input'
+    prop: "checked",
+    event: "input",
   },
-  props: [ "checked" ],
-  data(){
+  props: ["checked"],
+  data() {
     return {
-      lock: false
-    }
+      lock: false,
+    };
   },
   methods: {
-    handler(v){
-      if(this.lock) return;
+    handler(v) {
+      if (this.lock) return;
 
       this.lock = true;
 
-      this.$emit("input", v)
+      this.$emit("input", v);
 
-      setTimeout(() => this.lock = false, 100)
-    }
-  }
-}
+      setTimeout(() => (this.lock = false), 100);
+    },
+  },
+};
 </script>

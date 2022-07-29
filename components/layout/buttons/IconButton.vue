@@ -1,28 +1,24 @@
 <template>
-  <button 
-    class="a-button" 
-    @click="$emit('click')" 
-    type='button'
-  >
+  <button class="a-button" @click="$emit('click')" type="button">
     <slot />
     <span v-if="caption" class="a-caption">{{ caption }}</span>
   </button>
 </template>
 
 <script>
-import AddIcon from '~/components/icons/basic/AddIcon.vue'
+import AddIcon from "~/components/icons/basic/AddIcon.vue";
 
 export default {
   components: { AddIcon },
   props: {
     caption: String,
-    minContent: Boolean
-  }
-}
+    minContent: Boolean,
+  },
+};
 </script>
 
 <style scoped>
-.a-button{
+.a-button {
   all: unset;
   cursor: pointer;
   user-select: none;
@@ -37,7 +33,7 @@ export default {
   white-space: nowrap;
 }
 
-.a-button:active{
+.a-button:active {
   background-color: var(--c-gray-4);
 }
 </style>

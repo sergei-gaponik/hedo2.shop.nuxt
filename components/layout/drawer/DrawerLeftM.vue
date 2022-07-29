@@ -1,7 +1,7 @@
 <template>
   <div ref="drawer">
     <transition name="a-bg">
-      <div class="a-bg" v-if="show" @click="close"/>
+      <div class="a-bg" v-if="show" @click="close" />
     </transition>
     <transition name="a-drawer">
       <div class="a-drawer hide-scrollbar" v-if="show">
@@ -12,33 +12,33 @@
     </transition>
     <transition name="a-close">
       <div class="a-close" @click="close">
-        <cross-icon color="#ffffff" height=30 v-if="show" />
+        <cross-icon color="#ffffff" height="30" v-if="show" />
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-import CrossIcon from '~/components/icons/basic/CrossIcon.vue'
-import { createTouchSlider } from '~/util/touch'
+import CrossIcon from "~/components/icons/basic/CrossIcon.vue";
+import { createTouchSlider } from "~/util/touch";
 
 export default {
   components: { CrossIcon },
   props: ["show"],
   methods: {
-    close(){
-      this.$store.commit("search/reset")
-      this.$store.commit("nav/closeAllDrawers")
-    }
+    close() {
+      this.$store.commit("search/reset");
+      this.$store.commit("nav/closeAllDrawers");
+    },
   },
-  mounted(){
-    createTouchSlider(this.$refs.drawer, null, this.close)
+  mounted() {
+    createTouchSlider(this.$refs.drawer, null, this.close);
   },
-}
+};
 </script>
 
 <style scoped>
-.a-bg{
+.a-bg {
   z-index: 50;
   position: fixed;
   left: 0;
@@ -48,14 +48,16 @@ export default {
   background-color: var(--c-green-1);
   opacity: 0.25;
 }
-.a-bg-enter-active, .a-bg-leave-active {
+.a-bg-enter-active,
+.a-bg-leave-active {
   transition: var(--drawer-transition);
   opacity: 0.25;
 }
-.a-bg-enter, .a-bg-leave-to{
+.a-bg-enter,
+.a-bg-leave-to {
   opacity: 0;
 }
-.a-drawer{
+.a-drawer {
   z-index: 100;
   position: fixed;
   left: 0;
@@ -67,25 +69,28 @@ export default {
   box-shadow: var(--box-shadow-drawer);
   overflow: scroll;
 }
-.a-drawer-enter-active, .a-drawer-leave-active {
+.a-drawer-enter-active,
+.a-drawer-leave-active {
   transition: var(--drawer-transition);
   transform: none;
 }
-.a-drawer-enter, .a-drawer-leave-to{
+.a-drawer-enter,
+.a-drawer-leave-to {
   transform: translateX(-100%);
 }
-.a-close{
+.a-close {
   position: fixed;
   right: var(--padding-x-m);
   top: 50vh;
   z-index: 100;
 }
-.a-close-enter-active, .a-close-leave-active {
+.a-close-enter-active,
+.a-close-leave-active {
   transition: var(--drawer-transition);
   opacity: 1;
 }
-.a-close-enter, .a-close-leave-to{
+.a-close-enter,
+.a-close-leave-to {
   opacity: 0;
 }
-
 </style>

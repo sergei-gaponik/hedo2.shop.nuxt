@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import SearchIcon from '~/components/icons/navigation/SearchIcon.vue'
+import SearchIcon from "~/components/icons/navigation/SearchIcon.vue";
 
 export default {
   components: { SearchIcon },
-  props: ["height", "action"]
-}
+  props: ["height", "action"],
+};
 </script>

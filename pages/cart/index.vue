@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import CartPage from '~/components/pages/cart/CartPage.vue'
-import PageTitleM from '~/components/layout/header/PageTitleM.vue'
+import CartPage from "~/components/pages/cart/CartPage.vue";
+import PageTitleM from "~/components/layout/header/PageTitleM.vue";
 
 export default {
   components: { CartPage, PageTitleM },
-}
+};
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="a-container">
-      <div class="a-header"
-        @click="clickHandler(toggle)"
-      >
+      <div class="a-header" @click="clickHandler(toggle)">
         <h4>{{ caption }}</h4>
-        <expand-more-icon height=20 color="var(--c-gray-1)" 
+        <expand-more-icon
+          height="20"
+          color="var(--c-gray-1)"
           class="a-expandicon"
           :style="{ transform: collapsed ? 'rotate(-180deg)' : 'none' }"
         />
@@ -18,29 +18,28 @@
 </template>
 
 <script>
-import ExpandMoreIcon from '~/components/icons/arrows/ExpandMoreIcon.vue'
-import clickHandler from '~/util/clickHandler'
+import ExpandMoreIcon from "~/components/icons/arrows/ExpandMoreIcon.vue";
+import clickHandler from "~/util/clickHandler";
 
 export default {
   components: { ExpandMoreIcon },
-  props: [ "caption" ],
-  data(){
+  props: ["caption"],
+  data() {
     return {
-      collapsed: false
-    }
+      collapsed: false,
+    };
   },
   methods: {
     clickHandler,
-    toggle(){
-      this.collapsed = !this.collapsed
-    }
-  }
-}
+    toggle() {
+      this.collapsed = !this.collapsed;
+    },
+  },
+};
 </script>
 
-
 <style scoped>
-.a-header{
+.a-header {
   user-select: none;
   cursor: pointer;
   display: flex;

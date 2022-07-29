@@ -1,5 +1,3 @@
 <template>
-  <div class="container-m">
-    Datenschutzerklärung
-  </div>
+  <div class="container-m">Datenschutzerklärung</div>
 </template>

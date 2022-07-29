@@ -1,4 +1,4 @@
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 
 const awsConfig = {
   Auth: {
@@ -21,9 +21,9 @@ const awsConfig = {
     // // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
     //     secure: true
     // },
-  }
-}
+  },
+};
 
-Auth.configure(awsConfig)
+Auth.configure(awsConfig);
 
-export default () => Auth
+export default () => Auth;

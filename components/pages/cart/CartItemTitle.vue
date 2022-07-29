@@ -1,40 +1,42 @@
 <template>
-<nuxt-link 
-    :to="localePath('/p/'+cartItem.product.handle)"
+  <nuxt-link
+    :to="localePath('/p/' + cartItem.product.handle)"
     @click.native="$store.commit('search/reset')"
->
-  <div>
-    <div class="text a-brand">{{ cartItem.product.brand.name }}</div>
-    <div class="text a-title">
-      <span class="bold">{{ cartItem.product.series ? cartItem.product.series.name : "" }}</span>
-      <span>{{ cartItem.product.name }}</span>
+  >
+    <div>
+      <div class="text a-brand">{{ cartItem.product.brand.name }}</div>
+      <div class="text a-title">
+        <span class="bold">{{
+          cartItem.product.series ? cartItem.product.series.name : ""
+        }}</span>
+        <span>{{ cartItem.product.name }}</span>
+      </div>
+      <div class="a-variant" v-if="variantTitle">
+        <tag :caption="variantTitle" />
+      </div>
     </div>
-    <div class="a-variant" v-if="variantTitle">
-      <tag :caption="variantTitle"/>
-    </div>
-  </div>
-</nuxt-link>
+  </nuxt-link>
 </template>
 
 <script>
-import Tag from '~/components/layout/misc/Tag.vue'
+import Tag from "~/components/layout/misc/Tag.vue";
 export default {
   components: { Tag },
   props: ["cartItem"],
   computed: {
-    variantTitle(){
-      return this.cartItem.variant.title || null
-    }
-  }
-}
+    variantTitle() {
+      return this.cartItem.variant.title || null;
+    },
+  },
+};
 </script>
 
 <style scoped>
-.a-offer-wrapper{
+.a-offer-wrapper {
   position: relative;
   height: 2.2em;
 }
-.a-offer{
+.a-offer {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

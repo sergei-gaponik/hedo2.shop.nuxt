@@ -1,32 +1,35 @@
 <template>
-  <div :class="[
-    'list-item',
-    noPadding ? 'a-nopadding' : '',
-    noBorder ? 'a-noborder' : ''
-  ]" @click="$emit('click')">
+  <div
+    :class="[
+      'list-item',
+      noPadding ? 'a-nopadding' : '',
+      noBorder ? 'a-noborder' : '',
+    ]"
+    @click="$emit('click')"
+  >
     <div>{{ caption }}</div>
-    <chevron-right-icon height=16 color="var(--c-gray-2)" />
+    <chevron-right-icon height="16" color="var(--c-gray-2)" />
   </div>
 </template>
 
 <script>
-import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
+import ChevronRightIcon from "~/components/icons/arrows/ChevronRightIcon.vue";
 
 export default {
   components: { ChevronRightIcon },
   props: {
     caption: String,
     noPadding: Boolean,
-    noBorder: Boolean
-  }
-}
+    noBorder: Boolean,
+  },
+};
 </script>
 
 <style scoped>
-.a-nopadding{
+.a-nopadding {
   padding: 0;
 }
-.a-noborder{
+.a-noborder {
   border: none;
 }
 </style>

@@ -1,120 +1,132 @@
-import instanceHandler from '~/core/instanceHandler'
-import { LoadingState } from '~/types'
-import Vue from 'vue'
-import { CartError, LineItem } from '~/types'
-import { GLOBAL } from '~/core/const'
+import instanceHandler from "~/core/instanceHandler";
+import { LoadingState } from "~/types";
+import Vue from "vue";
+import { CartError, LineItem } from "~/types";
+import { GLOBAL } from "~/core/const";
 
 export const state = () => ({
-  lineItems: [] as LineItem[]
-})
+  lineItems: [] as LineItem[],
+});
 
-const save = lineItems => {
-  localStorage.setItem('lineItems', JSON.stringify(lineItems))
-}
-
+const save = (lineItems) => {
+  localStorage.setItem("lineItems", JSON.stringify(lineItems));
+};
 
 export const mutations = {
-
-  init(_state){
-    _state.lineItems = JSON.parse(localStorage.getItem("lineItems") || "[]")
-    _state.lineItems = _state.lineItems.filter(a => a.quantity > 0)
-    save(_state.lineItems)
+  init(_state) {
+    _state.lineItems = JSON.parse(localStorage.getItem("lineItems") || "[]");
+    _state.lineItems = _state.lineItems.filter((a) => a.quantity > 0);
+    save(_state.lineItems);
   },
 
-  updateLineItem(_state, _lineItem: LineItem){
+  updateLineItem(_state, _lineItem: LineItem) {
+    const i = _state.lineItems.findIndex((a) => a.variant == _lineItem.variant);
 
-    const i = _state.lineItems.findIndex(a => a.variant == _lineItem.variant)
-
-    if(i >= 0){
-      Vue.set(_state.lineItems, i, { ..._state.lineItems[i], ..._lineItem })
-      save(_state.lineItems)
+    if (i >= 0) {
+      Vue.set(_state.lineItems, i, { ..._state.lineItems[i], ..._lineItem });
+      save(_state.lineItems);
     }
   },
 
-  updateAvailableQuantities(_state, variants){
-    
-    for(const variant of variants){
+  updateAvailableQuantities(_state, variants) {
+    for (const variant of variants) {
+      const i = _state.lineItems.findIndex((a) => a.variant == variant._id);
+      const maxQuantity = Math.min(
+        variant.availableQuantity,
+        variant.maxQuantity || 100
+      );
 
-      const i = _state.lineItems.findIndex(a => a.variant == variant._id)
-      const maxQuantity = Math.min(variant.availableQuantity, variant.maxQuantity || 100)
-
-      if(i >= 0){
-        Vue.set(_state.lineItems, i, { ..._state.lineItems[i], maxQuantity })
-        save(_state.lineItems)
+      if (i >= 0) {
+        Vue.set(_state.lineItems, i, { ..._state.lineItems[i], maxQuantity });
+        save(_state.lineItems);
       }
-
     }
   },
 
-  addLineItem(_state, _lineItem){
-    _state.lineItems.push(_lineItem)
-    save(_state.lineItems)
+  addLineItem(_state, _lineItem) {
+    _state.lineItems.push(_lineItem);
+    save(_state.lineItems);
   },
 
-  removeLineItem(_state, variantId){
-    _state.lineItems = _state.lineItems.filter(a => a.variant != variantId)
-    save(_state.lineItems)
+  removeLineItem(_state, variantId) {
+    _state.lineItems = _state.lineItems.filter((a) => a.variant != variantId);
+    save(_state.lineItems);
   },
 
-  reset(_state){
-    localStorage.removeItem('lineItems')
-    _state.lineItems = []
-  }
-}
+  reset(_state) {
+    localStorage.removeItem("lineItems");
+    _state.lineItems = [];
+  },
+};
 
 export const actions = {
+  async addToCart(
+    context,
+    { variant, product, quantity, price, maxQuantity, specialTaxRate }
+  ) {
+    context.commit("init");
 
-  async addToCart(context, { variant, product, quantity, price, maxQuantity, specialTaxRate }){
+    const { lineItems } = context.state;
 
-    context.commit("init")
+    const lineItem = lineItems.find((a) => a.variant == variant);
 
-    const { lineItems } = context.state
+    const total = lineItem ? quantity + lineItem.quantity : quantity;
 
-    const lineItem = lineItems.find(a => a.variant == variant)
+    if (total > maxQuantity) return CartError.quantityNotAvailable;
 
-    const total = lineItem ? quantity + lineItem.quantity : quantity
+    if (lineItem) {
+      const updatedQuantity = quantity + lineItem.quantity;
 
-    if(total > maxQuantity)
-      return CartError.quantityNotAvailable;
-
-    if(lineItem){
-
-      const updatedQuantity = quantity + lineItem.quantity
-
-      if(product)
-        context.commit('updateLineItem', { variant, quantity: updatedQuantity, product })
+      if (product)
+        context.commit("updateLineItem", {
+          variant,
+          quantity: updatedQuantity,
+          product,
+        });
       else
-        context.commit('updateLineItem', { variant, quantity: updatedQuantity })
+        context.commit("updateLineItem", {
+          variant,
+          quantity: updatedQuantity,
+        });
 
       return null;
     }
 
     const r = await instanceHandler({
-      path: 'signLineItems',
-      args: { lineItems: [{ variant, price  }] }
-    })
+      path: "signLineItems",
+      args: { lineItems: [{ variant, price }] },
+    });
 
-    if(r.loadingState != LoadingState.ready || !r.data?.tokens?.length)
-      return CartError.error
+    if (r.loadingState != LoadingState.ready || !r.data?.tokens?.length)
+      return CartError.error;
 
-    const token = r.data.tokens[0]
+    const token = r.data.tokens[0];
 
-    context.commit('addLineItem', { variant, quantity, price, maxQuantity, product, token, specialTaxRate })
+    context.commit("addLineItem", {
+      variant,
+      quantity,
+      price,
+      maxQuantity,
+      product,
+      token,
+      specialTaxRate,
+    });
 
     return null;
   },
 
-  updateLineItem(context, update){
+  updateLineItem(context, update) {
+    context.commit("init");
 
-    context.commit("init")
+    const lineItem = context.state.lineItems.find(
+      (a) => a.variant == update.variant
+    );
 
-    const lineItem = context.state.lineItems.find(a => a.variant == update.variant)
+    if (update.quantity && update.quantity > lineItem.maxQuantity)
+      return CartError.quantityNotAvailable;
 
-    if(update.quantity && update.quantity > lineItem.maxQuantity)
-      return CartError.quantityNotAvailable
-    
-    context.commit('updateLineItem', update)
+    context.commit("updateLineItem", update);
 
     return null;
-  }
-}
+  },
+};

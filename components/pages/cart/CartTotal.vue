@@ -24,37 +24,49 @@
 </template>
 
 <script>
-import { GLOBAL } from '~/core/const'
-import { toMoney } from '~/util/money'
+import { GLOBAL } from "~/core/const";
+import { toMoney } from "~/util/money";
 
 export default {
   props: {
     cartItems: Array,
-    customShippingCost: Number
+    customShippingCost: Number,
   },
   computed: {
-    subtotal(){
-      return this.cartItems.reduce((acc, cur) => acc + (cur.price * cur.quantity), 0)
+    subtotal() {
+      return this.cartItems.reduce(
+        (acc, cur) => acc + cur.price * cur.quantity,
+        0
+      );
     },
-    shippingCost(){
-      return this.customShippingCost != undefined ? this.customShippingCost : this.subtotal >= GLOBAL.freeShippingMin ? 0 : GLOBAL.shippingCost
+    shippingCost() {
+      return this.customShippingCost != undefined
+        ? this.customShippingCost
+        : this.subtotal >= GLOBAL.freeShippingMin
+        ? 0
+        : GLOBAL.shippingCost;
     },
-    vat(){
-      return this.cartItems.reduce((acc, cur) => acc + cur.price * (cur.variant.specialTaxRate || GLOBAL.vat) * cur.quantity, 0)
+    vat() {
+      return this.cartItems.reduce(
+        (acc, cur) =>
+          acc +
+          cur.price * (cur.variant.specialTaxRate || GLOBAL.vat) * cur.quantity,
+        0
+      );
     },
-    total(){
-      return this.subtotal + this.shippingCost - this.discounts
+    total() {
+      return this.subtotal + this.shippingCost - this.discounts;
     },
-    discounts(){
-      return 0
-    }
+    discounts() {
+      return 0;
+    },
   },
   methods: {
-    money(v){
-      return toMoney(v, this)
-    }
-  }
-}
+    money(v) {
+      return toMoney(v, this);
+    },
+  },
+};
 </script>
 
 <style scoped>

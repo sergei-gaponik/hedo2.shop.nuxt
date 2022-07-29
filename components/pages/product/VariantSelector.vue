@@ -1,8 +1,18 @@
 <template>
   <div class="a-options">
-    <div v-for="(variant, index) in variants" :key="variant._id" class="a-option">
+    <div
+      v-for="(variant, index) in variants"
+      :key="variant._id"
+      class="a-option"
+    >
       <div class="a-radio">
-        <input type="radio" :checked="index == variantIndex" name="variant" class="a-radiobox" @click="$emit('input', index)" >
+        <input
+          type="radio"
+          :checked="index == variantIndex"
+          name="variant"
+          class="a-radiobox"
+          @click="$emit('input', index)"
+        />
         <span class="a-checkmark" />
       </div>
       <div>
@@ -13,28 +23,27 @@
 </template>
 
 <script>
-import { getVariantTitle } from '~/util/variants'
+import { getVariantTitle } from "~/util/variants";
 
 export default {
   model: {
-    prop: 'variantIndex',
-    event: 'input'
+    prop: "variantIndex",
+    event: "input",
   },
-  props: ['variants', 'variantIndex'],
+  props: ["variants", "variantIndex"],
   methods: {
-    getVariantTitle
-  }
-}
+    getVariantTitle,
+  },
+};
 </script>
 
 <style scoped>
-
-.a-options{
+.a-options {
   display: flex;
   gap: var(--gap);
   flex-direction: column;
 }
-.a-option{
+.a-option {
   display: flex;
   gap: var(--padding);
   align-items: center;

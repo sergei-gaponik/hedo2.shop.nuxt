@@ -6,33 +6,30 @@
       <span>&bull;</span>
       <span>{{ article.author }}</span>
     </div>
-    <div v-html="article.body" class="article-content-body">
-    </div>
+    <div v-html="article.body" class="article-content-body"></div>
   </div>
 </template>
 
 <script>
-import { toDateString } from '~/util/misc'
+import { toDateString } from "~/util/misc";
 
 export default {
   props: ["article"],
   methods: {
-    toDateString
-  }
-}
+    toDateString,
+  },
+};
 </script>
 
 <style scoped>
-
-.a-meta{
+.a-meta {
   display: flex;
   gap: var(--gap);
 }
-
 </style>
 
 <style>
-.article-content-body{
+.article-content-body {
   position: relative;
   font-family: var(--alt-font);
 }
@@ -42,7 +39,8 @@ export default {
   margin: calc(var(--default-margin) * 2) 0;
 }
 
-.article-content-body, .article-content-body * {
+.article-content-body,
+.article-content-body * {
   font-size: 1.3rem;
   line-height: 2.3rem;
 }
@@ -60,11 +58,12 @@ export default {
   gap: var(--gap);
 }
 
-.article-content-body strong, .article-content-body b {
+.article-content-body strong,
+.article-content-body b {
   color: black;
 }
 
-.article-content-body li{
+.article-content-body li {
   position: relative;
   left: var(--margin-2);
 }
@@ -77,5 +76,4 @@ export default {
   color: var(--c-gray-3);
   font-size: 1.8rem;
 }
-
 </style>

@@ -10,33 +10,31 @@
 </template>
 
 <script lang="ts">
-import ProfilePageM from '~/components/pages/profile/ProfilePageM.vue'
-import ProfilePage from '~/components/pages/profile/ProfilePage.vue'
-import PageTitleM from '~/components/layout/header/PageTitleM.vue'
-import auth from '~/core/auth'
+import ProfilePageM from "~/components/pages/profile/ProfilePageM.vue";
+import ProfilePage from "~/components/pages/profile/ProfilePage.vue";
+import PageTitleM from "~/components/layout/header/PageTitleM.vue";
+import auth from "~/core/auth";
 
 export default {
   components: { ProfilePageM, ProfilePage, PageTitleM },
-  data(){
+  data() {
     return {
       emailVerified: false,
-      ready: false
-    }
+      ready: false,
+    };
   },
-  async created(){
-    
-    if(!process.client) return;
+  async created() {
+    if (!process.client) return;
 
-    try{
+    try {
       const { attributes } = await auth().currentAuthenticatedUser();
 
-      this.emailVerified = attributes.email_verified
-    }
-    catch(e){
-      this.$router.push(this.localePath("/login"))
+      this.emailVerified = attributes.email_verified;
+    } catch (e) {
+      this.$router.push(this.localePath("/login"));
     }
 
-    this.ready = true
-  }
-}
+    this.ready = true;
+  },
+};
 </script>

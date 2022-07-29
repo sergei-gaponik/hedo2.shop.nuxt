@@ -2,18 +2,12 @@
   <div :class="$device.isMobile ? 'container-m' : 'container'">
     <div :class="$device.isDesktop ? 'td-split-1-3' : ''">
       <div v-if="$device.isDesktop">
-        <filter-page-d 
-          class="td-split-sticky"
-          v-if="$device.isDesktop" 
-        />
+        <filter-page-d class="td-split-sticky" v-if="$device.isDesktop" />
       </div>
       <div>
         <bread-crumbs :breadCrumbs="breadCrumbs" />
         <lazy-wrapper :loadingState="loadingState">
-          <collection-page 
-            :filters="filters"
-            :sale="sale"
-          />
+          <collection-page :filters="filters" :sale="sale" />
         </lazy-wrapper>
       </div>
     </div>
@@ -21,100 +15,94 @@
 </template>
 
 <script>
-import CollectionPage from '~/components/pages/collection/CollectionPage.vue'
-import BreadCrumbs from '~/components/navigation/BreadCrumbs.vue'
-import instanceHandler from '~/core/instanceHandler'
-import { LoadingState } from '~/types'
-import LazyWrapper from '~/components/util/LazyWrapper.vue'
-import FilterPageD from '~/components/pages/collection/filters/FilterPageD.vue'
-
+import CollectionPage from "~/components/pages/collection/CollectionPage.vue";
+import BreadCrumbs from "~/components/navigation/BreadCrumbs.vue";
+import instanceHandler from "~/core/instanceHandler";
+import { LoadingState } from "~/types";
+import LazyWrapper from "~/components/util/LazyWrapper.vue";
+import FilterPageD from "~/components/pages/collection/filters/FilterPageD.vue";
 
 export default {
   components: { CollectionPage, BreadCrumbs, LazyWrapper, FilterPageD },
   computed: {
-    breadCrumbsBase(){
+    breadCrumbsBase() {
       return [
         {
           caption: this.$t("home"),
-          href: this.localePath("/")
-        }
-      ]
-    }
+          href: this.localePath("/"),
+        },
+      ];
+    },
   },
-  data(){
-
-    return { 
+  data() {
+    return {
       breadCrumbs: [],
       filters: [],
       loadingState: LoadingState.ready,
-      sale: false
-    }
+      sale: false,
+    };
   },
-  async fetch(){
+  async fetch() {
+    const collectionHandle = this.$route.params.collectionHandle;
 
-    const collectionHandle = this.$route.params.collectionHandle
-
-    if(collectionHandle == "all"){
+    if (collectionHandle == "all") {
       this.breadCrumbs = [
         ...this.breadCrumbsBase,
         {
-          caption: this.$t("allProducts")
-        }
-      ]
+          caption: this.$t("allProducts"),
+        },
+      ];
       return;
     }
 
-    if(collectionHandle == "sale"){
+    if (collectionHandle == "sale") {
       this.breadCrumbs = [
         ...this.breadCrumbsBase,
         {
-          caption: this.$t("saleCollection")
-        }
-      ]
+          caption: this.$t("saleCollection"),
+        },
+      ];
       this.sale = true;
       return;
     }
 
-    this.loadingState = LoadingState.loading
+    this.loadingState = LoadingState.loading;
 
     const { loadingState, data } = await instanceHandler({
       path: "getCategory",
       args: { handle: collectionHandle },
-      cache: true
-    })
+      cache: true,
+    });
 
-    this.loadingState = loadingState
-    if(this.loadingState != LoadingState.ready) return;
+    this.loadingState = loadingState;
+    if (this.loadingState != LoadingState.ready) return;
 
-    if(!data.category){
-      this.loadingState = LoadingState.notFound
+    if (!data.category) {
+      this.loadingState = LoadingState.notFound;
       return;
     }
-    
-    this.filters = data.category.filters || []
-    let parent = data.category.parent
-    let categoryBreadCrumbs = []
 
-    while(parent){
+    this.filters = data.category.filters || [];
+    let parent = data.category.parent;
+    let categoryBreadCrumbs = [];
+
+    while (parent) {
       categoryBreadCrumbs = [
         {
           caption: parent.title || parent.name,
-          href: this.localePath("/c/" + parent.handle)
+          href: this.localePath("/c/" + parent.handle),
         },
-        ...categoryBreadCrumbs
-      ]
+        ...categoryBreadCrumbs,
+      ];
 
-      parent = parent.parent
+      parent = parent.parent;
     }
 
     categoryBreadCrumbs.push({
-      caption: data.category.name
-    })
+      caption: data.category.name,
+    });
 
-    this.breadCrumbs = [ 
-      ...this.breadCrumbsBase,
-      ...categoryBreadCrumbs 
-    ]
-  }
-}
+    this.breadCrumbs = [...this.breadCrumbsBase, ...categoryBreadCrumbs];
+  },
+};
 </script>

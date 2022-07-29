@@ -1,53 +1,62 @@
 <template>
-  <div 
+  <div
     class="a-img-container"
     @mouseover="mouseOver()"
     @mouseleave="mouseLeave()"
   >
-    <lazy-image v-if="!defaultVisible" class="a-img" :src="activeImageSrc" s3 @error="showDefault" />
-    <image-icon v-if="defaultVisible" class="a-default" height=24 color="var(--c-gray-4)"/>
+    <lazy-image
+      v-if="!defaultVisible"
+      class="a-img"
+      :src="activeImageSrc"
+      s3
+      @error="showDefault"
+    />
+    <image-icon
+      v-if="defaultVisible"
+      class="a-default"
+      height="24"
+      color="var(--c-gray-4)"
+    />
   </div>
 </template>
 
 <script>
-import ImageIcon from '~/components/icons/basic/ImageIcon.vue'
-import LazyImage from '~/components/util/LazyImage.vue'
+import ImageIcon from "~/components/icons/basic/ImageIcon.vue";
+import LazyImage from "~/components/util/LazyImage.vue";
 
 export default {
   components: { LazyImage, ImageIcon },
   props: ["src", "altSrc"],
   watch: {
-    src(){
-      this.activeImageSrc = this.src || this.altSrc
+    src() {
+      this.activeImageSrc = this.src || this.altSrc;
     },
-    altSrc(){
-      this.activeImageSrc = this.src || this.altSrc
-    }
+    altSrc() {
+      this.activeImageSrc = this.src || this.altSrc;
+    },
   },
-  data(){
+  data() {
     return {
       defaultVisible: !this.src && !this.altSrc,
-      activeImageSrc: this.src || this.altSrc
-    }
+      activeImageSrc: this.src || this.altSrc,
+    };
   },
   methods: {
-    showDefault(){
-      this.defaultVisible = true
+    showDefault() {
+      this.defaultVisible = true;
     },
-    mouseOver(){
-      if(this.altSrc && this.$device.isDesktop)
-        this.activeImageSrc = this.altSrc
+    mouseOver() {
+      if (this.altSrc && this.$device.isDesktop)
+        this.activeImageSrc = this.altSrc;
     },
-    mouseLeave(){
-      if(this.src && this.$device.isDesktop)
-        this.activeImageSrc = this.src
-    }
-  }
-}
+    mouseLeave() {
+      if (this.src && this.$device.isDesktop) this.activeImageSrc = this.src;
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 .a-img-container {
   position: relative;
   width: 100%;
@@ -72,7 +81,7 @@ export default {
   object-position: center;
 }
 
-.a-default{
+.a-default {
   position: absolute;
   top: 50%;
   left: 50%;

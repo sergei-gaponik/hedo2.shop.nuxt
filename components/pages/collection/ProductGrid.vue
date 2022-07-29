@@ -1,29 +1,34 @@
 <template>
-  <div class="a-grid" :style="{ gridTemplateColumns: '1fr '.repeat(cols || 2) }">
-    <product-card 
-      v-for="product in computedProducts" 
+  <div
+    class="a-grid"
+    :style="{ gridTemplateColumns: '1fr '.repeat(cols || 2) }"
+  >
+    <product-card
+      v-for="product in computedProducts"
       :key="product._id"
-      :product="product._dummy ? null : product" 
+      :product="product._dummy ? null : product"
       :dummy="product._dummy"
     />
   </div>
 </template>
 
 <script>
-import ProductCard from './ProductCard.vue'
+import ProductCard from "./ProductCard.vue";
 
 export default {
   props: ["products", "cols"],
   components: { ProductCard },
   computed: {
-    computedProducts(){
-      if(this.products?.length)
-        return this.products
+    computedProducts() {
+      if (this.products?.length) return this.products;
       else
-        return [...Array(this.cols).keys()].map(a => ({ _id: a, _dummy: true }))
+        return [...Array(this.cols).keys()].map((a) => ({
+          _id: a,
+          _dummy: true,
+        }));
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

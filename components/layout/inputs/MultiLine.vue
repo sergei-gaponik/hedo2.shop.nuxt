@@ -1,8 +1,11 @@
 <template>
   <div class="a-container">
-    <span v-if="caption" class="a-caption">{{ caption  }}<span class="subdued">{{ required ? ' *' : ' (optional)' }}</span></span>
+    <span v-if="caption" class="a-caption"
+      >{{ caption
+      }}<span class="subdued">{{ required ? " *" : " (optional)" }}</span></span
+    >
     <div class="a-input-container">
-      <textarea 
+      <textarea
         class="a-input"
         :value="value"
         @input="$emit('input', $event.target.value)"
@@ -18,15 +21,14 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import InfoIcon from '~/components/icons/status/InfoIcon.vue'
+import InfoIcon from "~/components/icons/status/InfoIcon.vue";
 
 export default {
   components: { InfoIcon },
   model: {
-    prop: 'value',
-    event: 'input'
+    prop: "value",
+    event: "input",
   },
   props: {
     required: Boolean,
@@ -34,27 +36,27 @@ export default {
     placeholder: String,
     caption: String,
     info: String,
-    rows: Number
+    rows: Number,
   },
-}
+};
 </script>
 
 <style scoped>
-.a-container{
+.a-container {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
 }
-.a-info{
+.a-info {
   display: flex;
   gap: var(--gap);
   color: var(--c-gray-2);
   font-size: 0.9rem;
 }
-.a-input-container{
+.a-input-container {
   position: relative;
 }
-.a-input{
+.a-input {
   outline: none;
   font-size: var(--font-size);
   padding: var(--padding);
@@ -66,8 +68,7 @@ export default {
   border-radius: var(--default-border-radius);
   resize: none;
 }
-.a-input:focus{
+.a-input:focus {
   border-color: black;
 }
-
 </style>

@@ -1,4 +1,3 @@
-
 <template>
   <div class="a-divider">
     <div :class="[loading ? 'a-loading' : '']"></div>
@@ -6,35 +5,28 @@
 </template>
 
 <script>
-
 export default {
-  data(){
+  data() {
     return {
-      loading: false
-    }
+      loading: false,
+    };
   },
   watch: {
-    '$store.state.loadingState.loadingState': function(v){
-
-      if(v == "loading" && this.loading == false){
-
+    "$store.state.loadingState.loadingState": function (v) {
+      if (v == "loading" && this.loading == false) {
         setTimeout(() => {
+          if (this.$store.state.loadingState.loadingState == "loading") {
+            this.loading = true;
 
-          if(this.$store.state.loadingState.loadingState == "loading"){
-
-            this.loading = true
-    
             setTimeout(() => {
-              this.loading = false
-            }, 2000)
+              this.loading = false;
+            }, 2000);
           }
-          
-        }, 20)
-
+        }, 20);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -56,13 +48,18 @@ export default {
   /* background: linear-gradient(-90deg, #cce2cf 10%, #d9e6db 80%, #dee9df 95%); */
   /* box-shadow: 0px 3px 7px #9bc7a175; */
   box-shadow: 0px 4px 8px var(--c-green-3-l);
-  background: linear-gradient(-90deg, #c3ddc680 10%, #c3ddc650 80%, #c3ddc640 95%);
+  background: linear-gradient(
+    -90deg,
+    #c3ddc680 10%,
+    #c3ddc650 80%,
+    #c3ddc640 95%
+  );
   z-index: 2;
   animation: a-animation 2s 1;
   opacity: 0;
   transition: all 1s linear;
 }
-.a-stop{
+.a-stop {
   opacity: 0;
 }
 

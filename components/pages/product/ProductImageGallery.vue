@@ -1,90 +1,106 @@
 <template>
-<div class="a-container">
-  <div class="a-slider hide-scrollbar mb2" ref="slider">
-    <product-image :src="imgSrc"/>
-    <div v-if="multipleImages" @click="clickHandler(prevImage)" class="a-left">
-      <chevron-left-icon height=36 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
+  <div class="a-container">
+    <div class="a-slider hide-scrollbar mb2" ref="slider">
+      <product-image :src="imgSrc" />
+      <div
+        v-if="multipleImages"
+        @click="clickHandler(prevImage)"
+        class="a-left"
+      >
+        <chevron-left-icon
+          height="36"
+          color="var(--c-gray-3)"
+          :style="{ opacity: !$device.isDesktop ? 0 : 1 }"
+        />
+      </div>
+      <div
+        v-if="multipleImages"
+        @click="clickHandler(nextImage)"
+        class="a-right"
+      >
+        <chevron-right-icon
+          height="36"
+          color="var(--c-gray-3)"
+          :style="{ opacity: !$device.isDesktop ? 0 : 1 }"
+        />
+      </div>
     </div>
-    <div v-if="multipleImages" @click="clickHandler(nextImage)" class="a-right">
-      <chevron-right-icon height=36 color="var(--c-gray-3)" :style="{ opacity: !$device.isDesktop ? 0 : 1 }" />
+    <div class="a-dots" v-if="multipleImages">
+      <div
+        v-for="(image, i) in images"
+        :key="i"
+        :class="['a-dot', position == i ? 'a-dot-selected' : '']"
+        @click="clickHandler(() => dotClick(i))"
+      />
     </div>
   </div>
-  <div class="a-dots" v-if="multipleImages">
-    <div v-for="(image, i) in images" :key="i" :class="['a-dot', position == i ? 'a-dot-selected' : '']" @click="clickHandler(() => dotClick(i))"/>
-  </div>
-</div>
 </template>
 
 <script>
-import ProductImage from './ProductImage.vue'
-import ChevronLeftIcon from '~/components/icons/arrows/ChevronLeftIcon.vue'
-import ChevronRightIcon from '~/components/icons/arrows/ChevronRightIcon.vue'
-import clickHandler from '~/util/clickHandler'
-import { createTouchSlider } from '~/util/touch'
+import ProductImage from "./ProductImage.vue";
+import ChevronLeftIcon from "~/components/icons/arrows/ChevronLeftIcon.vue";
+import ChevronRightIcon from "~/components/icons/arrows/ChevronRightIcon.vue";
+import clickHandler from "~/util/clickHandler";
+import { createTouchSlider } from "~/util/touch";
 
 export default {
   components: { ProductImage, ChevronLeftIcon, ChevronRightIcon },
   props: ["images"],
   computed: {
-    imgSrc(){
-      return this.images?.[this.position]?.asset.src || ""
+    imgSrc() {
+      return this.images?.[this.position]?.asset.src || "";
     },
-    multipleImages(){
-      return this.images.length > 1
-    }
-  },  
-  data(){
-    return {
-      position: 0
-    }
+    multipleImages() {
+      return this.images.length > 1;
+    },
   },
-  mounted(){
-    createTouchSlider(this.$refs.slider, this.prevImage, this.nextImage)
+  data() {
+    return {
+      position: 0,
+    };
+  },
+  mounted() {
+    createTouchSlider(this.$refs.slider, this.prevImage, this.nextImage);
   },
   methods: {
     clickHandler,
-    dotClick(i){
-      this.position = i
+    dotClick(i) {
+      this.position = i;
     },
-    prevImage(){
-      const position = this.position - 1
+    prevImage() {
+      const position = this.position - 1;
 
-      if(position < 0)
-        this.position = this.images.length - 1
-      else
-        this.position = position
+      if (position < 0) this.position = this.images.length - 1;
+      else this.position = position;
     },
-    nextImage(){
-      const position = this.position + 1
+    nextImage() {
+      const position = this.position + 1;
 
-      if(position > this.images.length - 1)
-        this.position = 0
-      else
-        this.position = position
-    }
+      if (position > this.images.length - 1) this.position = 0;
+      else this.position = position;
+    },
   },
   watch: {
-    images(){
-      this.position = 0
-    }
-  }
-}
+    images() {
+      this.position = 0;
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-.a-slider{
+.a-slider {
   position: relative;
   width: 100%;
   height: 100%;
 }
-.a-dots{
+.a-dots {
   display: flex;
   justify-content: center;
   width: 100%;
   gap: var(--gap);
 }
-.a-dot{
+.a-dot {
   cursor: pointer;
   position: relative;
   width: 10px;
@@ -93,10 +109,10 @@ export default {
   background-color: var(--c-gray-3);
   transition: var(--drawer-transition);
 }
-.a-dot-selected{
+.a-dot-selected {
   background-color: var(--c-gray-2);
 }
-.a-left{
+.a-left {
   cursor: pointer;
   position: absolute;
   left: 0;
@@ -106,7 +122,7 @@ export default {
   align-items: center;
   transform: translateY(-50%);
 }
-.a-right{
+.a-right {
   cursor: pointer;
   position: absolute;
   right: 0;

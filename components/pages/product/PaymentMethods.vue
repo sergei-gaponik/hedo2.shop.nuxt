@@ -1,30 +1,29 @@
 <template>
   <div class="a-container">
     <h4 class="a-caption">
-      {{ $t('payConvenientlyWith') + ":" }}
+      {{ $t("payConvenientlyWith") + ":" }}
     </h4>
     <div class="a-paymentmethods">
       <payment-method-icons />
-
     </div>
   </div>
 </template>
 
 <script>
-import PaymentMethodIcons from './PaymentMethodIcons.vue'
+import PaymentMethodIcons from "./PaymentMethodIcons.vue";
 
 export default {
-  components: { PaymentMethodIcons }
-}
+  components: { PaymentMethodIcons },
+};
 </script>
 
 <style scoped>
-.a-container{
+.a-container {
   position: relative;
   width: 100%;
   top: 10px;
 }
-.a-caption{
+.a-caption {
   position: absolute;
   background-color: white;
   left: 50%;
@@ -36,7 +35,7 @@ export default {
   white-space: nowrap;
 }
 
-.a-paymentmethods{
+.a-paymentmethods {
   position: relative;
   border-radius: var(--default-border-radius);
   padding: calc(var(--padding) * 2);
@@ -46,5 +45,4 @@ export default {
   justify-content: center;
   box-sizing: border-box;
 }
-
 </style>

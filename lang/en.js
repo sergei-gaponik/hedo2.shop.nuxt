@@ -24,19 +24,26 @@ export default {
   cancellationPolicy: "Cancellation policy",
   cartEmpty: "Your cart is empty",
   cartPageTitle: "Cart",
-  cartPrivacyPolicy: "I agree to the forwarding of my e-mail address to the shipping service provider. By sending a message, you can cancel this consent at any time.",
-  cartPrivacyPolicyNotAccepted: "Please agree to the disclosure of your e-mail address",
-  cartQuantityChangedNotification: "Some products are no longer available in the desired quantity.",
+  cartPrivacyPolicy:
+    "I agree to the forwarding of my e-mail address to the shipping service provider. By sending a message, you can cancel this consent at any time.",
+  cartPrivacyPolicyNotAccepted:
+    "Please agree to the disclosure of your e-mail address",
+  cartQuantityChangedNotification:
+    "Some products are no longer available in the desired quantity.",
   changePassword: "Change password",
   checkout: "Checkout",
   checkoutAsGuest: "Proceed as guest",
   checkoutPageTitle: "Checkout",
-  checkoutSuccessText: "<p>We are pleased that you have chosen HEDO.</p><p>For an even more comfortable shopping experience in the future, you just need to select a password and to verify your email address to create a customer account.</p>",
-  checkoutSuccessAuthenticatedText: "<p>We are pleased that you have chosen HEDO.</p>",
-  checkoutSignUpText: "We will send you a verification code to the following email address:",
+  checkoutSuccessText:
+    "<p>We are pleased that you have chosen HEDO.</p><p>For an even more comfortable shopping experience in the future, you just need to select a password and to verify your email address to create a customer account.</p>",
+  checkoutSuccessAuthenticatedText:
+    "<p>We are pleased that you have chosen HEDO.</p>",
+  checkoutSignUpText:
+    "We will send you a verification code to the following email address:",
   chooseAnotherPaymentMethod: "Choose another payment method",
   city: "City",
-  codeExpiredError: "The verification code provided has expired, please request a new code.",
+  codeExpiredError:
+    "The verification code provided has expired, please request a new code.",
   codeMismatchError: "Invalid verification code provided, please try again.",
   collections: "Collections",
   companyDetails: "Company details",
@@ -86,7 +93,8 @@ export default {
   item: "item",
   items: "items",
   lastName: "Last name",
-  limitExceededError: "Maximum number of attempts has been exceeded. Please try again later.",
+  limitExceededError:
+    "Maximum number of attempts has been exceeded. Please try again later.",
   lookingFor: "Looking for...",
   manageAccount: "Manage account",
   matchesShippingAddress: "Matches shipping address",
@@ -98,12 +106,17 @@ export default {
   newsletterAlreadySubscribed: "You have already subscribed to the newsletter.",
   newsletterNotSubscribedYet: "You have not subscribed to the newsletter yet.",
   newsletterSubscribe: "Subscribe to newsletter",
-  newsletterSubscribeCaption: "Subscribe to the free newsletter to stay informed about news and discount promotions.",
-  newsletterSubscribedNotification: "Thank you for subscribing to our newsletter!",
+  newsletterSubscribeCaption:
+    "Subscribe to the free newsletter to stay informed about news and discount promotions.",
+  newsletterSubscribedNotification:
+    "Thank you for subscribing to our newsletter!",
   newsletterUnsubscribe: "Unsubscribe",
-  newsletterUnsubscribeCaption: "If you no longer wish to receive the newsletter, you can unsubscribe here.",
-  newsletterUnsubscribeConfirm: "Are you sure you don't want to be informed about news and discount promotions anymore?",
-  newsletterUnsubscribedNotification: "You have successfully unsubscribed from the newsletter.",
+  newsletterUnsubscribeCaption:
+    "If you no longer wish to receive the newsletter, you can unsubscribe here.",
+  newsletterUnsubscribeConfirm:
+    "Are you sure you don't want to be informed about news and discount promotions anymore?",
+  newsletterUnsubscribedNotification:
+    "You have successfully unsubscribed from the newsletter.",
   nextStep: "Next step",
   noAccount: "No account?",
   noAddresses: "No saved addresses",
@@ -116,11 +129,12 @@ export default {
   optional: "optional",
   or: "or",
   orderAgain: "Order again",
-  orderHelpText: "If you have any questions about your order, you can contact us at <b>kontakt@hedo-beauty.de</b>, quoting your <b>order number</b>",
+  orderHelpText:
+    "If you have any questions about your order, you can contact us at <b>kontakt@hedo-beauty.de</b>, quoting your <b>order number</b>",
   orderNumber: "Order number",
   orderReceived: "Your order has been received",
   orders: "Orders",
-  ordersCouldNotBeLoaded: "Orders could not be loaded", 
+  ordersCouldNotBeLoaded: "Orders could not be loaded",
   orderSummery: "Order summery",
   outOfStock: "Out of stock",
   quantityNotAvailable: "This quantity is not available",
@@ -130,14 +144,16 @@ export default {
   pageOf: "of",
   password: "Password",
   passwordChangedNotification: "Your password has been updated",
-  passwordRequiredPattern: "The password must contain at least 8 characters, a number and an upper and lower case letter.",
+  passwordRequiredPattern:
+    "The password must contain at least 8 characters, a number and an upper and lower case letter.",
   passwordsDontMatch: "The passwords do not match",
   payConvenientlyWith: "Pay conveniently with",
   payLater: "Pay later",
   payment: "Payment",
   paymentAndShipping: "Payment and shipping",
   paymentCanceled: "Payment canceled",
-  paymentCanceledSubHeading: "Your payment has been declined. Please choose another payment method.",
+  paymentCanceledSubHeading:
+    "Your payment has been declined. Please choose another payment method.",
   paymentMethod: "Payment method",
   personalData: "Personal data",
   phoneNumber: "Phone number",
@@ -155,8 +171,10 @@ export default {
   resendCodeSuccess: "Verification code was sent again.",
   resetFilters: "Reset filters",
   resetPassword: "Reset password",
-  resetPasswordSubHeading: "Please enter the email address you used to register with HEDO. We will send you a verification code that you can use in the next step to reset your password.",
-  resetPasswordSubHeading2: "Thank you very much. If there is an account with the given email address, you should have received an email from us.",
+  resetPasswordSubHeading:
+    "Please enter the email address you used to register with HEDO. We will send you a verification code that you can use in the next step to reset your password.",
+  resetPasswordSubHeading2:
+    "Thank you very much. If there is an account with the given email address, you should have received an email from us.",
   result: "result",
   results: "results",
   sale: "Sale",
@@ -178,7 +196,8 @@ export default {
   signUp: "Sign Up",
   signUpPrivacyPolicy: "I agree to the privacy policy.",
   signUpPrivacyPolicyNotAccepted: "Please agree to the privacy policy.",
-  signUpNewsletterConsent: "I would like to subscribe to the newsletter to stay informed about news and promotions.",
+  signUpNewsletterConsent:
+    "I would like to subscribe to the newsletter to stay informed about news and promotions.",
   similarProducts: "Similar products",
   stayUpToDate: "Stay up to date",
   submit: "Submit",
@@ -193,8 +212,9 @@ export default {
   vat: "VAT",
   verificationCode: "Verifizierungs-Code",
   verifyEmail: "Please verify your email address.",
-  verifyEmailSubHeading: "We have sent you an email with a verification code. If you didn't receive the email, please check your spam folder or press \"resend code\".",
+  verifyEmailSubHeading:
+    'We have sent you an email with a verification code. If you didn\'t receive the email, please check your spam folder or press "resend code".',
   welcomeBack: "Welcome back",
   youMightAlsoBeInterestedIn: "You might also be interested in",
-  zipCode: "Zip code"
-}
+  zipCode: "Zip code",
+};

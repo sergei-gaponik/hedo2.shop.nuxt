@@ -1,12 +1,9 @@
-
 export const state = () => ({
-  visitedArticles: []
-})
+  visitedArticles: [],
+});
 
 export const mutations = {
-
-  addVisitedArticle(_state: any, id: string){
-
-    _state.visitedArticles.push(id)
-  }
-}
+  addVisitedArticle(_state: any, id: string) {
+    _state.visitedArticles.push(id);
+  },
+};

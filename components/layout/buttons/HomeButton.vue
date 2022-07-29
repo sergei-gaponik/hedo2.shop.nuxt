@@ -7,11 +7,10 @@
 </template>
 
 <script>
-
-import Logo from '~/components/icons/Logo.vue'
+import Logo from "~/components/icons/Logo.vue";
 
 export default {
   components: { Logo },
-  props: ["height"]
-}
+  props: ["height"],
+};
 </script>

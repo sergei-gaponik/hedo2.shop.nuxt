@@ -1,11 +1,11 @@
 <template>
   <div class="a-divider">
-    <span class="a-divider-caption">{{ $t('or') }}</span>
+    <span class="a-divider-caption">{{ $t("or") }}</span>
   </div>
 </template>
 
 <style scoped>
-.a-divider{
+.a-divider {
   position: relative;
   width: 80%;
   left: 50%;
@@ -14,7 +14,7 @@
   margin-top: calc(var(--default-margin) * 3);
   border-bottom: 1px solid var(--c-gray-3);
 }
-.a-divider-caption{
+.a-divider-caption {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

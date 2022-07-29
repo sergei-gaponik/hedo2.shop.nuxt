@@ -1,30 +1,30 @@
 <template>
-<div>
-  <button v-if="submit" class="hide" type="submit" ref="btnsubmit"></button>
-  <div 
-    :class="['a-button', 
-      disabled ? 'a-disabled' : '', 
-      shakeAnimation ? 'shake-animation' : '',
-      pressAnimation ? 'press-animation' : '',
-      noPadding ? 'a-nopadding' : ''
-    ]" 
-    @click="handler"
-  >
-    <slot v-if="naked" />
-    <div v-else class="a-inner">
-      <div>
-        <slot />
+  <div>
+    <button v-if="submit" class="hide" type="submit" ref="btnsubmit"></button>
+    <div
+      :class="[
+        'a-button',
+        disabled ? 'a-disabled' : '',
+        shakeAnimation ? 'shake-animation' : '',
+        pressAnimation ? 'press-animation' : '',
+        noPadding ? 'a-nopadding' : '',
+      ]"
+      @click="handler"
+    >
+      <slot v-if="naked" />
+      <div v-else class="a-inner">
+        <div>
+          <slot />
+        </div>
       </div>
     </div>
-    
   </div>
-</div>
 </template>
 
 <script>
-import clickHandler from '~/util/clickHandler'
+import clickHandler from "~/util/clickHandler";
 
-const ACTION_DELAY = 200 // small delay due to animation
+const ACTION_DELAY = 200; // small delay due to animation
 
 export default {
   props: {
@@ -32,65 +32,52 @@ export default {
     naked: Boolean,
     action: Function,
     submit: Boolean,
-    noPadding: Boolean
+    noPadding: Boolean,
   },
-  data(){
+  data() {
     return {
       shakeAnimation: false,
-      pressAnimation: false
-    }
+      pressAnimation: false,
+    };
   },
   methods: {
-    handler(){
-
+    handler() {
       clickHandler(() => {
-
-        if(this.disabled){
-          this.shake()
-
-          setTimeout(() => {
-            if(this.submit && this.$refs.btnsubmit)
-              this.$refs.btnsubmit.click()
-
-          }, ACTION_DELAY)
-        }
-        else{
-          this.press()
+        if (this.disabled) {
+          this.shake();
 
           setTimeout(() => {
-            
+            if (this.submit && this.$refs.btnsubmit)
+              this.$refs.btnsubmit.click();
+          }, ACTION_DELAY);
+        } else {
+          this.press();
 
-            if(this.submit && this.$refs.btnsubmit)
-              this.$refs.btnsubmit.click()
-            else if(this.action) 
-              this.action()
-            else
-              this.$emit('click')
-              
-          }, ACTION_DELAY)
-
-          
+          setTimeout(() => {
+            if (this.submit && this.$refs.btnsubmit)
+              this.$refs.btnsubmit.click();
+            else if (this.action) this.action();
+            else this.$emit("click");
+          }, ACTION_DELAY);
         }
-      })
+      });
     },
-    shake(){
+    shake() {
+      if (this.shakeAnimation == true) return;
 
-      if(this.shakeAnimation == true) return;
+      this.shakeAnimation = true;
 
-      this.shakeAnimation = true
-
-      setTimeout(() => this.shakeAnimation = false, 1000)
+      setTimeout(() => (this.shakeAnimation = false), 1000);
     },
-    press(){
+    press() {
+      if (this.pressAnimation == true) return;
 
-      if(this.pressAnimation == true) return;
+      this.pressAnimation = true;
 
-      this.pressAnimation = true
-
-      setTimeout(() => this.pressAnimation = false, 500)
-    }
-  }
-}
+      setTimeout(() => (this.pressAnimation = false), 500);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -109,16 +96,16 @@ export default {
   box-shadow: 0px 4px 7px rgb(155, 199, 161, 0.5);
 }
 
-.a-nopadding{
+.a-nopadding {
   padding: 0;
 }
 
-.a-disabled{
+.a-disabled {
   background-color: var(--c-green-3);
   box-shadow: none;
 }
 
-.a-inner{
+.a-inner {
   color: white;
   font-weight: 600;
   font-size: 1.2rem;

@@ -1,54 +1,48 @@
 <template>
   <div class="a-searchbar" :style="{ width }">
-    <input 
+    <input
       class="a-input"
-      :value="value" 
+      :value="value"
       ref="input"
       @click="showSearchbarOnTablet"
     />
-    <search-icon 
-      class="a-icon"
-      height=20
-      color="var(--c-gray-1)"
-    />
+    <search-icon class="a-icon" height="20" color="var(--c-gray-1)" />
   </div>
 </template>
 
 <script>
-import SearchIcon from '~/components/icons/navigation/SearchIcon.vue'
+import SearchIcon from "~/components/icons/navigation/SearchIcon.vue";
 
 export default {
   props: {
-    width: String
+    width: String,
   },
   components: { SearchIcon },
   computed: {
     value() {
       return this.$store.state.search.query;
-    }
+    },
   },
   methods: {
-    showSearchbarOnTablet(){
-      if(this.$device.isTablet){
-        this.$emit('showSearchbar')
+    showSearchbarOnTablet() {
+      if (this.$device.isTablet) {
+        this.$emit("showSearchbar");
       }
-
     },
-    focusInput(){
-      this.$nextTick(function(){
-        this.$refs.input.focus()
-      })
-    }
-  }
-}
+    focusInput() {
+      this.$nextTick(function () {
+        this.$refs.input.focus();
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
-.a-searchbar{
+.a-searchbar {
   position: relative;
   width: calc(50vw - (var(--padding-x-td) * 2));
   height: var(--search-bar-y);
-  
 }
 .a-input {
   width: 100%;
@@ -64,6 +58,6 @@ export default {
   position: absolute;
   right: var(--padding);
   top: 50%;
-  transform: translateY(-50%)
+  transform: translateY(-50%);
 }
 </style>

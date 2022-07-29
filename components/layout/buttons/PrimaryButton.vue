@@ -1,8 +1,8 @@
 <template>
-  <button 
-    class="a-button" 
+  <button
+    class="a-button"
     :style="{ width: minContent ? 'min-content' : '100%' }"
-    @click="_action" 
+    @click="_action"
     :type="submit ? 'submit' : 'button'"
   >
     <slot />
@@ -15,28 +15,25 @@ export default {
     action: Function,
     to: String,
     submit: Boolean,
-    minContent: Boolean
+    minContent: Boolean,
   },
   methods: {
-    _action(){
+    _action() {
+      if (this.submit) return;
 
-      if(this.submit) return;
+      if (this.to) {
+        this.$store.commit("nav/closeAllDrawers");
+        this.$router.push(this.to);
+      } else if (this.action) this.action();
 
-      if(this.to){
-        this.$store.commit("nav/closeAllDrawers")
-        this.$router.push(this.to)
-      }
-      else if(this.action)
-        this.action()
-
-      this.$emit("click")
-    }
-  }
-}
+      this.$emit("click");
+    },
+  },
+};
 </script>
 
 <style scoped>
-.a-button{
+.a-button {
   all: unset;
   cursor: pointer;
   user-select: none;

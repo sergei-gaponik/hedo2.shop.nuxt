@@ -2,12 +2,12 @@ export enum LoadingState {
   "loading" = "loading",
   "ready" = "ready",
   "error" = "error",
-  "notFound" = "notFound"
+  "notFound" = "notFound",
 }
 
 export enum CartError {
   "quantityNotAvailable" = "quantityNotAvailable",
-  "error" = "error"
+  "error" = "error",
 }
 
 export enum PaymentMethod {
@@ -15,29 +15,29 @@ export enum PaymentMethod {
   "amazonpay" = "amazonpay",
   "paypal" = "paypal",
   "paylater" = "paylater",
-  "sofort" = "sofort"
+  "sofort" = "sofort",
 }
 
 export interface Filter {
-  _id: string
-  title: string
-  handle: string
+  _id: string;
+  title: string;
+  handle: string;
 }
 
 export interface FilterCategory {
-  _id: string
-  name: string
-  categoryId: string
-  filters: Filter[]
+  _id: string;
+  name: string;
+  categoryId: string;
+  filters: Filter[];
 }
 
 export interface LineItem {
-  product: string
-  variant: string
-  maxQuantity: number
-  price: number
-  quantity: number
-  token: string
-  specialTaxRate: number
-  isGift: boolean
+  product: string;
+  variant: string;
+  maxQuantity: number;
+  price: number;
+  quantity: number;
+  token: string;
+  specialTaxRate: number;
+  isGift: boolean;
 }

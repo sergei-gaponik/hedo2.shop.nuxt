@@ -19,28 +19,26 @@
 </style>
 
 <script>
-import clickHandler from '~/util/clickHandler'
+import clickHandler from "~/util/clickHandler";
 
 export default {
   props: ["region"],
   methods: {
-    action(){
-      this.$router.push(this.switchLocalePath(this.getNextLocaleCode()))
+    action() {
+      this.$router.push(this.switchLocalePath(this.getNextLocaleCode()));
     },
-    getNextLocaleCode(){
+    getNextLocaleCode() {
+      let index = this.$i18n.locales.findIndex(
+        (a) => a.code == this.$i18n.locale
+      );
 
-      let index = this.$i18n.locales
-        .findIndex(a => a.code == this.$i18n.locale)
+      index++;
 
-      index++
+      if (index >= this.$i18n.locales.length) index = 0;
 
-      if(index >= this.$i18n.locales.length)
-        index = 0
-
-      return this.$i18n.locales[index].code
-
+      return this.$i18n.locales[index].code;
     },
-    clickHandler
-  }
-}
+    clickHandler,
+  },
+};
 </script>

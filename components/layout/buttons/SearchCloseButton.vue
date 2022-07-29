@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import CrossIcon from '~/components/icons/basic/CrossIcon.vue'
+import CrossIcon from "~/components/icons/basic/CrossIcon.vue";
 
 export default {
   components: { CrossIcon },
-  props: ["height", "action"]
-}
+  props: ["height", "action"],
+};
 </script>

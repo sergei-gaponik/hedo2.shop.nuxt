@@ -1,9 +1,19 @@
 <template>
   <div class="container-slim">
     <ul class="a-progressbar">
-      <li @click="setStep(1)" class="a-active">{{ $t('contact') }}</li>
-      <li @click="setStep(2)" :class="$store.state.checkout.step > 1 ? 'a-active' : ''">{{ $t('deliveryInstruction') }}</li>
-      <li @click="setStep(3)" :class="$store.state.checkout.step > 2 ? 'a-active' : ''">{{ $t('payment') }}</li>
+      <li @click="setStep(1)" class="a-active">{{ $t("contact") }}</li>
+      <li
+        @click="setStep(2)"
+        :class="$store.state.checkout.step > 1 ? 'a-active' : ''"
+      >
+        {{ $t("deliveryInstruction") }}
+      </li>
+      <li
+        @click="setStep(3)"
+        :class="$store.state.checkout.step > 2 ? 'a-active' : ''"
+      >
+        {{ $t("payment") }}
+      </li>
     </ul>
   </div>
 </template>
@@ -11,17 +21,16 @@
 <script>
 export default {
   methods: {
-    setStep(step){
-      if(step <= this.$store.state.checkout.furthestStep){
-        this.$emit('setStep', step)
+    setStep(step) {
+      if (step <= this.$store.state.checkout.furthestStep) {
+        this.$emit("setStep", step);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 .a-progressbar {
   padding: 0;
 }
@@ -57,7 +66,7 @@ export default {
   background-color: var(--c-gray-4);
   top: 7px;
   left: -50%;
-  z-index : -1;
+  z-index: -1;
   transition: var(--fast-transition);
 }
 .a-progressbar li:first-child:after {
@@ -68,7 +77,7 @@ export default {
 }
 .a-progressbar li.a-active:before {
   background-color: var(--c-green-2);
-} 
+}
 .a-progressbar li.a-active + li:after {
   background-color: var(--c-green-2);
 }

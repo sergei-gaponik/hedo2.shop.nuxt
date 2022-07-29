@@ -1,13 +1,16 @@
 <template>
   <div class="a-container">
-    <span v-if="caption" class="a-caption">{{ caption  }}
-      <span v-if="!hideRequiredInfo" class="a-required-info">{{ required ? ' *' : ' (optional)' }}</span>
+    <span v-if="caption" class="a-caption"
+      >{{ caption }}
+      <span v-if="!hideRequiredInfo" class="a-required-info">{{
+        required ? " *" : " (optional)"
+      }}</span>
     </span>
     <div class="a-input-container">
-      <input 
+      <input
         ref="input"
         class="a-input"
-        :type="inputType" 
+        :type="inputType"
         :value="value"
         @input="$emit('input', $event.target.value)"
         :placeholder="placeholder"
@@ -15,9 +18,21 @@
         :pattern="pattern"
         :autocomplete="autocomplete ? autocomplete : 'off'"
       />
-      <div class="a-iconbutton" v-if="type == 'password'" @click="clickHandler(togglePasswordVisible)">
-        <visible-icon v-if="!passwordVisible" color="var(--c-gray-3)" height=24 />
-        <visible-off-icon v-if="passwordVisible" color="var(--c-gray-3)" height=24 />
+      <div
+        class="a-iconbutton"
+        v-if="type == 'password'"
+        @click="clickHandler(togglePasswordVisible)"
+      >
+        <visible-icon
+          v-if="!passwordVisible"
+          color="var(--c-gray-3)"
+          height="24"
+        />
+        <visible-off-icon
+          v-if="passwordVisible"
+          color="var(--c-gray-3)"
+          height="24"
+        />
       </div>
     </div>
     <span v-if="info" class="a-info">
@@ -27,18 +42,17 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import VisibleIcon from '~/components/icons/basic/VisibleIcon.vue'
-import VisibleOffIcon from '~/components/icons/basic/VisibleOffIcon.vue'
-import InfoIcon from '~/components/icons/status/InfoIcon.vue'
-import clickHandler from '~/util/clickHandler'
+import VisibleIcon from "~/components/icons/basic/VisibleIcon.vue";
+import VisibleOffIcon from "~/components/icons/basic/VisibleOffIcon.vue";
+import InfoIcon from "~/components/icons/status/InfoIcon.vue";
+import clickHandler from "~/util/clickHandler";
 
 export default {
   components: { InfoIcon, VisibleIcon, VisibleOffIcon },
   model: {
-    prop: 'value',
-    event: 'input'
+    prop: "value",
+    event: "input",
   },
   props: {
     required: Boolean,
@@ -49,49 +63,47 @@ export default {
     info: String,
     type: String,
     pattern: String,
-    autocomplete: String
+    autocomplete: String,
   },
-  data(){
+  data() {
     return {
-      passwordVisible: false
-    }
+      passwordVisible: false,
+    };
   },
   computed: {
-    inputType(){
-      if(this.type == "password")
-        return this.passwordVisible ? 'text' : 'password'
-      else if(this.type)
-        return this.type
-      else
-        return 'text'
-    }
+    inputType() {
+      if (this.type == "password")
+        return this.passwordVisible ? "text" : "password";
+      else if (this.type) return this.type;
+      else return "text";
+    },
   },
   methods: {
-    togglePasswordVisible(){
-      this.passwordVisible = !this.passwordVisible
+    togglePasswordVisible() {
+      this.passwordVisible = !this.passwordVisible;
     },
-    clickHandler
-  }
-}
+    clickHandler,
+  },
+};
 </script>
 
 <style scoped>
-.a-container{
+.a-container {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
   margin-bottom: var(--default-margin);
 }
-.a-info{
+.a-info {
   display: flex;
   gap: var(--gap);
   color: var(--c-gray-2);
   font-size: 0.9rem;
 }
-.a-input-container{
+.a-input-container {
   position: relative;
 }
-.a-input{
+.a-input {
   all: unset;
   padding: 0 var(--padding);
   box-sizing: border-box;
@@ -102,11 +114,11 @@ export default {
   background-color: white;
   border-radius: var(--default-border-radius);
 }
-.a-input:focus{
+.a-input:focus {
   border-color: var(--c-gray-1);
   box-shadow: inset 0px 0px 5px var(--c-gray-3);
 }
-.a-iconbutton{
+.a-iconbutton {
   cursor: pointer;
   display: flex;
   position: absolute;
@@ -115,8 +127,7 @@ export default {
   transform: translateY(-50%);
 }
 
-.a-required-info{
+.a-required-info {
   color: var(--c-green-2);
 }
-
 </style>

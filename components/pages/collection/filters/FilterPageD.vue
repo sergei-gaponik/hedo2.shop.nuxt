@@ -1,13 +1,8 @@
 <template>
-  <div class="a-sidebar" 
-    @focusout="unsetCategory()"
-    tabindex="0"
-  >
+  <div class="a-sidebar" @focusout="unsetCategory()" tabindex="0">
     <div v-if="!selectedCategory">
-      <price-filter 
-        @change="a => priceRangeChange(a)"
-      />
-      <side-menu-item 
+      <price-filter @change="(a) => priceRangeChange(a)" />
+      <side-menu-item
         v-if="brandMenu"
         :key="brandMenu.handle"
         :menuItem="brandMenu"
@@ -18,14 +13,14 @@
         noPadding
         noBorder
       >
-        <side-menu-sub-item 
-          v-for="child in brandMenu.children" 
-          :key="child.handle" 
-          :menuItem="child" 
+        <side-menu-sub-item
+          v-for="child in brandMenu.children"
+          :key="child.handle"
+          :menuItem="child"
           @click="$router.push('/s/' + child.handle)"
         />
       </side-menu-item>
-      <list-item 
+      <list-item
         v-for="item in menuItems"
         :key="item.handle"
         :caption="item.title"
@@ -35,20 +30,17 @@
       />
     </div>
     <div v-else>
-      <div 
-        class="a-filters-header"
-        @click="unsetCategory()"
-      >
-        <chevron-left-icon height=16 color="var(--c-gray-1)" />
+      <div class="a-filters-header" @click="unsetCategory()">
+        <chevron-left-icon height="16" color="var(--c-gray-1)" />
         <div>{{ selectedCategory.name }}</div>
-        <div style="width:16px" />
+        <div style="width: 16px" />
       </div>
-      <filter-m 
+      <filter-m
         v-for="filter in availableFilters"
         :key="filter._id"
         :filter="filter"
         :selected="selectedFilters.includes(filter.handle)"
-        @input="v => setFilterSelected(filter.handle, v)"
+        @input="(v) => setFilterSelected(filter.handle, v)"
         noBorder
         noPadding
       />
@@ -57,133 +49,150 @@
 </template>
 
 <script>
-import instanceHandler from '~/core/instanceHandler'
-import { LoadingState } from '~/types'
-import SideMenuItem from '~/components/navigation/menu/SideMenuItem.vue'
-import SideMenuSubItem from '~/components/navigation/menu/SideMenuSubItem.vue'
-import FilterM from './FilterM.vue'
-import ListItem from '~/components/layout/common/ListItem.vue'
-import ChevronLeftIcon from '~/components/icons/arrows/ChevronLeftIcon.vue'
-import { selectedFiltersToQueryParams, priceRangeToQueryParams } from '~/util/filters'
-import PriceFilter from './PriceFilter.vue'
+import instanceHandler from "~/core/instanceHandler";
+import { LoadingState } from "~/types";
+import SideMenuItem from "~/components/navigation/menu/SideMenuItem.vue";
+import SideMenuSubItem from "~/components/navigation/menu/SideMenuSubItem.vue";
+import FilterM from "./FilterM.vue";
+import ListItem from "~/components/layout/common/ListItem.vue";
+import ChevronLeftIcon from "~/components/icons/arrows/ChevronLeftIcon.vue";
+import {
+  selectedFiltersToQueryParams,
+  priceRangeToQueryParams,
+} from "~/util/filters";
+import PriceFilter from "./PriceFilter.vue";
 
 export default {
   fetchOnServer: false,
-  components: { SideMenuItem, SideMenuSubItem, FilterM, ListItem, ChevronLeftIcon, PriceFilter },
-  data(){
+  components: {
+    SideMenuItem,
+    SideMenuSubItem,
+    FilterM,
+    ListItem,
+    ChevronLeftIcon,
+    PriceFilter,
+  },
+  data() {
     return {
       brandMenu: null,
       expanded: [],
       selectedFilters: this.$store.state.filters.appliedFilters.flat(),
       selectedCategoryId: null,
       availableFilters: [],
-      filterCategoriesBeforeRefresh: []
-    }
+      filterCategoriesBeforeRefresh: [],
+    };
   },
   computed: {
-    filterCategories(){
-      return this.$store.state.filters.availableCategories
+    filterCategories() {
+      return this.$store.state.filters.availableCategories;
     },
-    selectedCategory(){
-      if(this.selectedCategoryId != null)
-        return this.filterCategories.find(a => a._id == this.selectedCategoryId)
-      else
-        return null
+    selectedCategory() {
+      if (this.selectedCategoryId != null)
+        return this.filterCategories.find(
+          (a) => a._id == this.selectedCategoryId
+        );
+      else return null;
     },
-    menuItems(){
-      return this.filterCategories.map(filterCategory => ({
+    menuItems() {
+      return this.filterCategories.map((filterCategory) => ({
         handle: filterCategory.handle,
         title: filterCategory.name,
         _id: filterCategory._id,
-        children: filterCategory.filters
-      }))
-    }
+        children: filterCategory.filters,
+      }));
+    },
   },
   methods: {
-    setFilterSelected(handle, selected){
-
-      if(selected)
-        this.selectedFilters.push(handle)
+    setFilterSelected(handle, selected) {
+      if (selected) this.selectedFilters.push(handle);
       else
-        this.selectedFilters = this.selectedFilters.filter(a => a != handle)
+        this.selectedFilters = this.selectedFilters.filter((a) => a != handle);
 
-      const query = selectedFiltersToQueryParams(this.filterCategoriesBeforeRefresh, this.selectedFilters)
-      
-      this.$router.push({ path: this.$route.path, query })
+      const query = selectedFiltersToQueryParams(
+        this.filterCategoriesBeforeRefresh,
+        this.selectedFilters
+      );
+
+      this.$router.push({ path: this.$route.path, query });
     },
-    selectCategory(id){
-      this.selectedCategoryId = id
-      this.availableFilters = this.selectedCategory.filters
-      this.filterCategoriesBeforeRefresh = this.filterCategories
+    selectCategory(id) {
+      this.selectedCategoryId = id;
+      this.availableFilters = this.selectedCategory.filters;
+      this.filterCategoriesBeforeRefresh = this.filterCategories;
     },
-    unsetCategory(){
-      this.selectedCategoryId = null
+    unsetCategory() {
+      this.selectedCategoryId = null;
     },
-    expand(handle){
-      this.expanded = [ handle ]
+    expand(handle) {
+      this.expanded = [handle];
     },
-    collapse(handle){
-      this.expanded = this.expanded.filter(a => a != handle)
+    collapse(handle) {
+      this.expanded = this.expanded.filter((a) => a != handle);
     },
-    priceRangeChange(priceRange){
-      this.$store.commit("filters/setPriceRange", priceRange)
+    priceRangeChange(priceRange) {
+      this.$store.commit("filters/setPriceRange", priceRange);
 
       const query = {
-        ...selectedFiltersToQueryParams(this.filterCategoriesBeforeRefresh, this.selectedFilters),
-        ...priceRangeToQueryParams(priceRange)
-      }
+        ...selectedFiltersToQueryParams(
+          this.filterCategoriesBeforeRefresh,
+          this.selectedFilters
+        ),
+        ...priceRangeToQueryParams(priceRange),
+      };
 
-      this.$router.push({ path: this.$route.path, query })
-    }
-  }, 
-  async fetch(){
-
-    if(this.$route.params.brandHandle || this.$route.params.seriesHandle || this.$route.params.productHandle){
-
+      this.$router.push({ path: this.$route.path, query });
+    },
+  },
+  async fetch() {
+    if (
+      this.$route.params.brandHandle ||
+      this.$route.params.seriesHandle ||
+      this.$route.params.productHandle
+    ) {
       const { data, loadingState } = await instanceHandler({
         path: "getSeriesForBrand",
-        args: { 
+        args: {
           handle: this.$route.params.brandHandle,
           seriesHandle: this.$route.params.seriesHandle,
-          productHandle: this.$route.params.productHandle
+          productHandle: this.$route.params.productHandle,
         },
-        cache: true
-      })
+        cache: true,
+      });
 
-      if(data?.series?.length){
-        const series = data.series
+      if (data?.series?.length) {
+        const series = data.series;
 
         this.brandMenu = {
           handle: series[0].brand.handle,
-          title: this.$t('allSeries'),
+          title: this.$t("allSeries"),
           href: `/b/${series[0].brand.handle}`,
-          children: series.map(a => ({
+          children: series.map((a) => ({
             handle: a.handle,
             title: a.name,
-            href: `/s/${a.handle}`
+            href: `/s/${a.handle}`,
           })),
           hideShowAll: !!this.$route.params.brandHandle,
-          style: "bold"
-        }
+          style: "bold",
+        };
       }
     }
-    this.$store.commit('loadingState/setLoadingState', LoadingState.ready)
+    this.$store.commit("loadingState/setLoadingState", LoadingState.ready);
   },
   watch: {
-    '$store.state.filters.appliedFilters': function(_appliedFilters){
-      this.selectedFilters = _appliedFilters.flat()
-    }
-  }
-}
+    "$store.state.filters.appliedFilters": function (_appliedFilters) {
+      this.selectedFilters = _appliedFilters.flat();
+    },
+  },
+};
 </script>
 
 <style scoped>
-.a-sidebar{
+.a-sidebar {
   overflow: auto;
   max-height: calc(100vh - var(--header-y-d) - var(--padding-y-td));
 }
 
-.a-filters-header{
+.a-filters-header {
   display: flex;
   justify-content: space-between;
   align-items: center;

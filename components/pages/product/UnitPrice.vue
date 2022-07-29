@@ -3,47 +3,51 @@
 </template>
 
 <script>
-import { toMoney } from '~/util/money'
+import { toMoney } from "~/util/money";
 
 export default {
-  props: [ "variant", "price" ],
+  props: ["variant", "price"],
   computed: {
-    unitPriceCaption(){
-
-      const kilo = unit => {
-        switch(unit){
+    unitPriceCaption() {
+      const kilo = (unit) => {
+        switch (unit) {
           case "mL":
-            return "L"
+            return "L";
           case "g":
-            return "kg"
+            return "kg";
           case "mg":
-            return "g"
+            return "g";
         }
-      }
+      };
 
-      const measurementQuantity = this.variant.measurementQuantity
-      const measurementUnit = this.variant.measurementUnit
-      const price = this.price || this.variant.price
-   
-      
-      if(!measurementQuantity || !measurementUnit)
-        return ""
+      const measurementQuantity = this.variant.measurementQuantity;
+      const measurementUnit = this.variant.measurementUnit;
+      const price = this.price || this.variant.price;
 
-      const measurementReferenceValue = measurementQuantity > 250 ? 1000 : 100
+      if (!measurementQuantity || !measurementUnit) return "";
 
-      const referenceUnit = measurementReferenceValue == 1000 ? kilo(measurementUnit) : measurementUnit
-      const referenceCaption = measurementReferenceValue == 1000 ? 1 : 100 + " " + referenceUnit
+      const measurementReferenceValue = measurementQuantity > 250 ? 1000 : 100;
 
-      const unitPrice = Math.round((price * measurementReferenceValue / measurementQuantity) * 100)  / 100
+      const referenceUnit =
+        measurementReferenceValue == 1000
+          ? kilo(measurementUnit)
+          : measurementUnit;
+      const referenceCaption =
+        measurementReferenceValue == 1000 ? 1 : 100 + " " + referenceUnit;
 
-      return `${toMoney(unitPrice, this)} / ${referenceCaption}`
+      const unitPrice =
+        Math.round(
+          ((price * measurementReferenceValue) / measurementQuantity) * 100
+        ) / 100;
+
+      return `${toMoney(unitPrice, this)} / ${referenceCaption}`;
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.a-unitprice{
+.a-unitprice {
   color: var(--c-gray-2);
   letter-spacing: 0.1em;
   font-size: 0.8em;
